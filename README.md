@@ -22,6 +22,8 @@ When something is unclear as
         example:
         * Wrong: `$req`
         * Right: `$request`
+* All properties should be private. Work with Getter() and Setter()
+    * Also use private properties for inheritance. Prefer getters/setters over protected unsafe access.
 
 ## Github
 * Commit Messages layout:
@@ -74,6 +76,4 @@ When something is unclear as
                 merge develop
         ```
 
-* All properties should be private. Work with Getter() and Setter()
-  * Also use private properties for inheritance. Prefer getters/setters over protected unsafe access.
 
