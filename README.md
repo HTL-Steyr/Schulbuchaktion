@@ -19,9 +19,8 @@ When something is unclear as
 * useful and understandable function-Comments
 * prefer descriptive(verstaendlichen) code over comments
 * Variables should not be shortened\
-        example:
-        * Wrong: `$req`
-        * Right: `$request`
+  * Wrong: `$req`
+  * Right: `$request`
 * All properties should be private. Work with Getter() and Setter()
     * Also use private properties for inheritance. Prefer getters/setters over protected unsafe access.
 
