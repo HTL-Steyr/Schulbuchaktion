@@ -15,6 +15,7 @@ When something is unclear as
 
 
 * Strict camelCase (thisIsCamelCase)
+  * Strict means things like UI should be written like 'updateUi' and not 'updateUI'
 
 
 * Commit Messages layout:
@@ -38,5 +39,6 @@ When something is unclear as
   * Right: `$request`
 
 
-* All properties should be private. Work with Getter() and Setter() 
+* All properties should be private. Work with Getter() and Setter()
+  * Also use private properties for inheritance. Prefer getters/setters over protected unsafe access.
   
