@@ -38,7 +38,7 @@ When something is unclear as
         * backend
     * Feature branches instead of branches per person
         * Wrong: sprechtl-develop
-        * Right: frontend/login-component
+        * Right: frontend-login-component
     * The technical contact people will then review the code from
     front- and backend branches and merge them to develop where the paired
     functionallity will be tested further.
