@@ -51,20 +51,20 @@ When something is unclear as
                 branch frontend
                 branch backend
                 checkout frontend
-                branch frontend/login-component
-                checkout frontend/login-component
+                branch frontend-login-component
+                checkout frontend-login-component
                 commit
                 commit
                 checkout frontend
-                merge frontend/login-component
+                merge frontend-login-component
                 checkout backend
-                branch backend/login-route
-                checkout backend/login-route
+                branch backend-login-route
+                checkout backend-login-route
                 commit
                 commit
                 commit
                 checkout backend
-                merge backend/login-route
+                merge backend-login-route
                 checkout develop
                 merge backend
                 merge frontend
