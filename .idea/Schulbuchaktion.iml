@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/app/tests" isTestSource="true" packagePrefix="App\Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/Frontend/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/app/vendor/friendsofphp/proxy-manager-lts" />
       <excludeFolder url="file://$MODULE_DIR$/app/vendor/symfony/expression-language" />
       <excludeFolder url="file://$MODULE_DIR$/app/vendor/symfony/asset" />
