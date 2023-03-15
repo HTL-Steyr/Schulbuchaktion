@@ -5,15 +5,17 @@ import {DxButtonModule, DxDataGridModule} from 'devextreme-angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { OrderlistComponent } from './orderlist/orderlist.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    OrderlistComponent
   ],
   imports: [
     BrowserModule,
     DxButtonModule,
-    DxDataGridModule
+    DxDataGridModule,
     AppRoutingModule,
   ],
   providers: [],
