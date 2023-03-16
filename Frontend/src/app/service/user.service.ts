@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {User} from "../model/user";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -8,11 +9,11 @@ import {User} from "../model/user";
 export class UserService {
   constructor(private _http: HttpClient) { }
 
-  public async getAll(): Promise<User[]> {
+  public findAll(): Observable<User[]> {
     throw new Error("Method not implemented")
   }
 
-  public async getOneById(): Promise<User> {
+  public findOneById(): Observable<User> {
     throw new Error("Method not implemented")
   }
 }
