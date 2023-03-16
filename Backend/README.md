@@ -9,3 +9,4 @@
 >* composer require symfony/runtime ausführen
 >* php bin/console doctrine:migrations:migrate ausführen
 >* Einmal [yes] (enter) drücken
+>* Fertig
