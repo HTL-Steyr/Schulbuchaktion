@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Subject} from "../model/subject";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -8,11 +9,11 @@ import {Subject} from "../model/subject";
 export class SubjectService {
   constructor(private _http: HttpClient) { }
 
-  public async getAll(): Promise<Subject[]> {
+  public findAll(): Observable<Subject[]> {
     throw new Error("Method not implemented")
   }
 
-  public async getOneById(): Promise<Subject> {
+  public findOneById(): Observable<Subject> {
     throw new Error("Method not implemented")
   }
 }

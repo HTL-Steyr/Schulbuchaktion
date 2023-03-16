@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ import {HttpClient} from "@angular/common/http";
 export class OrderlistService {
   constructor(private _http: HttpClient) { }
 
-  public async getAll(): Promise<OrderlistEntry[]> {
+  public findAll(): Observable<OrderlistEntry[]> {
     throw new Error("Method not implemented")
   }
 }
