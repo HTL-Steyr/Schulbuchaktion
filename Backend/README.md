@@ -1,5 +1,5 @@
 >* Repository clonen
->* Checkout auf Backend-DataBase
+>* Checkout auf Backend Branch
 >* Leeren mysql Ordner in Backend Ordner erstellen
 >* In Ubuntu cd SchulBuchAKtion/Backend wechseln 
 >* docker compose up --build ausführen -> Lange Wartezeit
