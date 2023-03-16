@@ -7,12 +7,14 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { OrderlistComponent } from './orderlist/orderlist.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ClassesOverviewComponent } from './classes-overview/classes-overview.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     OrderlistComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ClassesOverviewComponent
   ],
   imports: [
     BrowserModule,
