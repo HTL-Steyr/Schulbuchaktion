@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import DataSource from 'devextreme/data/data_source';
-import { OrderlistEntry } from '../model/OrderlistEntry';
+import { OrderlistEntry } from '../model/orderlistEntry';
 
 
 @Component({
