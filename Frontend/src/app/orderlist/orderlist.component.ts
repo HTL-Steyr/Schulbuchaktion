@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import DataSource from 'devextreme/data/data_source';
+import { OrderlistEntry } from '../model/OrderlistEntry';
+
 
 @Component({
   selector: 'app-orderlist',
@@ -6,5 +9,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./orderlist.component.css']
 })
 export class OrderlistComponent {
-
+    dataSource: DataSource<OrderlistEntry> = new DataSource([{
+        id: 1,
+    }]);
 }
