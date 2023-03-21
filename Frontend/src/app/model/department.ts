@@ -1,3 +1,11 @@
+import { SchoolClass } from "./schoolclass";
+import { User } from "./user";
+
 export interface Department {
-  // will be implemented to match the backend data structure
+    id: number;
+    name: string;
+    budget: number;
+    usedBudget: number;
+    headOfDepartment: User;
+    schoolClasses: SchoolClass[];
 }
