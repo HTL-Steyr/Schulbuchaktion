@@ -1,3 +1,6 @@
+import {Department} from "./department";
+import {BookOrder} from "./bookOrder";
+
 export interface SchoolClass {
   id: number;
   name: string;
@@ -9,6 +12,6 @@ export interface SchoolClass {
   year: number;
   schoolForm: number;
   departmentId: Department;
-  bookOrders: Collection;
+  bookOrders: BookOrder[];
 
 }
