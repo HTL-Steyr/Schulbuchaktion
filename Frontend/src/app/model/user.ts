@@ -1,3 +1,14 @@
 export interface User {
-  // will be implemented to match the backend data structure
+
+  id: number;
+  shortName: string;
+  firstName: string;
+    lastName: string;
+    email: string;
+    token: string;
+    password: string;
+    roleId: Role;
+
+
+
 }
