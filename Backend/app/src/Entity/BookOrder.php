@@ -1,8 +1,8 @@
 <?php
 
-namespace app\src\Entity;
+namespace App\Entity;
 
-use app\src\Repository\BookOrderRepository;
+use App\Repository\BookOrderRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BookOrderRepository::class)]

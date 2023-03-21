@@ -1,8 +1,8 @@
 <?php
 
-namespace app\src\Entity;
+namespace App\Entity;
 
-use app\src\Repository\SchoolClassRepository;
+use App\Repository\SchoolClassRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;

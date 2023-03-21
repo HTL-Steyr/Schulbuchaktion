@@ -1,8 +1,8 @@
 <?php
 
-namespace app\src\Entity;
+namespace App\Entity;
 
-use app\src\Repository\SchoolGradeRepository;
+use App\Repository\SchoolGradeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SchoolGradeRepository::class)]
