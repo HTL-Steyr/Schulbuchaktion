@@ -1,6 +1,6 @@
 <?php
 
-namespace app\src\Repository;
+namespace Repository;
 
 use app\src\Entity\BookOrder;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
