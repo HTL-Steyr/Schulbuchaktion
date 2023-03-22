@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import DataSource from 'devextreme/data/data_source';
-import { OrderlistEntry } from '../model/orderlistEntry';
+import { BookOrder } from '../model/bookOrder';
 
 
 @Component({
@@ -9,7 +9,7 @@ import { OrderlistEntry } from '../model/orderlistEntry';
   styleUrls: ['./orderlist.component.css']
 })
 export class OrderlistComponent {
-    dataSource: DataSource<OrderlistEntry> = new DataSource([{
+    dataSource: DataSource<BookOrder> = new DataSource([{
         id: 1,
     }]);
 }

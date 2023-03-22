@@ -1,3 +1,9 @@
+import {Book} from "./book";
+
 export interface Subject {
-  // will be implemented to match the backend data structure
+  id: number;
+  name: string;
+  shortName: string;
+  headOfSubject: string;
+  books: Book[];
 }
