@@ -7,8 +7,8 @@ export interface BookOrder {
   count?: number;
   ebook?: boolean;
   ebookPlus?: boolean;
-  schoolClassId?: SchoolClass;
-  bookId?: Book;
+  schoolClass?: SchoolClass;
+  book?: Book;
   teacherCopy?: boolean;
 
 }
