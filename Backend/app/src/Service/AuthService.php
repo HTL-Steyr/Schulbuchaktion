@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use app\src\Entity\User;
+use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 

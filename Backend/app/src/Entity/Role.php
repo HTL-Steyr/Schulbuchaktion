@@ -8,8 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RoleRepository::class)]
-class Role
-{
+class Role {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -21,23 +20,19 @@ class Role
     #[ORM\OneToMany(mappedBy: 'roleId', targetEntity: User::class)]
     private Collection $users;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->users = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getName(): ?string
-    {
+    public function getName(): ?string {
         return $this->name;
     }
 
-    public function setName(string $name): self
-    {
+    public function setName(string $name): self {
         $this->name = $name;
 
         return $this;
@@ -46,13 +41,11 @@ class Role
     /**
      * @return Collection<int, User>
      */
-    public function getUsers(): Collection
-    {
+    public function getUsers(): Collection {
         return $this->users;
     }
 
-    public function addUser(User $user): self
-    {
+    public function addUser(User $user): self {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
             $user->setRoleId($this);
@@ -61,8 +54,7 @@ class Role
         return $this;
     }
 
-    public function removeUser(User $user): self
-    {
+    public function removeUser(User $user): self {
         if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
             if ($user->getRoleId() === $this) {
