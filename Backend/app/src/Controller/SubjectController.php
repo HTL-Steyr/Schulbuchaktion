@@ -24,13 +24,16 @@ class SubjectController extends AbstractController {
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
-        
+
         $context = (new ObjectNormalizerContextBuilder())
             ->withGroups('subject')
             ->toArray();
 
         $subject = $registry->getRepository(Subject::class)->find($id);
-        
-        return $this->json($subject, status: Response::HTTP_OK, context: $context);
+
+        if (isset($subject)) {
+            return $this->json($subject, status: Response::HTTP_OK, context: $context);
+        }
+        return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
 }
