@@ -19,7 +19,7 @@ class SubjectController extends AbstractController {
         path: '/subject/{id}',
         name: 'app_subject_get_by_id',
     )]
-    public function getSubjectsById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
+    public function getSubjectById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
         $user = $authService->authenticateByAuthorizationHeader($request);
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
