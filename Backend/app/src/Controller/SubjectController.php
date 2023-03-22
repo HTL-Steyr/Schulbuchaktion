@@ -31,6 +31,6 @@ class SubjectController extends AbstractController {
 
         $subject = $registry->getRepository(Subject::class)->find($id);
         
-        return new Response($this->json($subject, context: $context), Response::HTTP_OK);
+        return $this->json($subject, status: Response::HTTP_OK, context: $context);
     }
 }
