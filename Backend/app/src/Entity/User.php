@@ -10,25 +10,25 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 class User implements PasswordAuthenticatedUserInterface {
-    #[Groups(['subject'])]
+    #[Groups(['subject', 'department'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
     
-    #[Groups(['subject'])]
+    #[Groups(['subject', 'department'])]
     #[ORM\Column(length: 255)]
     private ?string $shortName = null;
     
-    #[Groups(['subject'])]
+    #[Groups(['subject', 'department'])]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
     
-    #[Groups(['subject'])]
+    #[Groups(['subject', 'department'])]
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
     
-    #[Groups(['subject'])]
+    #[Groups(['subject', 'department'])]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
@@ -37,7 +37,7 @@ class User implements PasswordAuthenticatedUserInterface {
     
     #[ORM\Column(length: 255)]
     private ?string $password = null;
-
+    
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Role $roleId = null;

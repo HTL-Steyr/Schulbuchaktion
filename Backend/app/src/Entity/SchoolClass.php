@@ -10,41 +10,41 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SchoolClassRepository::class)]
 class SchoolClass {
-    #[Groups(['subject'])]
+    #[Groups(['subject', 'department'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['subject'])]
+    #[Groups(['subject', 'department'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['subject'])]
+    #[Groups(['subject', 'department'])]
     #[ORM\Column]
     private ?int $grade = null;
 
-    #[Groups(['subject'])]
+    #[Groups(['subject', 'department'])]
     #[ORM\Column]
     private ?int $studentAmount = null;
 
-    #[Groups(['subject'])]
+    #[Groups(['subject', 'department'])]
     #[ORM\Column]
     private ?int $repAmount = null;
 
-    #[Groups(['subject'])]
+    #[Groups(['subject', 'department'])]
     #[ORM\Column]
     private ?int $usedBudget = null;
 
-    #[Groups(['subject'])]
+    #[Groups(['subject', 'department'])]
     #[ORM\Column]
     private ?int $budget = null;
 
-    #[Groups(['subject'])]
+    #[Groups(['subject', 'department'])]
     #[ORM\Column]
     private ?int $year = null;
 
-    #[Groups(['subject'])]
+    #[Groups(['subject', 'department'])]
     #[ORM\Column]
     private ?int $schoolForm = null;
 
