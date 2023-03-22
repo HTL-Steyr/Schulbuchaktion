@@ -62,7 +62,7 @@ Response body
 }
 ```
 
-## GET /subjects/:?id
+## GET /subject/:?id
 Response body
 ```json
 [
@@ -72,7 +72,7 @@ Response body
 ]
 ```
 
-## GET /departments/:?id
+## GET /department/:?id
 Response body
 ```json
 [
