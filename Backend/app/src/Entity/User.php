@@ -6,35 +6,38 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 class User implements PasswordAuthenticatedUserInterface {
-    #[Groups(['subject', 'department'])]
+    #[Groups(['subject', 'department', 'schoolclass'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
     
-    #[Groups(['subject', 'department'])]
+    #[Groups(['subject', 'department', 'schoolclass'])]
     #[ORM\Column(length: 255)]
     private ?string $shortName = null;
     
-    #[Groups(['subject', 'department'])]
+    #[Groups(['subject', 'department', 'schoolclass'])]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
     
-    #[Groups(['subject', 'department'])]
+    #[Groups(['subject', 'department', 'schoolclass'])]
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
     
-    #[Groups(['subject', 'department'])]
+    #[Groups(['subject', 'department', 'schoolclass'])]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
+    #[Ignore]
     #[ORM\Column(length: 255)]
     private ?string $token = null;
     
+    #[Ignore]
     #[ORM\Column(length: 255)]
     private ?string $password = null;
     
