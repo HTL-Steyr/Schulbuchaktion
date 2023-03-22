@@ -67,7 +67,6 @@ class Book {
     #[ORM\OneToMany(mappedBy: 'bookId', targetEntity: BookPrice::class)]
     private Collection $bookPrices;
 
-    #[Groups(['subject'])]
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'childBooks')]
     private ?self $mainBookId = null;
 
