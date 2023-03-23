@@ -17,19 +17,19 @@ class User implements PasswordAuthenticatedUserInterface {
     #[ORM\Column]
     private ?int $id = null;
     
-    #[Groups(['subject', 'department', 'schoolclass'])]
+    #[Groups(['subject', 'department', 'schoolclass','user'])]
     #[ORM\Column(length: 255)]
     private ?string $shortName = null;
     
-    #[Groups(['subject', 'department', 'schoolclass'])]
+    #[Groups(['subject', 'department', 'schoolclass','user'])]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
     
-    #[Groups(['subject', 'department', 'schoolclass'])]
+    #[Groups(['subject', 'department', 'schoolclass','user'])]
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
     
-    #[Groups(['subject', 'department', 'schoolclass'])]
+    #[Groups(['subject', 'department', 'schoolclass','user'])]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
