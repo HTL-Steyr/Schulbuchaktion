@@ -53,7 +53,6 @@ class SchoolClass {
     #[ORM\JoinColumn(nullable: false)]
     private ?Department $departmentId = null;
 
-    #[Groups(['schoolclass'])]
     #[ORM\OneToMany(mappedBy: 'schoolClassId', targetEntity: BookOrder::class)]
     private Collection $bookOrders;
 

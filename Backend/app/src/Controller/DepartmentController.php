@@ -13,6 +13,32 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 
 class DepartmentController extends AbstractController {
     /**
+     * @return Response -> all departments
+     */
+    #[Route(
+        path: '/department',
+        name: 'app_department',
+        methods: ['GET']
+    )]
+    public function getDepartments(AuthService $authService, Request $request, ManagerRegistry $registry): Response {
+        $user = $authService->authenticateByAuthorizationHeader($request);
+        if (!isset($user)) {
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        $context = (new ObjectNormalizerContextBuilder())
+            ->withGroups('department')
+            ->toArray();
+
+        $departments = $registry->getRepository(Department::class)->findAll();
+
+        if (isset($departments)) {
+            return $this->json($departments, status: Response::HTTP_OK, context: $context);
+        }
+        return $this->json(null, status: Response::HTTP_NOT_FOUND);
+    }
+    
+    /**
      * @return Response -> the department with the given id
      */
     #[Route(
