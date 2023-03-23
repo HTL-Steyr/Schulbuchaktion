@@ -5,7 +5,7 @@ import { OrderlistComponent } from './orderlist/orderlist.component';
 import {LoginComponent} from "./login/login.component";
 
 const routes: Routes = [
-    {path: '', redirectTo: '/bestelluebersicht', pathMatch:'full'},
+    {path: '', redirectTo: '/login', pathMatch:'full'},
     {path: 'bestelluebersicht', component: OrderlistComponent},
     {path: 'login', component: LoginComponent},
     {path: '**', component: NotFoundComponent},
