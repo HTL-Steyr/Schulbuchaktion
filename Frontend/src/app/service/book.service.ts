@@ -7,6 +7,8 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class BookService {
+  // No Interface defined for Book so will not program it our for now
+  private readonly baseUrl = '../book';
   constructor(private _http: HttpClient) { }
 
   public findAll(): Observable<Book[]> {

@@ -7,13 +7,15 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class SchoolclassService {
+  private readonly baseUrl = '../schoolclass';
   constructor(private _http: HttpClient) { }
 
   public findAll(): Observable<SchoolClass[]> {
-    throw new Error("Method not implemented")
+    return this._http.get<SchoolClass[]>(this.baseUrl);
   }
 
-  public findOneById(): Observable<SchoolClass> {
-    throw new Error("Method not implemented")
+  public findOneById(id: number): Observable<SchoolClass> {
+    let idUrl = `${this.baseUrl}/${id}`;
+    return this._http.get<SchoolClass>(idUrl);
   }
 }

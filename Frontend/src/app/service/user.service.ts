@@ -7,10 +7,16 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class UserService {
+  private readonly baseUrl = '../user';
   constructor(private _http: HttpClient) { }
 
   public findAll(): Observable<User[]> {
     throw new Error("Method not implemented")
+  }
+
+  public findCurrentUser(): Observable<User> {
+    let getCurrentUserUrl = `${this.baseUrl}/getme`;
+    return this._http.get<User>(getCurrentUserUrl);
   }
 
   public findOneById(): Observable<User> {
