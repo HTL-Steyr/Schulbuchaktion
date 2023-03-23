@@ -8,25 +8,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BookPriceRepository::class)]
 class BookPrice {
-    #[Groups(['subject'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['subject'])]
     #[ORM\Column]
     private ?int $year = null;
 
-    #[Groups(['subject'])]
     #[ORM\Column]
     private ?int $priceInclusiveEbook = null;
 
-    #[Groups(['subject'])]
     #[ORM\Column(nullable: true)]
     private ?int $priceEbook = null;
 
-    #[Groups(['subject'])]
     #[ORM\Column(nullable: true)]
     private ?int $priceEbookPlus = null;
 
