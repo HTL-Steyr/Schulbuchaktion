@@ -13,7 +13,7 @@ export class BookService {
     throw new Error("Method not implemented")
   }
 
-  public finOneById(): Observable<Book> {
+  public findOneById(): Observable<Book> {
     throw new Error("Method not implemented")
   }
 }
