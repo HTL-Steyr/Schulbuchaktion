@@ -15,10 +15,10 @@ import { MoneyViewComponent } from './money-view/money-view.component';
 
 @NgModule({
   declarations: [
-    MoneyViewComponent
+    MoneyViewComponent,
     AppComponent,
     OrderlistComponent,
-    ClassesOverviewComponent
+    ClassesOverviewComponent,
     NotFoundComponent,
     UploadButtonComponent,
     XlsImportComponent,
