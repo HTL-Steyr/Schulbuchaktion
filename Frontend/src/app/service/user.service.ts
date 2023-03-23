@@ -19,7 +19,9 @@ export class UserService {
     return this._http.get<User>(getCurrentUserUrl);
   }
 
-  public findOneById(): Observable<User> {
-    throw new Error("Method not implemented")
+  public findOneById(id: number): Observable<User> {
+    // No Interface in Backend defined, but if we will need it, is already here and ready to use
+    let idUrl = `${this.baseUrl}/${id}`;
+    return this._http.get<User>(idUrl);
   }
 }
