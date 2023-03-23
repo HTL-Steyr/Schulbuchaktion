@@ -29,7 +29,6 @@ class Subject {
     #[ORM\JoinColumn(nullable: false)]
     private ?User $headOfSubject = null;
 
-    #[Groups(['subject'])]
     #[ORM\OneToMany(mappedBy: 'subjectId', targetEntity: Book::class)]
     private Collection $books;
 
