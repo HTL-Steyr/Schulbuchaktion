@@ -164,21 +164,25 @@ class Book {
         return $this;
     }
 
-    public function getSubjectId(): ?Subject {
+    public function getSubjectId(): ?Subject
+    {
         return $this->subjectId;
     }
 
-    public function setSubjectId(?Subject $subjectId): self {
+    public function setSubjectId(?Subject $subjectId): self
+    {
         $this->subjectId = $subjectId;
 
         return $this;
     }
 
-    public function getPublisherId(): ?Publisher {
+    public function getPublisherId(): ?Publisher
+    {
         return $this->publisherId;
     }
 
-    public function setPublisherId(?Publisher $publisherId): self {
+    public function setPublisherId(?Publisher $publisherId): self
+    {
         $this->publisherId = $publisherId;
 
         return $this;
@@ -265,11 +269,13 @@ class Book {
         return $this;
     }
 
-    public function getMainBookId(): ?self {
+    public function getMainBookId(): ?self
+    {
         return $this->mainBookId;
     }
 
-    public function setMainBookId(?self $mainBookId): self {
+    public function setMainBookId(?self $mainBookId): self
+    {
         $this->mainBookId = $mainBookId;
 
         return $this;

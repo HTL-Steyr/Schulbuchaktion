@@ -145,11 +145,13 @@ class SchoolClass {
         return $this;
     }
 
-    public function getDepartmentId(): ?Department {
+    public function getDepartmentId(): ?Department
+    {
         return $this->departmentId;
     }
 
-    public function setDepartmentId(?Department $departmentId): self {
+    public function setDepartmentId(?Department $departmentId): self
+    {
         $this->departmentId = $departmentId;
 
         return $this;

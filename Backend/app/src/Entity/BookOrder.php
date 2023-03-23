@@ -85,21 +85,25 @@ class BookOrder {
         return $this;
     }
 
-    public function getSchoolClassId(): ?SchoolClass {
+    public function getSchoolClassId(): ?SchoolClass
+    {
         return $this->schoolClassId;
     }
 
-    public function setSchoolClassId(?SchoolClass $schoolClassId): self {
+    public function setSchoolClassId(?SchoolClass $schoolClassId): self
+    {
         $this->schoolClassId = $schoolClassId;
 
         return $this;
     }
 
-    public function getBookId(): ?Book {
+    public function getBookId(): ?Book
+    {
         return $this->bookId;
     }
 
-    public function setBookId(?Book $bookId): self {
+    public function setBookId(?Book $bookId): self
+    {
         $this->bookId = $bookId;
 
         return $this;

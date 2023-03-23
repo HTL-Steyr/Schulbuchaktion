@@ -35,11 +35,13 @@ class SchoolGrade {
         return $this;
     }
 
-    public function getBookId(): ?Book {
+    public function getBookId(): ?Book
+    {
         return $this->bookId;
     }
 
-    public function setBookId(?Book $bookId): self {
+    public function setBookId(?Book $bookId): self
+    {
         $this->bookId = $bookId;
 
         return $this;

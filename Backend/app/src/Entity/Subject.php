@@ -81,7 +81,7 @@ class Subject {
     public function addBook(Book $book): self {
         if (!$this->books->contains($book)) {
             $this->books->add($book);
-            $book->setSubjectId($this);
+            $book->setSubject($this);
         }
 
         return $this;
@@ -90,8 +90,8 @@ class Subject {
     public function removeBook(Book $book): self {
         if ($this->books->removeElement($book)) {
             // set the owning side to null (unless already changed)
-            if ($book->getSubjectId() === $this) {
-                $book->setSubjectId(null);
+            if ($book->getSubject() === $this) {
+                $book->setSubject(null);
             }
         }
 

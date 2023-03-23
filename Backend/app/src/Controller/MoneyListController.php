@@ -6,13 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DepartmentController extends AbstractController
+class MoneyListController extends AbstractController
 {
-    #[Route('/department', name: 'app_department')]
+    #[Route('/money/list', name: 'app_money_list')]
     public function index(): Response
     {
-        return $this->render('department/index.html.twig', [
-            'controller_name' => 'DepartmentController',
+        return $this->render('money_list/index.html.twig', [
+            'controller_name' => 'MoneyListController',
         ]);
     }
 }

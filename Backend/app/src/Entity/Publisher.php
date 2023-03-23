@@ -65,7 +65,7 @@ class Publisher {
     public function addBook(Book $book): self {
         if (!$this->books->contains($book)) {
             $this->books->add($book);
-            $book->setPublisherId($this);
+            $book->setPublisher($this);
         }
 
         return $this;
@@ -74,8 +74,8 @@ class Publisher {
     public function removeBook(Book $book): self {
         if ($this->books->removeElement($book)) {
             // set the owning side to null (unless already changed)
-            if ($book->getPublisherId() === $this) {
-                $book->setPublisherId(null);
+            if ($book->getPublisher() === $this) {
+                $book->setPublisher(null);
             }
         }
 
