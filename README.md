@@ -25,6 +25,7 @@ When something is unclear as
     * Also use private properties for inheritance. Prefer getters/setters over protected unsafe access.
 
 ## Github
+* COMMIT EARLY, COMMIT OFTEN!
 * Commit Messages layout:
   * [<"TASK"|"BUGFIX">] \<commit message> (\<hh:mm>h)
   * If additional information has to be given add line break after \<time invested>
