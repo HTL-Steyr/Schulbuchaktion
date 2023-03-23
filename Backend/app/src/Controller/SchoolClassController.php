@@ -13,6 +13,32 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 
 class SchoolClassController extends AbstractController {
     /**
+     * @return Response -> all schoolclasses
+     */
+    #[Route(
+        path: '/schoolclass',
+        name: 'app_schoolclass',
+        methods: ['GET']
+    )]
+    public function getSchoolClasses(AuthService $authService, Request $request, ManagerRegistry $registry): Response {
+        $user = $authService->authenticateByAuthorizationHeader($request);
+        if (!isset($user)) {
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        }
+        
+        $context = (new ObjectNormalizerContextBuilder())
+            ->withGroups('schoolclass')
+            ->toArray();
+        
+        $schoolClasses = $registry->getRepository(SchoolClass::class)->findAll();
+        
+        if(isset($schoolClasses)) {
+            return $this->json($schoolClasses, status: Response::HTTP_OK, context: $context);
+        }
+        return $this->json(null, status: Response::HTTP_NOT_FOUND);
+    }
+    
+    /**
      * @return Response -> the schoolclass with the given id
      */
     #[Route(
