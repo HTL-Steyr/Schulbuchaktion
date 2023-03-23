@@ -5,6 +5,7 @@ import { OrderlistComponent } from './orderlist/orderlist.component';
 import {ClassesOverviewComponent} from "./classes-overview/classes-overview.component";
 import {LoginComponent} from "./login/login.component";
 import { XlsImportComponent } from './xls-import/xls-import.component';
+import {LoginErrorAlertComponent} from "./login-error-alert/login-error-alert.component";
 
 const routes: Routes = [
     {path: '', redirectTo: '/login', pathMatch:'full'},
@@ -13,10 +14,12 @@ const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'import', component: XlsImportComponent},
     {path: '**', component: NotFoundComponent},
+  {path: 'loginerror', component: LoginErrorAlertComponent},
 ]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
