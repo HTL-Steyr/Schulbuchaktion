@@ -11,25 +11,25 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 class User implements PasswordAuthenticatedUserInterface {
-    #[Groups(['subject', 'department', 'schoolclass'])]
+    #[Groups(['subject', 'department', 'schoolclass','user'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
     
-    #[Groups(['subject', 'department', 'schoolclass'])]
+    #[Groups(['subject', 'department', 'schoolclass','user'])]
     #[ORM\Column(length: 255)]
     private ?string $shortName = null;
     
-    #[Groups(['subject', 'department', 'schoolclass'])]
+    #[Groups(['subject', 'department', 'schoolclass','user'])]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
     
-    #[Groups(['subject', 'department', 'schoolclass'])]
+    #[Groups(['subject', 'department', 'schoolclass','user'])]
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
     
-    #[Groups(['subject', 'department', 'schoolclass'])]
+    #[Groups(['subject', 'department', 'schoolclass','user'])]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
@@ -40,7 +40,8 @@ class User implements PasswordAuthenticatedUserInterface {
     #[Ignore]
     #[ORM\Column(length: 255)]
     private ?string $password = null;
-    
+
+    #[Groups(['subject', 'department', 'schoolclass','user'])]
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Role $roleId = null;
