@@ -7,13 +7,15 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class SubjectService {
+  private readonly baseUrl = '../subject';
   constructor(private _http: HttpClient) { }
 
   public findAll(): Observable<Subject[]> {
-    throw new Error("Method not implemented")
+        return this._http.get<Subject[]>(this.baseUrl);
   }
 
-  public findOneById(): Observable<Subject> {
-    throw new Error("Method not implemented")
+  public findOneById(id: number): Observable<Subject> {
+      let idUrl = `${this.baseUrl}/${id}`;
+      return this._http.get<Subject>(idUrl);
   }
 }
