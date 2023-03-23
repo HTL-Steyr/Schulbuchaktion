@@ -9,15 +9,16 @@ import { OrderlistComponent } from './orderlist/orderlist.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { UploadButtonComponent } from './upload-button/upload-button.component';
 import { XlsImportComponent } from './xls-import/xls-import.component';
+import { ClassesOverviewComponent } from './classes-overview/classes-overview.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     OrderlistComponent,
+    ClassesOverviewComponent
     NotFoundComponent,
     UploadButtonComponent,
     XlsImportComponent,
-
   ],
   imports: [
     BrowserModule,
