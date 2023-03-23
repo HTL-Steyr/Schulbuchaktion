@@ -11,9 +11,11 @@ import { LoginErrorAlertComponent } from './login-error-alert/login-error-alert.
 import { UploadButtonComponent } from './upload-button/upload-button.component';
 import { XlsImportComponent } from './xls-import/xls-import.component';
 import { ClassesOverviewComponent } from './classes-overview/classes-overview.component';
+import { MoneyViewComponent } from './money-view/money-view.component';
 
 @NgModule({
   declarations: [
+    MoneyViewComponent
     AppComponent,
     OrderlistComponent,
     ClassesOverviewComponent
@@ -31,4 +33,6 @@ import { ClassesOverviewComponent } from './classes-overview/classes-overview.co
   providers: [],
   bootstrap: [AppComponent]
 })
+
+
 export class AppModule { }

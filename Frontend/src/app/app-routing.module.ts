@@ -15,6 +15,7 @@ const routes: Routes = [
     {path: 'import', component: XlsImportComponent},
     {path: '**', component: NotFoundComponent},
   {path: 'loginerror', component: LoginErrorAlertComponent},
+  {path: 'money-view', component: MoneyViewComponent},
 ]
 
 @NgModule({
@@ -23,3 +24,5 @@ const routes: Routes = [
 })
 export class AppRoutingModule {
 }
+
+import {MoneyViewComponent} from "./money-view/money-view.component";
