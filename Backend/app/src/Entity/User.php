@@ -16,27 +16,27 @@ class User implements PasswordAuthenticatedUserInterface {
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[Groups(['subject', 'department', 'schoolclass','user'])]
+    
+    #[Groups(['subject', 'department', 'schoolclass'])]
     #[ORM\Column(length: 255)]
     private ?string $shortName = null;
-
-    #[Groups(['subject', 'department', 'schoolclass','user'])]
+    
+    #[Groups(['subject', 'department', 'schoolclass'])]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
-
-    #[Groups(['subject', 'department', 'schoolclass','user'])]
+    
+    #[Groups(['subject', 'department', 'schoolclass'])]
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
-
-    #[Groups(['subject', 'department', 'schoolclass','user'])]
+    
+    #[Groups(['subject', 'department', 'schoolclass'])]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
     #[Ignore]
-    #[ORM\Column(length: 255,nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $token = null;
-
+    
     #[Ignore]
     #[ORM\Column(length: 255)]
     private ?string $password = null;
@@ -110,13 +110,11 @@ class User implements PasswordAuthenticatedUserInterface {
         return $this;
     }
 
-    public function getRoleId(): ?Role
-    {
+    public function getRoleId(): ?Role {
         return $this->roleId;
     }
 
-    public function setRoleId(?Role $roleId): self
-    {
+    public function setRoleId(?Role $roleId): self {
         $this->roleId = $roleId;
 
         return $this;
