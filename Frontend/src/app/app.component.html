@@ -1,5 +1,5 @@
 <!-- Toolbar -->
-<div class="toolbar" role="banner">
+<div *ngIf="userService.user" class="toolbar" role="banner">
     <span class="title">Schulbuchaktion</span>
     <div class="card-container">
         <a routerLink="bestelluebersicht" class="card" rel="noopener">
