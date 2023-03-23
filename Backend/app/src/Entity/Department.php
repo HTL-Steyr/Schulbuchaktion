@@ -10,25 +10,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: DepartmentRepository::class)]
 class Department {
-    #[Groups(['subject'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['subject'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['subject'])]
     #[ORM\Column]
     private ?int $budget = null;
 
-    #[Groups(['subject'])]
     #[ORM\Column]
     private ?int $usedBudget = null;
 
-    #[Groups(['subject'])]
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $headOfDepartment = null;
