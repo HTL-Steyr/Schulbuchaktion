@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Schulbuchbestellung</title>
-  <script src="https://kit.fontawesome.com/a81368914c.js"></script>
-</head>
-<body>
 <img class="wave" src="../../assets/login/wave.png">
 <div class="container">
   <div class="img">
     <img src="../../assets/login/books.svg">
   </div>
   <div class="login-content">
-    <form action="index.html">
+    <div class="form">
       <img src="../../assets/login/htlLogo.svg">
       <h2 class="title">Welcome</h2>
       <div class="input-div one">
@@ -19,7 +12,7 @@
           <i class="fas fa-user"></i>
         </div>
         <div class="div">
-          <input type="text" class="input" placeholder="Username">
+            <input [(ngModel)]="username"  type="text" class="input" placeholder="Username">
         </div>
       </div>
       <div class="input-div pass">
@@ -27,12 +20,10 @@
           <i class="fas fa-lock"></i>
         </div>
         <div class="div">
-          <input type="password" class="input" placeholder="Password">
+          <input [(ngModel)]="password" type="password" class="input" placeholder="Password">
         </div>
       </div>
-      <input type="submit" class="btn" value="Login">
-    </form>
+      <input type="submit" class="btn" value="Login" (click)="login()">
+    </div>
   </div>
 </div>
-</body>
-</html>

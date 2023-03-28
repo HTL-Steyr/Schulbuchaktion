@@ -12,6 +12,9 @@ import { UploadButtonComponent } from './upload-button/upload-button.component';
 import { XlsImportComponent } from './xls-import/xls-import.component';
 import { ClassesOverviewComponent } from './classes-overview/classes-overview.component';
 import { MoneyViewComponent } from './money-view/money-view.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,13 +25,17 @@ import { MoneyViewComponent } from './money-view/money-view.component';
     NotFoundComponent,
     UploadButtonComponent,
     XlsImportComponent,
-    LoginErrorAlertComponent
+    LoginErrorAlertComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     DxButtonModule,
     DxDataGridModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
