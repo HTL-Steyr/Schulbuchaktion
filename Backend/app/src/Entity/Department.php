@@ -34,7 +34,7 @@ class Department {
     private ?User $headOfDepartment = null;
 
     #[Groups(['department'])]
-    #[ORM\OneToMany(mappedBy: 'departmentId', targetEntity: SchoolClass::class)]
+    #[ORM\OneToMany(mappedBy: 'department', targetEntity: SchoolClass::class)]
     private Collection $schoolClasses;
 
     public function __construct() {

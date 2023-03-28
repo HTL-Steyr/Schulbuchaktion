@@ -7,7 +7,7 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class DepartmentService {
-  private readonly baseUrl = '../departments';
+  private readonly baseUrl = 'http://localhost:7080/department';
 
   constructor(private _http: HttpClient) { }
 
