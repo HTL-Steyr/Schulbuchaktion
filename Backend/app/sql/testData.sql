@@ -18,17 +18,17 @@ values (3, 'Abteilungsvorstand');
 insert into role (id, name)
 values (4, 'Std-User');
 
-
+-- Password is a for everyone
 insert into user (role_id, short_name, first_name, last_name, email, token, password)
-VALUES (3, 'cchimani', 'Christian', 'Chimani', 'cchimani@htl-steyr.ac.at', 'asjdflhadsf7824gbjk', 'a');
+VALUES (3, 'cchimani', 'Christian', 'Chimani', 'cchimani@htl-steyr.ac.at', 'asjdflhadsf7824gbjk', '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
 insert into user (role_id, short_name, first_name, last_name, email, token, password)
-VALUES (3, 'meder1', 'Manuel', 'Eder', 'meder1@htl-steyr.ac.at', 'awedfjkiz17zue', 'a');
+VALUES (3, 'meder1', 'Manuel', 'Eder', 'meder1@htl-steyr.ac.at', 'awedfjkiz17zue', '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
 insert into user (role_id, short_name, first_name, last_name, email, token, password)
-VALUES (3, 'emik', 'Elias', 'Miklutsch', 'emik@htl-steyr.ac.at', 'dkasfjhkui12edsa', 'a');
+VALUES (3, 'emik', 'Elias', 'Miklutsch', 'emik@htl-steyr.ac.at', 'dkasfjhkui12edsa', '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
 insert into user (role_id, short_name, first_name, last_name, email, token, password)
-VALUES (3, 'nmekina', 'Nico', 'Mekina', 'nmekina@htl-steyr.ac.at', 'safhbaskdlfuiu34eds', 'a');
+VALUES (3, 'nmekina', 'Nico', 'Mekina', 'nmekina@htl-steyr.ac.at', 'safhbaskdlfuiu34eds', '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
 insert into user (role_id, short_name, first_name, last_name, email, token, password)
-VALUES (3, 'smediko', 'Semirrrr', 'Medikovic', 'smediko@htl-steyr.ac.at', 'ahscjasdf9o78uhjs', 'a');
+VALUES (3, 'smediko', 'Semirrrr', 'Medikovic', 'smediko@htl-steyr.ac.at', 'ahscjasdf9o78uhjs', '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
 
 insert into subject (id, head_of_subject_id, name, short_name)
 values (1, 1, 'Softwareentwicklung', 'SEW');
