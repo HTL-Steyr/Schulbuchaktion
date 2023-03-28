@@ -6,7 +6,7 @@ import {Observable} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
-export class DepartmentService {
+export class DepartmentService implements FindAll<Department>{
   private readonly baseUrl = '../departments';
 
   constructor(private _http: HttpClient) { }
