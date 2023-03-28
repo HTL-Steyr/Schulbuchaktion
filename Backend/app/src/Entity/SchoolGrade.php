@@ -19,7 +19,7 @@ class SchoolGrade {
     private ?int $grade = null;
 
     #[ORM\ManyToOne(inversedBy: 'schoolGrades')]
-    private ?Book $bookId = null;
+    private ?Book $book = null;
 
     public function getId(): ?int {
         return $this->id;
@@ -35,14 +35,14 @@ class SchoolGrade {
         return $this;
     }
 
-    public function getBookId(): ?Book
+    public function getBook(): ?Book
     {
-        return $this->bookId;
+        return $this->book;
     }
 
-    public function setBookId(?Book $bookId): self
+    public function setBook(?Book $book): self
     {
-        $this->bookId = $bookId;
+        $this->book = $book;
 
         return $this;
     }

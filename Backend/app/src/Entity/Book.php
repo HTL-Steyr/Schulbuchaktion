@@ -40,10 +40,10 @@ class Book {
     private ?bool $ebookPlus = null;
 
     #[ORM\ManyToOne(inversedBy: 'books')]
-    private ?Subject $subjectId = null;
+    private ?Subject $subject = null;
 
     #[ORM\ManyToOne(inversedBy: 'books')]
-    private ?Publisher $publisherId = null;
+    private ?Publisher $publisher = null;
 
     #[ORM\OneToMany(mappedBy: 'bookId', targetEntity: BookOrder::class)]
     private Collection $bookOrders;
@@ -55,7 +55,7 @@ class Book {
     private Collection $bookPrices;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'childBooks')]
-    private ?self $mainBookId = null;
+    private ?self $mainBook = null;
 
     #[ORM\OneToMany(mappedBy: 'mainBookId', targetEntity: self::class)]
     private Collection $childBooks;
@@ -151,26 +151,26 @@ class Book {
         return $this;
     }
 
-    public function getSubjectId(): ?Subject
+    public function getSubject(): ?Subject
     {
-        return $this->subjectId;
+        return $this->subject;
     }
 
-    public function setSubjectId(?Subject $subjectId): self
+    public function setSubject(?Subject $subject): self
     {
-        $this->subjectId = $subjectId;
+        $this->subject = $subject;
 
         return $this;
     }
 
-    public function getPublisherId(): ?Publisher
+    public function getPublisher(): ?Publisher
     {
-        return $this->publisherId;
+        return $this->publisher;
     }
 
-    public function setPublisherId(?Publisher $publisherId): self
+    public function setPublisher(?Publisher $publisher): self
     {
-        $this->publisherId = $publisherId;
+        $this->publisher = $publisher;
 
         return $this;
     }
@@ -185,7 +185,7 @@ class Book {
     public function addBookOrder(BookOrder $bookOrder): self {
         if (!$this->bookOrders->contains($bookOrder)) {
             $this->bookOrders->add($bookOrder);
-            $bookOrder->setBookId($this);
+            $bookOrder->setBook($this);
         }
 
         return $this;
@@ -194,8 +194,8 @@ class Book {
     public function removeBookOrder(BookOrder $bookOrder): self {
         if ($this->bookOrders->removeElement($bookOrder)) {
             // set the owning side to null (unless already changed)
-            if ($bookOrder->getBookId() === $this) {
-                $bookOrder->setBookId(null);
+            if ($bookOrder->getBook() === $this) {
+                $bookOrder->setBook(null);
             }
         }
 
@@ -212,7 +212,7 @@ class Book {
     public function addSchoolGrade(SchoolGrade $schoolGrade): self {
         if (!$this->schoolGrades->contains($schoolGrade)) {
             $this->schoolGrades->add($schoolGrade);
-            $schoolGrade->setBookId($this);
+            $schoolGrade->setBook($this);
         }
 
         return $this;
@@ -221,8 +221,8 @@ class Book {
     public function removeSchoolGrade(SchoolGrade $schoolGrade): self {
         if ($this->schoolGrades->removeElement($schoolGrade)) {
             // set the owning side to null (unless already changed)
-            if ($schoolGrade->getBookId() === $this) {
-                $schoolGrade->setBookId(null);
+            if ($schoolGrade->getBook() === $this) {
+                $schoolGrade->setBook(null);
             }
         }
 
@@ -239,7 +239,7 @@ class Book {
     public function addBookPrice(BookPrice $bookPrice): self {
         if (!$this->bookPrices->contains($bookPrice)) {
             $this->bookPrices->add($bookPrice);
-            $bookPrice->setBookId($this);
+            $bookPrice->setBook($this);
         }
 
         return $this;
@@ -248,22 +248,22 @@ class Book {
     public function removeBookPrice(BookPrice $bookPrice): self {
         if ($this->bookPrices->removeElement($bookPrice)) {
             // set the owning side to null (unless already changed)
-            if ($bookPrice->getBookId() === $this) {
-                $bookPrice->setBookId(null);
+            if ($bookPrice->getBook() === $this) {
+                $bookPrice->setBook(null);
             }
         }
 
         return $this;
     }
 
-    public function getMainBookId(): ?self
+    public function getMainBook(): ?self
     {
-        return $this->mainBookId;
+        return $this->mainBook;
     }
 
-    public function setMainBookId(?self $mainBookId): self
+    public function setMainBook(?self $mainBook): self
     {
-        $this->mainBookId = $mainBookId;
+        $this->mainBook = $mainBook;
 
         return $this;
     }
@@ -278,7 +278,7 @@ class Book {
     public function addChildBook(self $childBook): self {
         if (!$this->childBooks->contains($childBook)) {
             $this->childBooks->add($childBook);
-            $childBook->setMainBookId($this);
+            $childBook->setMainBook($this);
         }
 
         return $this;
@@ -287,8 +287,8 @@ class Book {
     public function removeChildBook(self $childBook): self {
         if ($this->childBooks->removeElement($childBook)) {
             // set the owning side to null (unless already changed)
-            if ($childBook->getMainBookId() === $this) {
-                $childBook->setMainBookId(null);
+            if ($childBook->getMainBook() === $this) {
+                $childBook->setMainBook(null);
             }
         }
 

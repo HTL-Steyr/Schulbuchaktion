@@ -44,7 +44,7 @@ class User implements PasswordAuthenticatedUserInterface {
     #[Groups(['subject', 'department', 'schoolclass','user'])]
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Role $roleId = null;
+    private ?Role $role = null;
 
     public function getId(): ?int {
         return $this->id;
@@ -110,12 +110,12 @@ class User implements PasswordAuthenticatedUserInterface {
         return $this;
     }
 
-    public function getRoleId(): ?Role {
-        return $this->roleId;
+    public function getRole(): ?Role {
+        return $this->role;
     }
 
-    public function setRoleId(?Role $roleId): self {
-        $this->roleId = $roleId;
+    public function setRole(?Role $role): self {
+        $this->role = $role;
 
         return $this;
     }
