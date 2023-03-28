@@ -1,0 +1,32 @@
+#myButton {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+::ng-deep .swal2-popup {
+  font-size: 1.0rem;
+}
+
+::ng-deep .swal2-title {
+  font-size: 2.3rem;
+  color: #c85c5c;
+  background-color: #efd7d7;
+}
+
+
+::ng-deep .swal2-styled.swal2-confirm {
+  border: 0;
+  border-radius: 0.25em;
+  background: initial;
+  background-color: #9a9aa5;
+  color: #fff;
+  font-size: 1em;
+
+}
+
+
+
