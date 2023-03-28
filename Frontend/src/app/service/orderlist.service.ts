@@ -7,9 +7,10 @@ import { BookOrder } from '../model/bookOrder';
   providedIn: 'root'
 })
 export class OrderlistService {
+  private readonly baseUrl = '../orderlist';
   constructor(private _http: HttpClient) { }
 
   public findAll(): Observable<BookOrder[]> {
-    throw new Error("Method not implemented")
+    return this._http.get<BookOrder[]>(this.baseUrl);
   }
 }

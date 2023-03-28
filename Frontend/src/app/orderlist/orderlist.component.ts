@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import DataSource from 'devextreme/data/data_source';
 import { BookOrder } from '../model/bookOrder';
+import { OrderlistService } from '../service/orderlist.service';
 
 
 @Component({
@@ -8,9 +9,12 @@ import { BookOrder } from '../model/bookOrder';
   templateUrl: './orderlist.component.html',
   styleUrls: ['./orderlist.component.css']
 })
-export class OrderlistComponent {
-    dataSource: DataSource<BookOrder> = new DataSource([{
-        // id: 1,
-        // title: 'The Hobbit',
-    }]);
+export class OrderlistComponent{
+  private orderlistService: any;
+    dataSource: DataSource<BookOrder> = new DataSource({
+      key: 'id',
+        load: () => {
+          return this.orderlistService.findAll();
+        }
+    })
 }

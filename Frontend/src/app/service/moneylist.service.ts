@@ -7,9 +7,10 @@ import {MoneylistEntry} from "../model/moneylistEntry";
   providedIn: 'root'
 })
 export class MoneylistService {
+  private readonly baseUrl = '../moneylist';
   constructor(private _http: HttpClient) { }
 
   public findAll(): Observable<MoneylistEntry[]> {
-    throw new Error("Method not implemented")
+    return this._http.get<MoneylistEntry[]>(this.baseUrl);
   }
 }
