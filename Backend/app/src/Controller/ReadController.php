@@ -117,7 +117,8 @@ class ReadController extends AbstractController
     #[Route('/read/xlsx/bookPrice', name: 'app_read_bookPrice')]
     public function readBookPrice(ManagerRegistry $registry): Response
     {
-        $repo = $registry->getRepository(BookPrice::class);
+        $repo = $registry->getRepository(Publisher::class);
+        $book = $registry->getRepository(Book::class);
 
         if (file_exists("Schulbuchliste_4100_2023_2024.xlsx")) {
             $reader = IOFactory::createReader("Xlsx");
@@ -125,17 +126,25 @@ class ReadController extends AbstractController
 
             $sheet = $spreadsheet->getSheet(0);
             for ($i = 2; $i <= $sheet->getHighestRow(); $i++) {
-                $vnr =  $sheet->getCell("J" . strval($i))->getValue();
+                $vnr =  $sheet->getCell("M" . strval($i))->getValue();
+                $book = $sheet->getCell("A" . strval($i))->getValue();
+                $bookpricenormal =  $sheet->getCell("N" . strval($i))->getValue();
+                $bookpriceebook =  $sheet->getCell("M" . strval($i))->getValue();
+                $bookpriceplus =  $sheet->getCell("O" . strval($i))->getValue();
 
                 $existing = $repo->findOneBy(["publisherNumber" => $vnr]);
+                $bookid = $repo->findOneBy(["bookNumber" => $book]);
 
                 if (!isset($existing)) {
-                    $bookPrice = new BookPrice();
-                    $bookPrice->setPublisherNumber($vnr);
-                    $repo->save($bookPrice, true);
+                    $bookprice = new BookPrice();
+                    $bookprice->setBookId($bookid);
+                    $bookprice->setYear(2023);
+                    $bookprice->setPriceEbook($bookpriceebook);
+                    $bookprice->setPriceEbookPlus($bookpriceplus);
+                    $bookprice->setPriceInclusiveEbook($bookpricenormal);
+                    $repo->save($bookprice, true);
                 }
             }
-
         } else {
             die("datei existiert nicht!");
         }
