@@ -167,7 +167,7 @@ class ReadController extends AbstractController
 
                 if (!isset($existing)) {
                     $bookprice = new BookPrice();
-                    $bookprice->setBookId($bookid);
+                    $bookprice->setBook($bookid);
                     $bookprice->setYear(2023);
                     $bookprice->setPriceEbook($bookpriceebook);
                     $bookprice->setPriceEbookPlus($bookpriceplus);
