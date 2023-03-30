@@ -42,6 +42,9 @@ final class Version20230330093126 extends AbstractMigration
         $this->addSql('ALTER TABLE school_grade ADD CONSTRAINT FK_87A0182E16A2B381 FOREIGN KEY (book_id) REFERENCES book (id)');
         $this->addSql('ALTER TABLE subject ADD CONSTRAINT FK_FBCE3E7ADA200AFE FOREIGN KEY (head_of_subject_id) REFERENCES `user` (id)');
         $this->addSql('ALTER TABLE `user` ADD CONSTRAINT FK_8D93D649D60322AC FOREIGN KEY (role_id) REFERENCES role (id)');
+        $this->addSql('ALTER TABLE book_order ADD price INT NOT NULL');
+        $this->addSql('ALTER TABLE book_order ALTER price SET DEFAULT 0');
+
     }
 
     public function down(Schema $schema): void
@@ -69,5 +72,6 @@ final class Version20230330093126 extends AbstractMigration
         $this->addSql('DROP TABLE subject');
         $this->addSql('DROP TABLE `user`');
         $this->addSql('DROP TABLE messenger_messages');
+        $this->addSql('ALTER TABLE book_order DROP price');
     }
 }
