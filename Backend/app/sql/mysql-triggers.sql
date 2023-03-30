@@ -1,58 +1,53 @@
-CREATE TRIGGER t_create_book_order
-    AFTER INSERT
-    ON book_order
-    FOR EACH ROW
+create definer = symfony@`%` trigger t_create_book_order
+    before insert
+    on book_order
+    for each row
 BEGIN
-    DECLARE pricePerBook INTEGER;
+    DECLARE priceEbookBook INTEGER DEFAULT 0;
+    DECLARE priceBook INTEGER;
     DECLARE totalPrice INTEGER;
     DECLARE schoolClassId INTEGER;
     DECLARE departmentId INTEGER;
 
-    SELECT school_class_id_id FROM book_order INTO schoolClassId;
-    SELECT department_id_id FROM school_class WHERE school_class.id = schoolClassId INTO departmentId;
+    SELECT department_id_id FROM school_class WHERE school_class.id = NEW.school_class_id_id INTO departmentId;
 
-    IF (SELECT ebook_plus
-        FROM book_order
-        WHERE id = last_insert_id())
+    SELECT price_inclusive_ebook - book_price.price_ebook
+    FROM book_price
+    WHERE book_price.book_id_id =
+          NEW.book_id_id
+    INTO priceBook;
+
+    IF (NEW.ebook_plus)
     THEN
         SELECT price_ebook_plus + (price_inclusive_ebook - book_price.price_ebook)
         FROM book_price
         WHERE book_price.book_id_id =
-              (SELECT book_order.book_id_id FROM book_order WHERE id = last_insert_id())
-        INTO pricePerBook;
+              NEW.book_id_id
+        INTO priceEbookBook;
     ELSE
-        IF (SELECT ebook FROM book_order WHERE id = last_insert_id())
+        IF (NEW.ebook)
         THEN
-            SELECT price_inclusive_ebook
+            SELECT price_ebook
             FROM book_price
             WHERE book_price.book_id_id =
-                  (SELECT book_order.book_id_id FROM book_order WHERE id = last_insert_id())
-            INTO pricePerBook;
-        ELSE
-            SELECT price_inclusive_ebook - book_price.price_ebook
-            FROM book_price
-            WHERE book_price.book_id_id =
-                  (SELECT book_order.book_id_id FROM book_order WHERE id = last_insert_id())
-            INTO pricePerBook;
+                  NEW.book_id_id
+            INTO priceEbookBook;
         END IF;
     END IF;
 
     SET
-        totalPrice = pricePerBook * (SELECT count FROM book_order WHERE id = last_insert_id());
+        totalPrice = (priceBook + priceEbookBook) * NEW.count;
 
-    UPDATE book_order
-    SET price=totalPrice
-    WHERE id = last_insert_id();
+    SET NEW.price = totalPrice;
 
     UPDATE school_class
-    SET used_budget=(totalPrice + (SELECT used_budget
-                                   FROM school_class
-                                   WHERE school_class.id = schoolClassId))
+    SET used_budget=(totalPrice + NEW.school_class_id_id)
     WHERE id = schoolClassId;
 
-    UPDATE department
-    SET used_budget=(totalPrice + (SELECT used_budget
-                                   FROM department
-                                   WHERE department.id = departmentId))
-    WHERE id = departmentId;
+    #UPDATE department
+    #SET used_budget=(totalPrice + (SELECT used_budget
+    #                             FROM department
+    #                              WHERE department.id = departmentId))
+    #WHERE id = departmentId;
 END;
+
