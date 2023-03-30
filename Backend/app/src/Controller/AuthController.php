@@ -10,11 +10,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-class  AuthController extends AbstractController
-{
-    #[Route('/user/login', name: 'app_auth', methods: ["POST"])]
-    public function index(Request $request, ManagerRegistry $registry, UserPasswordHasherInterface $hasher): Response
-    {
+class  AuthController extends AbstractController {
+    #[Route(
+        path: "/user/login",
+        name: "app_auth",
+        methods: ["POST"]
+    )]
+    public function index(Request $request, ManagerRegistry $registry, UserPasswordHasherInterface $hasher): Response {
 
         /**
          * @var $json \stdClass
