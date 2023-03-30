@@ -10,11 +10,5 @@ import { OrderlistService } from '../service/orderlist.service';
   styleUrls: ['./orderlist.component.css']
 })
 export class OrderlistComponent{
-  private orderlistService: any;
-    dataSource: DataSource<BookOrder> = new DataSource({
-      key: 'id',
-        load: () => {
-          return this.orderlistService.findAll();
-        }
-    })
+
 }
