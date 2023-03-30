@@ -17,6 +17,9 @@ class BookOrder {
     private ?int $count = null;
 
     #[ORM\Column]
+    private ?int $price = null;
+
+    #[ORM\Column]
     private ?bool $ebook = null;
 
     #[ORM\Column]
@@ -99,4 +102,21 @@ class BookOrder {
 
         return $this;
     }
+
+    /**
+     * @return int|null
+     */
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param int|null $price
+     */
+    public function setPrice(?int $price): void
+    {
+        $this->price = $price;
+    }
+
 }

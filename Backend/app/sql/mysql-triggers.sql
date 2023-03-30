@@ -6,8 +6,9 @@ BEGIN
     DECLARE priceEbookBook INTEGER DEFAULT 0;
     DECLARE priceBook INTEGER;
     DECLARE totalPrice INTEGER;
-    DECLARE schoolClassId INTEGER;
     DECLARE departmentId INTEGER;
+    DECLARE usedBudgetSchoolclass INTEGER;
+    DECLARE usedBudgetDepartment INTEGER;
 
     SELECT department_id FROM school_class WHERE school_class.id = NEW.school_class_id INTO departmentId;
 
@@ -40,15 +41,24 @@ BEGIN
 
     SET NEW.price = totalPrice;
 
+    SELECT school_class.used_budget
+    FROM school_class
+    WHERE school_class.id = NEW.school_class_id
+    INTO usedBudgetSchoolclass;
+
+    SELECT department.used_budget
+    FROM department
+    WHERE department.id = departmentId
+    INTO usedBudgetDepartment;
+
     UPDATE school_class
-    SET used_budget=(totalPrice + (SELECT used_budget
-                                   FROM school_class
-                                   WHERE school_class.id = schoolClassId))
-    WHERE id = schoolClassId;
+    SET school_class.used_budget=(totalPrice + usedBudgetSchoolclass)
+    WHERE school_class.id = NEW.school_class_id;
 
     UPDATE department
-    SET used_budget=(totalPrice + (SELECT used_budget
-                                   FROM department
-                                   WHERE department.id = departmentId))
-    WHERE id = departmentId;
+    SET department.used_budget=(totalPrice + usedBudgetDepartment)
+    WHERE department.id = departmentId;
+
+
 END;
+
