@@ -81,7 +81,19 @@ jobs:
         ftp-server: ${{ secrets.FTP_SERVER }}
         ftp-username: ${{ secrets.FTP_USERNAME }}
         ftp-password: ${{ secrets.FTP_PASSWORD }}
-        exclude: .env var/** var/cache/** var/log/**
+        exclude: |
+          .env 
+          Backend/app/.env
+          app/.env
+          var/**
+          var/cache/**
+          var/log/**
+          Backend/app/var/**
+          Backend/app/var/cache/**
+          Backend/app/var/log/**
+          app/var/**
+          app/var/cache/**
+          app/var/log/** 
         
     - name: executing remote ssh commands for migration
       uses: appleboy/ssh-action@v0.1.8
