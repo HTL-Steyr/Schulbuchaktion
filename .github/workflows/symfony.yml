@@ -92,7 +92,7 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           ln -sfv /usr/bin/php80 /usr/bin/php
-          cd schulbuch.rathgeb.at
+          cd schulbuch.rathgeb.at/
           php bin/console doctrine:migrations:version
 
 
