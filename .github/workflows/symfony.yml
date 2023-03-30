@@ -74,7 +74,7 @@ jobs:
     - name: Deploy via FTP
       uses: SamKirkland/FTP-Deploy-Action@4.3.3 # Verwenden Sie eine FTP-Deploy-Action, um Ihre Anwendung auf den Server zu laden
       with:
-        local-dir: app/
+        local-dir: Backend/app/
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
