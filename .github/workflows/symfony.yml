@@ -41,11 +41,11 @@ jobs:
           ${{ runner.os }}-php-
     - name: Install Dependencies
       run: |
-        cd app
+        cd Backend/app
         composer install --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Run tests
       run: |
-        cd app
+        cd Backend/app
         # php bin/console doctrine:database:create --env=test
         php bin/console doctrine:schema:create --env=test
         php bin/console doctrine:fixtures:load --env=test -n
@@ -58,17 +58,17 @@ jobs:
     #    path: ./app/coverage
     #- name: Check code style
     #  run: |
-    #     cd app
+    #     cd Backend/app
     #     vendor/bin/phpcs
 
     #- name: Check code coverage threshold
     #  run: |
-    #    cd app
+    #    cd Backend/app
     #    vendor/bin/phpcov check --path=./coverage --clover=./coverage/clover.xml --lines=80
 
     - name: Check security vulnerabilities
       run: |
-        cd app
+        cd Backend/app
         composer audit
         
     - name: Deploy via FTP
