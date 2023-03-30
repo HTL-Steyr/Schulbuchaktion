@@ -82,4 +82,16 @@ jobs:
         ftp-username: ${{ secrets.FTP_USERNAME }}
         ftp-password: ${{ secrets.FTP_PASSWORD }}
         exclude: .env
+        
+    - name: executing remote ssh commands for migration
+      uses: appleboy/ssh-action@v0.1.8
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          ln -sfv /usr/bin/php80 /usr/bin/php
+          cd schulbuch.rathgeb.at
+          php bin/console doctrine:migrations:version
 
