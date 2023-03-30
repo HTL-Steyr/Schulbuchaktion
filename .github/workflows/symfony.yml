@@ -72,10 +72,10 @@ jobs:
         composer audit
         
     - name: Deploy via FTP
-      uses: SamKirkland/FTP-Deploy-Action@3.1.1 # Verwenden Sie eine FTP-Deploy-Action, um Ihre Anwendung auf den Server zu laden
+      uses: SamKirkland/FTP-Deploy-Action@4.3.3 # Verwenden Sie eine FTP-Deploy-Action, um Ihre Anwendung auf den Server zu laden
       with:
+        local-dir: app
         ftp-server: ${{ secrets.FTP_SERVER }}
         ftp-username: ${{ secrets.FTP_USERNAME }}
         ftp-password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: app
 
