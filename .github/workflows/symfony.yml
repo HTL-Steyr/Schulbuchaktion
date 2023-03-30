@@ -92,7 +92,7 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           cd ${{ secrets.SERVER_APP_PATH }}
-          ln -sfv /usr/bin/php80 /usr/bin/php
+          ln -sfv /usr/bin/php81 /usr/bin/php
           php bin/console doctrine:migrations:version
 
 
