@@ -53,7 +53,7 @@ class SchoolClass {
     #[ORM\JoinColumn(nullable: false)]
     private ?Department $department = null;
 
-    #[ORM\OneToMany(mappedBy: 'schoolClassId', targetEntity: BookOrder::class)]
+    #[ORM\OneToMany(mappedBy: 'schoolClass', targetEntity: BookOrder::class)]
     private Collection $bookOrders;
 
     public function __construct() {

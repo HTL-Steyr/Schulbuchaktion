@@ -45,19 +45,19 @@ class Book {
     #[ORM\ManyToOne(inversedBy: 'books')]
     private ?Publisher $publisher = null;
 
-    #[ORM\OneToMany(mappedBy: 'bookId', targetEntity: BookOrder::class)]
+    #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookOrder::class)]
     private Collection $bookOrders;
 
-    #[ORM\OneToMany(mappedBy: 'bookId', targetEntity: SchoolGrade::class)]
+    #[ORM\OneToMany(mappedBy: 'book', targetEntity: SchoolGrade::class)]
     private Collection $schoolGrades;
 
-    #[ORM\OneToMany(mappedBy: 'bookId', targetEntity: BookPrice::class)]
+    #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookPrice::class)]
     private Collection $bookPrices;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'childBooks')]
     private ?self $mainBook = null;
 
-    #[ORM\OneToMany(mappedBy: 'mainBookId', targetEntity: self::class)]
+    #[ORM\OneToMany(mappedBy: 'mainBook', targetEntity: self::class)]
     private Collection $childBooks;
 
     public function __construct() {

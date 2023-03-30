@@ -22,7 +22,7 @@ class Role {
     private ?string $name = null;
 
     #[Ignore]
-    #[ORM\OneToMany(mappedBy: 'roleId', targetEntity: User::class)]
+    #[ORM\OneToMany(mappedBy: 'role', targetEntity: User::class)]
     private Collection $users;
 
     public function __construct() {

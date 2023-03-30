@@ -21,7 +21,7 @@ class Publisher {
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'publisherId', targetEntity: Book::class)]
+    #[ORM\OneToMany(mappedBy: 'publisher', targetEntity: Book::class)]
     private Collection $books;
 
     public function __construct() {

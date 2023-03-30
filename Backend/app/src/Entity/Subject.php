@@ -29,7 +29,7 @@ class Subject {
     #[ORM\JoinColumn(nullable: false)]
     private ?User $headOfSubject = null;
 
-    #[ORM\OneToMany(mappedBy: 'subjectId', targetEntity: Book::class)]
+    #[ORM\OneToMany(mappedBy: 'subject', targetEntity: Book::class)]
     private Collection $books;
 
     public function __construct() {
