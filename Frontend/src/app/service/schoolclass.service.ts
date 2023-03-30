@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {SchoolClass} from "../model/schoolclass";
 import {Observable} from "rxjs";
+import { FindAll } from './findAll';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SchoolclassService {
+export class SchoolclassService implements FindAll<SchoolClass>{
   private readonly baseUrl = '../schoolclass';
   constructor(private _http: HttpClient) { }
 
