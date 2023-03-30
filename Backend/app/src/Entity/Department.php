@@ -34,7 +34,7 @@ class Department {
     private ?User $headOfDepartment = null;
 
     #[Groups(['department'])]
-    #[ORM\OneToMany(mappedBy: 'departmentId', targetEntity: SchoolClass::class)]
+    #[ORM\OneToMany(mappedBy: 'department', targetEntity: SchoolClass::class)]
     private Collection $schoolClasses;
 
     public function __construct() {
@@ -95,7 +95,7 @@ class Department {
     public function addSchoolClass(SchoolClass $schoolClass): self {
         if (!$this->schoolClasses->contains($schoolClass)) {
             $this->schoolClasses->add($schoolClass);
-            $schoolClass->setDepartmentId($this);
+            $schoolClass->setDepartment($this);
         }
 
         return $this;
@@ -104,8 +104,8 @@ class Department {
     public function removeSchoolClass(SchoolClass $schoolClass): self {
         if ($this->schoolClasses->removeElement($schoolClass)) {
             // set the owning side to null (unless already changed)
-            if ($schoolClass->getDepartmentId() === $this) {
-                $schoolClass->setDepartmentId(null);
+            if ($schoolClass->getDepartment() === $this) {
+                $schoolClass->setDepartment(null);
             }
         }
 

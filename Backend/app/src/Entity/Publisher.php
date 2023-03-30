@@ -21,7 +21,7 @@ class Publisher {
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'publisherId', targetEntity: Book::class)]
+    #[ORM\OneToMany(mappedBy: 'publisher', targetEntity: Book::class)]
     private Collection $books;
 
     public function __construct() {
@@ -62,7 +62,7 @@ class Publisher {
     public function addBook(Book $book): self {
         if (!$this->books->contains($book)) {
             $this->books->add($book);
-            $book->setPublisherId($this);
+            $book->setPublisher($this);
         }
 
         return $this;
@@ -71,8 +71,8 @@ class Publisher {
     public function removeBook(Book $book): self {
         if ($this->books->removeElement($book)) {
             // set the owning side to null (unless already changed)
-            if ($book->getPublisherId() === $this) {
-                $book->setPublisherId(null);
+            if ($book->getPublisher() === $this) {
+                $book->setPublisher(null);
             }
         }
 

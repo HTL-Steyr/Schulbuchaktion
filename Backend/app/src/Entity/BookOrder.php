@@ -14,9 +14,6 @@ class BookOrder {
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $price = null;
-
-    #[ORM\Column]
     private ?int $count = null;
 
     #[ORM\Column]
@@ -26,10 +23,10 @@ class BookOrder {
     private ?bool $ebookPlus = null;
 
     #[ORM\ManyToOne(inversedBy: 'bookOrders')]
-    private ?SchoolClass $schoolClassId = null;
+    private ?SchoolClass $schoolClass = null;
 
     #[ORM\ManyToOne(inversedBy: 'bookOrders')]
-    private ?Book $bookId = null;
+    private ?Book $book = null;
 
     #[ORM\Column]
     private ?bool $teacherCopy = null;
@@ -38,15 +35,6 @@ class BookOrder {
         return $this->id;
     }
 
-    public function getPrice(): ?int {
-        return $this->price;
-    }
-
-    public function setPrice(int $price): self {
-        $this->price = $price;
-
-        return $this;
-    }
 
     public function getCount(): ?int {
         return $this->count;
@@ -78,22 +66,26 @@ class BookOrder {
         return $this;
     }
 
-    public function getSchoolClassId(): ?SchoolClass {
-        return $this->schoolClassId;
+    public function getSchoolClass(): ?SchoolClass
+    {
+        return $this->schoolClass;
     }
 
-    public function setSchoolClassId(?SchoolClass $schoolClassId): self {
-        $this->schoolClassId = $schoolClassId;
+    public function setSchoolClass(?SchoolClass $schoolClass): self
+    {
+        $this->schoolClass = $schoolClass;
 
         return $this;
     }
 
-    public function getBookId(): ?Book {
-        return $this->bookId;
+    public function getBook(): ?Book
+    {
+        return $this->book;
     }
 
-    public function setBookId(?Book $bookId): self {
-        $this->bookId = $bookId;
+    public function setBook(?Book $book): self
+    {
+        $this->book = $book;
 
         return $this;
     }

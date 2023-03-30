@@ -29,7 +29,7 @@ class Subject {
     #[ORM\JoinColumn(nullable: false)]
     private ?User $headOfSubject = null;
 
-    #[ORM\OneToMany(mappedBy: 'subjectId', targetEntity: Book::class)]
+    #[ORM\OneToMany(mappedBy: 'subject', targetEntity: Book::class)]
     private Collection $books;
 
     public function __construct() {
@@ -80,7 +80,7 @@ class Subject {
     public function addBook(Book $book): self {
         if (!$this->books->contains($book)) {
             $this->books->add($book);
-            $book->setSubjectId($this);
+            $book->setSubject($this);
         }
 
         return $this;
@@ -89,8 +89,8 @@ class Subject {
     public function removeBook(Book $book): self {
         if ($this->books->removeElement($book)) {
             // set the owning side to null (unless already changed)
-            if ($book->getSubjectId() === $this) {
-                $book->setSubjectId(null);
+            if ($book->getSubject() === $this) {
+                $book->setSubject(null);
             }
         }
 
