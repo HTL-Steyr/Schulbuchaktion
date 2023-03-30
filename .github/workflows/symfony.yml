@@ -95,3 +95,4 @@ jobs:
           cd schulbuch.rathgeb.at
           php bin/console doctrine:migrations:version
 
+
