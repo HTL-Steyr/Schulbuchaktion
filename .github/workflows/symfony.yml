@@ -88,12 +88,15 @@ jobs:
           var/**
           var/cache/**
           var/log/**
+          vendor/**
           Backend/app/var/**
           Backend/app/var/cache/**
           Backend/app/var/log/**
+          Backend/app/vendor/**
           app/var/**
           app/var/cache/**
           app/var/log/** 
+          app/var/vendor/**
         
     - name: executing remote ssh commands for migration
       uses: appleboy/ssh-action@v0.1.8
@@ -105,4 +108,5 @@ jobs:
         script: |
           cd ${{ secrets.SERVER_APP_PATH }}
           ln -sfv /usr/bin/php81 /usr/bin/php
+          composer install --no-interaction --no-scripts --no-progress --prefer-dist
           php bin/console doctrine:migrations:migrate
