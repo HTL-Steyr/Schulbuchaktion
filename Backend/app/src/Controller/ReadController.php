@@ -7,35 +7,46 @@ use App\Entity\BookPrice;
 use App\Entity\Publisher;
 use App\Entity\Subject;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * https://symfonycasts.com/screencast/symfony-uploads/upload-request
+ * https://symfonycasts.com/screencast/symfony-uploads/storing-uploaded-file#play
+ */
 class ReadController extends AbstractController
 {
     #[Route('/read/xlsx/publisher', name: 'app_read_publisher')]
-    public function readPublisher(ManagerRegistry $registry): Response
+    public function readPublisher(Request $request, ManagerRegistry $registry, EntityManagerInterface $entityManager): Response
     {
-        $repo = $registry->getRepository(Publisher::class);
-
-        if (file_exists("Schulbuchliste_4100_2023_2024.xlsx")) {
+        $repoPublisher = $registry->getRepository(Publisher::class);
+        $file = $request->files->get("schoolBookList");
+        echo $file::class;
+        if (file_exists($file->getClientOriginalName())) {
             $reader = IOFactory::createReader("Xlsx");
-            $spreadsheet = $reader->load("Schulbuchliste_4100_2023_2024.xlsx");
-
+            $spreadsheet = $reader->load($file->getClientOriginalName());
+            $entities = $repoPublisher->findAll();
+            foreach ($entities as $entity) {
+                $entityManager->remove($entity);
+            }
+            $entityManager->flush();
             $sheet = $spreadsheet->getSheet(0);
             for ($i = 2; $i <= $sheet->getHighestRow(); $i++) {
                 $number = $sheet->getCell("J" . strval($i))->getValue();
                 $name = $sheet->getCell("K" . strval($i))->getValue();
 
-                $existing = $repo->findOneBy(["publisherNumber" => $number]);
+                $existing = $repoPublisher->findOneBy(["publisherNumber" => $number]);
 
                 if (!isset($existing)) {
                     $publisher = new Publisher();
                     $publisher->setPublisherNumber($number);
                     $publisher->setName($name);
-                    $repo->save($publisher, true);
+                    $repoPublisher->save($publisher, true);
                 }
             }
 
