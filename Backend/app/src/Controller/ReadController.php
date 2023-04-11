@@ -29,7 +29,6 @@ class ReadController extends AbstractController
 
         $this->deleteAllData($repo);
 
-        if (file_exists("Schulbuchliste_4100_2023_2024.xlsx")) {
         $repoPublisher = $registry->getRepository(Publisher::class);
         $file = $request->files->get("schoolBookList");
         echo $file::class;
@@ -98,6 +97,7 @@ class ReadController extends AbstractController
         } else {
             die("file not found");
         }
+
 
 
         return $this->render('read/index.html.twig', [
