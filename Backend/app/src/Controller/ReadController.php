@@ -51,7 +51,7 @@ class ReadController extends AbstractController
             }
 
         } else {
-            die("datei existiert nicht!");
+            die("file not found");
         }
 
         return $this->render('read/index.html.twig', [
@@ -88,7 +88,7 @@ class ReadController extends AbstractController
             }
 
         } else {
-            die("datei existiert nicht!");
+            die("file not found");
         }
 
 
@@ -146,7 +146,7 @@ class ReadController extends AbstractController
             }
 
         } else {
-            die("datei existiert nicht!");
+            die("file not found");
         }
 
 
@@ -187,7 +187,7 @@ class ReadController extends AbstractController
                 }
             }
         } else {
-            die("datei existiert nicht!");
+            die("file not found");
         }
 
 
