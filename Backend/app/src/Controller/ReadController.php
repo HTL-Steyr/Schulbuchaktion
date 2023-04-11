@@ -8,6 +8,7 @@ use App\Entity\Publisher;
 use App\Entity\Subject;
 use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectRepository;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,8 @@ class ReadController extends AbstractController
     public function readPublisher(ManagerRegistry $registry): Response
     {
         $repo = $registry->getRepository(Publisher::class);
+
+        $this->deleteAllData($repo);
 
         if (file_exists("Schulbuchliste_4100_2023_2024.xlsx")) {
             $reader = IOFactory::createReader("Xlsx");
@@ -53,6 +56,8 @@ class ReadController extends AbstractController
     {
         $repoSubject = $registry->getRepository(Subject::class);
         $repoUser = $registry->getRepository(User::class);
+
+        $this->deleteAllData($repoSubject);
 
         if (file_exists("Schulbuchliste_4100_2023_2024.xlsx")) {
             $reader = IOFactory::createReader("Xlsx");
@@ -93,23 +98,25 @@ class ReadController extends AbstractController
         $repoSubject = $registry->getRepository(Subject::class);
         $repoPublisher = $registry->getRepository(Publisher::class);
 
+        $this->deleteAllData($repoBook);
+
         if (file_exists("Schulbuchliste_4100_2023_2024.xlsx")) {
             $reader = IOFactory::createReader("Xlsx");
             $spreadsheet = $reader->load("Schulbuchliste_4100_2023_2024.xlsx");
 
             $sheet = $spreadsheet->getSheet(0);
             for ($i = 2; $i <= $sheet->getHighestRow(); $i++) {
-                $subject =  $sheet->getCell("J" . strval($i))->getValue();
-                $publisher =  $sheet->getCell("K" . strval($i))->getValue();
-                $mainBook =  $sheet->getCell("L" . strval($i))->getValue();
-                $bookNumber =  $sheet->getCell("A" . strval($i))->getValue();
-                $title =  $sheet->getCell("C" . strval($i))->getValue();
-                $shortTitle =  $sheet->getCell("B" . strval($i))->getValue();
-                $listType =  $sheet->getCell("D" . strval($i))->getValue();
-                $schoolForm =  $sheet->getCell("E" . strval($i))->getValue();
-                $info =  $sheet->getCell("I" . strval($i))->getValue();
-                $ebook =  $sheet->getCell("P" . strval($i))->getValue();
-                $ebookPlus =  $sheet->getCell("Q" . strval($i))->getValue();
+                $subject = $sheet->getCell("J" . strval($i))->getValue();
+                $publisher = $sheet->getCell("K" . strval($i))->getValue();
+                $mainBook = $sheet->getCell("L" . strval($i))->getValue();
+                $bookNumber = $sheet->getCell("A" . strval($i))->getValue();
+                $title = $sheet->getCell("C" . strval($i))->getValue();
+                $shortTitle = $sheet->getCell("B" . strval($i))->getValue();
+                $listType = $sheet->getCell("D" . strval($i))->getValue();
+                $schoolForm = $sheet->getCell("E" . strval($i))->getValue();
+                $info = $sheet->getCell("I" . strval($i))->getValue();
+                $ebook = $sheet->getCell("P" . strval($i))->getValue();
+                $ebookPlus = $sheet->getCell("Q" . strval($i))->getValue();
 
                 $subjectId = $repoSubject->findOneBy(["name" => $subject]);
                 $publisherId = $repoPublisher->findOneBy(["name" => $publisher]);
@@ -147,8 +154,11 @@ class ReadController extends AbstractController
     #[Route('/read/xlsx/bookPrice', name: 'app_read_bookPrice')]
     public function readBookPrice(ManagerRegistry $registry): Response
     {
-        $repo = $registry->getRepository(Publisher::class);
-        $book = $registry->getRepository(Book::class);
+        $repoPublisher = $registry->getRepository(Publisher::class);
+        $repoBook = $registry->getRepository(Book::class);
+        $repoBookPrice = $registry->getRepository(BookPrice::class);
+
+        $this->deleteAllData($repoBook);
 
         if (file_exists("Schulbuchliste_4100_2023_2024.xlsx")) {
             $reader = IOFactory::createReader("Xlsx");
@@ -156,23 +166,23 @@ class ReadController extends AbstractController
 
             $sheet = $spreadsheet->getSheet(0);
             for ($i = 2; $i <= $sheet->getHighestRow(); $i++) {
-                $vnr =  $sheet->getCell("M" . strval($i))->getValue();
+                $vnr = $sheet->getCell("M" . strval($i))->getValue();
                 $book = $sheet->getCell("A" . strval($i))->getValue();
-                $bookpricenormal =  $sheet->getCell("N" . strval($i))->getValue();
-                $bookpriceebook =  $sheet->getCell("M" . strval($i))->getValue();
-                $bookpriceplus =  $sheet->getCell("O" . strval($i))->getValue();
+                $bookpricenormal = $sheet->getCell("N" . strval($i))->getValue();
+                $bookpriceebook = $sheet->getCell("M" . strval($i))->getValue();
+                $bookpriceplus = $sheet->getCell("O" . strval($i))->getValue();
 
-                $existing = $repo->findOneBy(["publisherNumber" => $vnr]);
-                $bookid = $repo->findOneBy(["bookNumber" => $book]);
+                $existing = $repoPublisher->findOneBy(["publisherNumber" => $vnr]);
+                $bookid = $repoBook->findOneBy(["bookNumber" => $book]);
 
                 if (!isset($existing)) {
                     $bookprice = new BookPrice();
                     $bookprice->setBook($bookid);
-                    $bookprice->setYear(2023);
+                    $bookprice->setYear(date('Y'));
                     $bookprice->setPriceEbook($bookpriceebook);
                     $bookprice->setPriceEbookPlus($bookpriceplus);
                     $bookprice->setPriceInclusiveEbook($bookpricenormal);
-                    $repo->save($bookprice, true);
+                    $repoBookPrice->save($bookprice, true);
                 }
             }
         } else {
@@ -183,5 +193,15 @@ class ReadController extends AbstractController
         return $this->render('read/index.html.twig', [
             'controller_name' => 'ReadController',
         ]);
+    }
+
+    public function deleteAllData(ObjectRepository $repo): Response
+    {
+        $myEntities = $repo->findAll();
+        foreach ($myEntities as $myEntity) {
+            $repo->remove($myEntity, true);
+        }
+
+        return $this->json(null, status: Response::HTTP_OK);
     }
 }
