@@ -9,6 +9,7 @@ export class UploadButtonComponent {
   click(){
     let input = document.createElement('input');
     input.type = 'file';
+    input.accept = '.xlsx, .xls, .csv'
     input.onchange = _ => {
       // @ts-ignore
       let files =   Array.from(input.files);
