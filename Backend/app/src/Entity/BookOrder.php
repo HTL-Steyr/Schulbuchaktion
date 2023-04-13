@@ -8,29 +8,36 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BookOrderRepository::class)]
 class BookOrder {
+    #[Groups(['subject','orderlist'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $count = null;
-
-    #[ORM\Column]
     private ?int $price = null;
 
+    #[Groups(['subject','orderlist'])]
+    #[ORM\Column]
+    private ?int $count = null;
+
+    #[Groups(['subject','orderlist'])]
     #[ORM\Column]
     private ?bool $ebook = null;
 
+    #[Groups(['subject','orderlist'])]
     #[ORM\Column]
     private ?bool $ebookPlus = null;
 
+    #[Groups(['subject','orderlist'])]
     #[ORM\ManyToOne(inversedBy: 'bookOrders')]
     private ?SchoolClass $schoolClass = null;
 
+    #[Groups(['orderlist'])]
     #[ORM\ManyToOne(inversedBy: 'bookOrders')]
     private ?Book $book = null;
 
+    #[Groups(['subject','orderlist'])]
     #[ORM\Column]
     private ?bool $teacherCopy = null;
 
