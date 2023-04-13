@@ -35,11 +35,7 @@ class ReadController extends AbstractController
         if (file_exists($file->getClientOriginalName())) {
             $reader = IOFactory::createReader("Xlsx");
             $spreadsheet = $reader->load($file->getClientOriginalName());
-            $entities = $repoPublisher->findAll();
-            foreach ($entities as $entity) {
-                $entityManager->remove($entity);
-            }
-            $entityManager->flush();
+            $this->deleteAllData($repoPublisher);
             $sheet = $spreadsheet->getSheet(0);
             for ($i = 2; $i <= $sheet->getHighestRow(); $i++) {
                 $number = $sheet->getCell("J" . strval($i))->getValue();
