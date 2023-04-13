@@ -34,6 +34,7 @@ class MoneylistController extends AbstractController
     )]
     public function getMoneyListByBookId(AuthService $authService, Request $request, ManagerRegistry $registry, int $bookId): Response {
         $user = $authService->authenticateByAuthorizationHeader($request);
+        return $user;
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
