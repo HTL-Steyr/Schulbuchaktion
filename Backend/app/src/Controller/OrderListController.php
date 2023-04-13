@@ -17,11 +17,11 @@ class OrderListController extends AbstractController
      * @return Response -> the orderList with the given id
      */
     #[Route(
-        path: '/orderlist/{schoolyear}',
+        path: '/orderlist/{id}',
         name: 'app_orderlist_get_by_schoolyear',
         methods: ['GET']
     )]
-    public function getOrderList(AuthService $authService, Request $request, ManagerRegistry $registry, int $schoolyear): Response
+    public function getOrderList(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response
     {
         $user = $authService->authenticateByAuthorizationHeader($request);
         if (!isset($user)) {
@@ -32,7 +32,7 @@ class OrderListController extends AbstractController
             ->withGroups('orderlist')
             ->toArray();
 
-        $orderList = $registry->getRepository(BookOrder::class)->find($schoolyear);
+        $orderList = $registry->getRepository(BookOrder::class)->find($id);
 
         if (isset($orderList)) {
             return $this->json($orderList, status: Response::HTTP_OK, context: $context);

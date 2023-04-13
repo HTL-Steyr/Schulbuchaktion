@@ -22,11 +22,11 @@ class MoneylistController extends AbstractController
      * @return Response -> the moneylist with the given book id
      */
     #[Route(
-        path: '/moneylist/{bookid}',
+        path: '/moneylist/{id}',
         name: 'app_moneylist_get_by_book_id',
         methods: ['GET']
     )]
-    public function getMoneyListByBookId(AuthService $authService, Request $request, ManagerRegistry $registry, int $bookId): Response {
+    public function getMoneyListByBookId(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
         $user = $authService->authenticateByAuthorizationHeader($request);
 
         if (!isset($user)) {
@@ -37,7 +37,7 @@ class MoneylistController extends AbstractController
             ->withGroups('bookPrice')
             ->toArray();
 
-        $moneylist = $registry->getRepository(BookPrice::class)->find($bookId);
+        $moneylist = $registry->getRepository(BookPrice::class)->find($id);
 
         if (isset($moneylist)) {
             return $this->json($moneylist, status: Response::HTTP_OK, context: $context);
