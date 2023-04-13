@@ -15,9 +15,6 @@ class BookOrder {
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $count = null;
-
-    #[ORM\Column]
     private ?int $price = null;
 
     #[Groups(['subject','orderlist'])]
