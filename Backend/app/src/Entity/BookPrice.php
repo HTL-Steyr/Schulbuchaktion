@@ -8,31 +8,26 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BookPriceRepository::class)]
 class BookPrice {
-    #[Groups(['subject'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['subject'])]
     #[ORM\Column]
     private ?int $year = null;
 
-    #[Groups(['subject'])]
     #[ORM\Column]
     private ?int $priceInclusiveEbook = null;
 
-    #[Groups(['subject'])]
     #[ORM\Column(nullable: true)]
     private ?int $priceEbook = null;
 
-    #[Groups(['subject'])]
     #[ORM\Column(nullable: true)]
     private ?int $priceEbookPlus = null;
 
     #[ORM\ManyToOne(inversedBy: 'bookPrices')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Book $bookId = null;
+    private ?Book $book = null;
 
     public function getId(): ?int {
         return $this->id;
@@ -78,12 +73,14 @@ class BookPrice {
         return $this;
     }
 
-    public function getBookId(): ?Book {
-        return $this->bookId;
+    public function getBook(): ?Book
+    {
+        return $this->book;
     }
 
-    public function setBookId(?Book $bookId): self {
-        $this->bookId = $bookId;
+    public function setBook(?Book $book): self
+    {
+        $this->book = $book;
 
         return $this;
     }

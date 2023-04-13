@@ -14,7 +14,9 @@ class BookOrder {
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['subject'])]
+    #[ORM\Column]
+    private ?int $count = null;
+
     #[ORM\Column]
     private ?int $price = null;
 
@@ -32,11 +34,11 @@ class BookOrder {
 
     #[Groups(['subject','orderlist'])]
     #[ORM\ManyToOne(inversedBy: 'bookOrders')]
-    private ?SchoolClass $schoolClassId = null;
+    private ?SchoolClass $schoolClass = null;
 
     #[Groups(['orderlist'])]
     #[ORM\ManyToOne(inversedBy: 'bookOrders')]
-    private ?Book $bookId = null;
+    private ?Book $book = null;
 
     #[Groups(['subject','orderlist'])]
     #[ORM\Column]
@@ -46,15 +48,6 @@ class BookOrder {
         return $this->id;
     }
 
-    public function getPrice(): ?int {
-        return $this->price;
-    }
-
-    public function setPrice(int $price): self {
-        $this->price = $price;
-
-        return $this;
-    }
 
     public function getCount(): ?int {
         return $this->count;
@@ -86,22 +79,26 @@ class BookOrder {
         return $this;
     }
 
-    public function getSchoolClassId(): ?SchoolClass {
-        return $this->schoolClassId;
+    public function getSchoolClass(): ?SchoolClass
+    {
+        return $this->schoolClass;
     }
 
-    public function setSchoolClassId(?SchoolClass $schoolClassId): self {
-        $this->schoolClassId = $schoolClassId;
+    public function setSchoolClass(?SchoolClass $schoolClass): self
+    {
+        $this->schoolClass = $schoolClass;
 
         return $this;
     }
 
-    public function getBookId(): ?Book {
-        return $this->bookId;
+    public function getBook(): ?Book
+    {
+        return $this->book;
     }
 
-    public function setBookId(?Book $bookId): self {
-        $this->bookId = $bookId;
+    public function setBook(?Book $book): self
+    {
+        $this->book = $book;
 
         return $this;
     }
@@ -115,4 +112,21 @@ class BookOrder {
 
         return $this;
     }
+
+    /**
+     * @return int|null
+     */
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param int|null $price
+     */
+    public function setPrice(?int $price): void
+    {
+        $this->price = $price;
+    }
+
 }

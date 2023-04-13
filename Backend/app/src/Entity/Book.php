@@ -10,67 +10,54 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book {
-    #[Groups(['subject'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['subject'])]
     #[ORM\Column]
     private ?int $bookNumber = null;
 
-    #[Groups(['subject'])]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[Groups(['subject'])]
     #[ORM\Column(length: 255)]
     private ?string $shortTitle = null;
 
-    #[Groups(['subject'])]
     #[ORM\Column]
     private ?int $listType = null;
 
-    #[Groups(['subject'])]
     #[ORM\Column]
     private ?int $schoolForm = null;
 
-    #[Groups(['subject'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $info = null;
 
-    #[Groups(['subject'])]
     #[ORM\Column]
     private ?bool $ebook = null;
 
-    #[Groups(['subject'])]
     #[ORM\Column]
     private ?bool $ebookPlus = null;
 
     #[ORM\ManyToOne(inversedBy: 'books')]
-    private ?Subject $subjectId = null;
+    private ?Subject $subject = null;
 
-    #[Groups(['subject'])]
     #[ORM\ManyToOne(inversedBy: 'books')]
-    private ?Publisher $publisherId = null;
+    private ?Publisher $publisher = null;
 
-    #[Groups(['subject'])]
-    #[ORM\OneToMany(mappedBy: 'bookId', targetEntity: BookOrder::class)]
+    #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookOrder::class)]
     private Collection $bookOrders;
 
-    #[Groups(['subject'])]
-    #[ORM\OneToMany(mappedBy: 'bookId', targetEntity: SchoolGrade::class)]
+    #[ORM\OneToMany(mappedBy: 'book', targetEntity: SchoolGrade::class)]
     private Collection $schoolGrades;
 
-    #[Groups(['subject'])]
-    #[ORM\OneToMany(mappedBy: 'bookId', targetEntity: BookPrice::class)]
+    #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookPrice::class)]
     private Collection $bookPrices;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'childBooks')]
-    private ?self $mainBookId = null;
+    private ?self $mainBook = null;
 
-    #[ORM\OneToMany(mappedBy: 'mainBookId', targetEntity: self::class)]
+    #[ORM\OneToMany(mappedBy: 'mainBook', targetEntity: self::class)]
     private Collection $childBooks;
 
     public function __construct() {
@@ -164,22 +151,26 @@ class Book {
         return $this;
     }
 
-    public function getSubjectId(): ?Subject {
-        return $this->subjectId;
+    public function getSubject(): ?Subject
+    {
+        return $this->subject;
     }
 
-    public function setSubjectId(?Subject $subjectId): self {
-        $this->subjectId = $subjectId;
+    public function setSubject(?Subject $subject): self
+    {
+        $this->subject = $subject;
 
         return $this;
     }
 
-    public function getPublisherId(): ?Publisher {
-        return $this->publisherId;
+    public function getPublisher(): ?Publisher
+    {
+        return $this->publisher;
     }
 
-    public function setPublisherId(?Publisher $publisherId): self {
-        $this->publisherId = $publisherId;
+    public function setPublisher(?Publisher $publisher): self
+    {
+        $this->publisher = $publisher;
 
         return $this;
     }
@@ -194,7 +185,7 @@ class Book {
     public function addBookOrder(BookOrder $bookOrder): self {
         if (!$this->bookOrders->contains($bookOrder)) {
             $this->bookOrders->add($bookOrder);
-            $bookOrder->setBookId($this);
+            $bookOrder->setBook($this);
         }
 
         return $this;
@@ -203,8 +194,8 @@ class Book {
     public function removeBookOrder(BookOrder $bookOrder): self {
         if ($this->bookOrders->removeElement($bookOrder)) {
             // set the owning side to null (unless already changed)
-            if ($bookOrder->getBookId() === $this) {
-                $bookOrder->setBookId(null);
+            if ($bookOrder->getBook() === $this) {
+                $bookOrder->setBook(null);
             }
         }
 
@@ -221,7 +212,7 @@ class Book {
     public function addSchoolGrade(SchoolGrade $schoolGrade): self {
         if (!$this->schoolGrades->contains($schoolGrade)) {
             $this->schoolGrades->add($schoolGrade);
-            $schoolGrade->setBookId($this);
+            $schoolGrade->setBook($this);
         }
 
         return $this;
@@ -230,8 +221,8 @@ class Book {
     public function removeSchoolGrade(SchoolGrade $schoolGrade): self {
         if ($this->schoolGrades->removeElement($schoolGrade)) {
             // set the owning side to null (unless already changed)
-            if ($schoolGrade->getBookId() === $this) {
-                $schoolGrade->setBookId(null);
+            if ($schoolGrade->getBook() === $this) {
+                $schoolGrade->setBook(null);
             }
         }
 
@@ -248,7 +239,7 @@ class Book {
     public function addBookPrice(BookPrice $bookPrice): self {
         if (!$this->bookPrices->contains($bookPrice)) {
             $this->bookPrices->add($bookPrice);
-            $bookPrice->setBookId($this);
+            $bookPrice->setBook($this);
         }
 
         return $this;
@@ -257,20 +248,22 @@ class Book {
     public function removeBookPrice(BookPrice $bookPrice): self {
         if ($this->bookPrices->removeElement($bookPrice)) {
             // set the owning side to null (unless already changed)
-            if ($bookPrice->getBookId() === $this) {
-                $bookPrice->setBookId(null);
+            if ($bookPrice->getBook() === $this) {
+                $bookPrice->setBook(null);
             }
         }
 
         return $this;
     }
 
-    public function getMainBookId(): ?self {
-        return $this->mainBookId;
+    public function getMainBook(): ?self
+    {
+        return $this->mainBook;
     }
 
-    public function setMainBookId(?self $mainBookId): self {
-        $this->mainBookId = $mainBookId;
+    public function setMainBook(?self $mainBook): self
+    {
+        $this->mainBook = $mainBook;
 
         return $this;
     }
@@ -285,7 +278,7 @@ class Book {
     public function addChildBook(self $childBook): self {
         if (!$this->childBooks->contains($childBook)) {
             $this->childBooks->add($childBook);
-            $childBook->setMainBookId($this);
+            $childBook->setMainBook($this);
         }
 
         return $this;
@@ -294,8 +287,8 @@ class Book {
     public function removeChildBook(self $childBook): self {
         if ($this->childBooks->removeElement($childBook)) {
             // set the owning side to null (unless already changed)
-            if ($childBook->getMainBookId() === $this) {
-                $childBook->setMainBookId(null);
+            if ($childBook->getMainBook() === $this) {
+                $childBook->setMainBook(null);
             }
         }
 

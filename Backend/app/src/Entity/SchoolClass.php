@@ -10,51 +10,50 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SchoolClassRepository::class)]
 class SchoolClass {
-    #[Groups(['subject', 'department', 'schoolclass'])]
+    #[Groups(['department', 'schoolclass'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['subject', 'department', 'schoolclass'])]
+    #[Groups(['department', 'schoolclass'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['subject', 'department', 'schoolclass'])]
+    #[Groups(['department', 'schoolclass'])]
     #[ORM\Column]
     private ?int $grade = null;
 
-    #[Groups(['subject', 'department', 'schoolclass'])]
+    #[Groups(['department', 'schoolclass'])]
     #[ORM\Column]
     private ?int $studentAmount = null;
 
-    #[Groups(['subject', 'department', 'schoolclass'])]
+    #[Groups(['department', 'schoolclass'])]
     #[ORM\Column]
     private ?int $repAmount = null;
 
-    #[Groups(['subject', 'department', 'schoolclass'])]
+    #[Groups(['department', 'schoolclass'])]
     #[ORM\Column]
     private ?int $usedBudget = null;
 
-    #[Groups(['subject', 'department', 'schoolclass'])]
+    #[Groups(['department', 'schoolclass'])]
     #[ORM\Column]
     private ?int $budget = null;
 
-    #[Groups(['subject', 'department', 'schoolclass'])]
+    #[Groups(['department', 'schoolclass'])]
     #[ORM\Column]
     private ?int $year = null;
 
-    #[Groups(['subject', 'department', 'schoolclass'])]
+    #[Groups(['department', 'schoolclass'])]
     #[ORM\Column]
     private ?int $schoolForm = null;
 
-    #[Groups(['subject', 'schoolclass'])]
+    #[Groups(['schoolclass'])]
     #[ORM\ManyToOne(inversedBy: 'schoolClasses')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Department $departmentId = null;
+    private ?Department $department = null;
 
-    #[Groups(['schoolclass'])]
-    #[ORM\OneToMany(mappedBy: 'schoolClassId', targetEntity: BookOrder::class)]
+    #[ORM\OneToMany(mappedBy: 'schoolClass', targetEntity: BookOrder::class)]
     private Collection $bookOrders;
 
     public function __construct() {
@@ -145,12 +144,14 @@ class SchoolClass {
         return $this;
     }
 
-    public function getDepartmentId(): ?Department {
-        return $this->departmentId;
+    public function getDepartment(): ?Department
+    {
+        return $this->department;
     }
 
-    public function setDepartmentId(?Department $departmentId): self {
-        $this->departmentId = $departmentId;
+    public function setDepartment(?Department $department): self
+    {
+        $this->department = $department;
 
         return $this;
     }
@@ -165,7 +166,7 @@ class SchoolClass {
     public function addBookOrder(BookOrder $bookOrder): self {
         if (!$this->bookOrders->contains($bookOrder)) {
             $this->bookOrders->add($bookOrder);
-            $bookOrder->setSchoolClassId($this);
+            $bookOrder->setSchoolClass($this);
         }
 
         return $this;
@@ -174,8 +175,8 @@ class SchoolClass {
     public function removeBookOrder(BookOrder $bookOrder): self {
         if ($this->bookOrders->removeElement($bookOrder)) {
             // set the owning side to null (unless already changed)
-            if ($bookOrder->getSchoolClassId() === $this) {
-                $bookOrder->setSchoolClassId(null);
+            if ($bookOrder->getSchoolClass() === $this) {
+                $bookOrder->setSchoolClass(null);
             }
         }
 

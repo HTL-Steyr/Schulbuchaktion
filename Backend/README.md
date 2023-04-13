@@ -1,11 +1,28 @@
->* Repository clonen
->* Checkout auf Backend Branch
->* Leeren mysql Ordner in Backend Ordner erstellen
->* In Ubuntu cd SchulBuchAKtion/Backend wechseln 
->* docker compose up --build ausführen -> Lange Wartezeit
->* Dann neues Ubuntu Fenster öffnen
->* cd SchulBuchAktion
->* docker exec -it php_symfony_schoolbooks /bin/bash ausführen
->* composer require symfony/runtime ausführen
->* php bin/console doctrine:migrations:migrate ausführen
->* Einmal [yes] (enter) drücken
+# Projekt aufsetzen
+
+* Repository clonen
+* Checkout auf `backend` Branch
+* Leeren `mysql` Ordner im Backend Ordner erstellen
+* In Ubuntu auf `Schulbuchaktion/Backend` wechseln
+```shell
+cd Schulbuchaktion/Backend
+```
+* docker Container erstellen
+```shell
+docker compose up --build -d
+```
+```shell
+docker exec -it php_symfony_schoolbooks /bin/bash
+```
+```shell
+php bin/console doctrine:migrations:migrate
+```
+* Einmal [yes] (enter) drücken
+
+# Testdaten einfügen
+
+* Alles aus der `testData.sql` Datei (Schulbuchaktion/Backend/app/sql) kopieren
+* Eine neue Query Console aufmachen
+* Reinkopieren
+* Links oben auf den Run Knopf klicken
+* Alles auswählen
