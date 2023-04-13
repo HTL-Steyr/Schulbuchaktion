@@ -7,7 +7,6 @@ use App\Entity\BookPrice;
 use App\Entity\Publisher;
 use App\Entity\Subject;
 use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectRepository;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -22,123 +21,80 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ReadController extends AbstractController
 {
-    #[Route('/read/xlsx/publisher', name: 'app_read_publisher')]
-    public function readPublisher(Request $request, ManagerRegistry $registry, EntityManagerInterface $entityManager): Response
-    {
-        $repo = $registry->getRepository(Publisher::class);
-
-        $this->deleteAllData($repo);
-
-        $repoPublisher = $registry->getRepository(Publisher::class);
-        $file = $request->files->get("schoolBookList");
-        echo $file::class;
-        if (file_exists($file->getClientOriginalName())) {
-            $reader = IOFactory::createReader("Xlsx");
-            $spreadsheet = $reader->load($file->getClientOriginalName());
-            $this->deleteAllData($repoPublisher);
-            $sheet = $spreadsheet->getSheet(0);
-            for ($i = 2; $i <= $sheet->getHighestRow(); $i++) {
-                $number = $sheet->getCell("J" . strval($i))->getValue();
-                $name = $sheet->getCell("K" . strval($i))->getValue();
-
-                $existing = $repoPublisher->findOneBy(["publisherNumber" => $number]);
-
-                if (!isset($existing)) {
-                    $publisher = new Publisher();
-                    $publisher->setPublisherNumber($number);
-                    $publisher->setName($name);
-                    $repoPublisher->save($publisher, true);
-                }
-            }
-
-        } else {
-            die("file not found");
-        }
-
-        return $this->render('read/index.html.twig', [
-            'controller_name' => 'ReadController',
-        ]);
-    }
-
-    #[Route('/read/xlsx/subject', name: 'app_read_subject')]
-    public function readSubject(ManagerRegistry $registry): Response
+    #[Route('/read/xlsx', name: 'app_read_xlsx')]
+    public function readPublisher(Request $request, ManagerRegistry $registry): Response
     {
         $repoSubject = $registry->getRepository(Subject::class);
         $repoUser = $registry->getRepository(User::class);
-
-        $this->deleteAllData($repoSubject);
-
-        if (file_exists("Schulbuchliste_4100_2023_2024.xlsx")) {
-            $reader = IOFactory::createReader("Xlsx");
-            $spreadsheet = $reader->load("Schulbuchliste_4100_2023_2024.xlsx");
-
-            $sheet = $spreadsheet->getSheet(0);
-            for ($i = 2; $i <= $sheet->getHighestRow(); $i++) {
-                $user = "cchimani";
-                $name = $sheet->getCell("F" . strval($i))->getValue();
-                $shortName = "AM";
-
-                $headOfSubjectId = $repoUser->findOneBy(["shortName" => $user]);
-                $existing = $repoSubject->findOneBy(["name" => $name]);
-
-                if (!isset($existing)) {
-                    $subject = new Subject();
-                    $subject->setHeadOfSubject($headOfSubjectId);
-                    $subject->setName($name);
-                    $subject->setShortName($shortName);
-                    $repoSubject->save($subject, true);
-                }
-            }
-
-        } else {
-            die("file not found");
-        }
-
-
-
-        return $this->render('read/index.html.twig', [
-            'controller_name' => 'ReadController',
-        ]);
-    }
-
-    #[Route('/read/xlsx/book', name: 'app_read_book')]
-    public function readBook(ManagerRegistry $registry): Response
-    {
-        $repoBook = $registry->getRepository(Book::class);
-        $repoSubject = $registry->getRepository(Subject::class);
         $repoPublisher = $registry->getRepository(Publisher::class);
+        $repoBook = $registry->getRepository(Book::class);
+        $repoBookPrice = $registry->getRepository(BookPrice::class);
 
-        $this->deleteAllData($repoBook);
 
-        if (file_exists("Schulbuchliste_4100_2023_2024.xlsx")) {
+        $file = $request->files->get("schoolBookList");
+        $destination = $this->getParameter('kernel.project_dir').'/public/uploads';
+        $file->move($destination, $file->getClientOriginalName());
+        echo $file->isValid();
+        if (file_exists($destination . "/" . $file->getClientOriginalName())) {
             $reader = IOFactory::createReader("Xlsx");
-            $spreadsheet = $reader->load("Schulbuchliste_4100_2023_2024.xlsx");
-
+            $spreadsheet = $reader->load($destination . "/" .$file->getClientOriginalName());
             $sheet = $spreadsheet->getSheet(0);
             for ($i = 2; $i <= $sheet->getHighestRow(); $i++) {
-                $subject = $sheet->getCell("J" . strval($i))->getValue();
-                $publisher = $sheet->getCell("K" . strval($i))->getValue();
-                $mainBook = $sheet->getCell("L" . strval($i))->getValue();
                 $bookNumber = $sheet->getCell("A" . strval($i))->getValue();
-                $title = $sheet->getCell("C" . strval($i))->getValue();
                 $shortTitle = $sheet->getCell("B" . strval($i))->getValue();
+                $title = $sheet->getCell("C" . strval($i))->getValue();
                 $listType = $sheet->getCell("D" . strval($i))->getValue();
                 $schoolForm = $sheet->getCell("E" . strval($i))->getValue();
-                $info = $sheet->getCell("I" . strval($i))->getValue();
+                $subjectName = $sheet->getCell("F" . strval($i))->getValue();
+                $info = substr($sheet->getCell("I" . strval($i))->getValue(), 0, 250);
+                $vnr = $sheet->getCell("J" . strval($i))->getValue();
+                $publisherName = $sheet->getCell("K" . strval($i))->getValue();
+                $mainBook = $sheet->getCell("L" . strval($i))->getValue();
+                $bookpriceebook = $sheet->getCell("M" . strval($i))->getValue();
+                $bookpricenormal = $sheet->getCell("N" . strval($i))->getValue();
+                $bookpriceplus = $sheet->getCell("O" . strval($i))->getValue();
                 $ebook = $sheet->getCell("P" . strval($i))->getValue();
                 $ebookPlus = $sheet->getCell("Q" . strval($i))->getValue();
 
-                $subjectId = $repoSubject->findOneBy(["name" => $subject]);
-                $publisherId = $repoPublisher->findOneBy(["name" => $publisher]);
-                $mainBookId = $repoBook->findOneBy(["id" => $mainBook]);
+
+                $existing = $repoPublisher->findOneBy(["publisherNumber" => $vnr]);
+
+                if (!isset($existing)) {
+                    $publisher = new Publisher();
+                    $publisher->setPublisherNumber($vnr);
+                    $publisher->setName($publisherName);
+                    $repoPublisher->save($publisher, true);
+                }
+
+
+                $existing =  null;
+
+                $user = "amot";
+                $shortName = "N/A";
+
+                $headOfSubject = $repoUser->findOneBy(["shortName" => $user]);
+                $existing = $repoSubject->findOneBy(["name" => $subjectName]);
+
+                if (!isset($existing)) {
+                    $subject = new Subject();
+                    $subject->setHeadOfSubject($headOfSubject);
+                    $subject->setName($subjectName);
+                    $subject->setShortName($shortName);
+                    $repoSubject->save($subject, true);
+                }
+
+                $existing = null;
+                $subject = $repoSubject->findOneBy(["name" => $subjectName]);
+                $publisher = $repoPublisher->findOneBy(["name" => $publisherName]);
+                $mainBook = $repoBook->findOneBy(["id" => $mainBook]);
 
                 $existing = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
 
                 if (!isset($existing)) {
                     $book = new Book();
-                    $book->setSubject($subjectId);
-                    $book->setPublisher($publisherId);
-                    $book->setMainBook($mainBookId);
+                    $book->setSubject($subject);
+                    $book->setPublisher($publisher);
+                    $book->setMainBook($mainBook);
                     $book->setBookNumber($bookNumber);
                     $book->setTitle($title);
                     $book->setShortTitle($shortTitle);
@@ -149,62 +105,33 @@ class ReadController extends AbstractController
                     $book->setEbookPlus($ebookPlus);
                     $repoBook->save($book, true);
                 }
-            }
-
-        } else {
-            die("file not found");
-        }
 
 
-        return $this->render('read/index.html.twig', [
-            'controller_name' => 'ReadController',
-        ]);
-    }
+                $existing = null;
+                $book = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
+                if (isset($book)){
 
-    #[Route('/read/xlsx/bookPrice', name: 'app_read_bookPrice')]
-    public function readBookPrice(ManagerRegistry $registry): Response
-    {
-        $repoPublisher = $registry->getRepository(Publisher::class);
-        $repoBook = $registry->getRepository(Book::class);
-        $repoBookPrice = $registry->getRepository(BookPrice::class);
-
-        $this->deleteAllData($repoBook);
-
-        if (file_exists("Schulbuchliste_4100_2023_2024.xlsx")) {
-            $reader = IOFactory::createReader("Xlsx");
-            $spreadsheet = $reader->load("Schulbuchliste_4100_2023_2024.xlsx");
-
-            $sheet = $spreadsheet->getSheet(0);
-            for ($i = 2; $i <= $sheet->getHighestRow(); $i++) {
-                $vnr = $sheet->getCell("M" . strval($i))->getValue();
-                $book = $sheet->getCell("A" . strval($i))->getValue();
-                $bookpricenormal = $sheet->getCell("N" . strval($i))->getValue();
-                $bookpriceebook = $sheet->getCell("M" . strval($i))->getValue();
-                $bookpriceplus = $sheet->getCell("O" . strval($i))->getValue();
-
-                $existing = $repoPublisher->findOneBy(["publisherNumber" => $vnr]);
-                $bookid = $repoBook->findOneBy(["bookNumber" => $book]);
-
-                if (!isset($existing)) {
-                    $bookprice = new BookPrice();
-                    $bookprice->setBook($bookid);
-                    $bookprice->setYear(date('Y'));
-                    $bookprice->setPriceEbook($bookpriceebook);
-                    $bookprice->setPriceEbookPlus($bookpriceplus);
-                    $bookprice->setPriceInclusiveEbook($bookpricenormal);
-                    $repoBookPrice->save($bookprice, true);
+                    $existing = $repoBookPrice->findOneBy(["book" => $book]);
                 }
-            }
-        } else {
-            die("file not found");
-        }
+                if (!isset($existing)) {
+                        $bookprice = new BookPrice();
+                        $bookprice->setBook($book);
+                        $bookprice->setYear(date('Y'));
+                        $bookprice->setPriceEbook(intval($bookpriceebook));
+                        $bookprice->setPriceEbookPlus(intval($bookpriceplus));
+                        $bookprice->setPriceInclusiveEbook(intval($bookpricenormal));
+                        $repoBookPrice->save($bookprice, true);
+                    }
+                }
 
+        } else {
+            die("file not found 125");
+        }
 
         return $this->render('read/index.html.twig', [
             'controller_name' => 'ReadController',
         ]);
     }
-
     public function deleteAllData(ObjectRepository $repo): Response
     {
         $myEntities = $repo->findAll();
