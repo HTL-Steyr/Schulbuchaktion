@@ -28,7 +28,7 @@ class MoneylistController extends AbstractController
      * @return Response -> the moneylist with the given book id
      */
     #[Route(
-        path: '/moneylist/{id}',
+        path: '/moneylist/{bookid}',
         name: 'app_moneylist_get_by_book_id',
         methods: ['GET']
     )]
