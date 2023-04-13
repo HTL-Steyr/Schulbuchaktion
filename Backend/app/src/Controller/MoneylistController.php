@@ -15,13 +15,7 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 
 class MoneylistController extends AbstractController
 {
-    #[Route('/moneylist', name: 'app_moneylist')]
-    public function index(): Response
-    {
-        return $this->render('moneylist/index.html.twig', [
-            'controller_name' => 'MoneylistController',
-        ]);
-    }
+
 
 
     /**
@@ -34,7 +28,7 @@ class MoneylistController extends AbstractController
     )]
     public function getMoneyListByBookId(AuthService $authService, Request $request, ManagerRegistry $registry, int $bookId): Response {
         $user = $authService->authenticateByAuthorizationHeader($request);
-        return $user;
+
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
