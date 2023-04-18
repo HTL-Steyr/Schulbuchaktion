@@ -1,4 +1,5 @@
 import {Role} from "./role";
+import {DisplayNames} from "../utils/displayNames";
 
 export interface User {
   id: number;
@@ -8,5 +9,17 @@ export interface User {
   email: string;
   token: string;
   password: string;
-  roleId: Role;
+  role: Role;
+}
+
+export const USER_DISPLAY_NAMES: DisplayNames<User> = {
+  object: "Benutzer",
+  id: "ID",
+  shortName: "Kürzel",
+  firstName: "Vorname",
+  lastName: "Nachname",
+  email: "E-Mail",
+  token: "Token",
+  password: "Passwort",
+  role: "Rolle",
 }
