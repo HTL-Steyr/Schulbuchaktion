@@ -58,7 +58,6 @@ class ReadController extends AbstractController
                 $ebook = $sheet->getCell("P" . strval($i))->getValue();
                 $ebookPlus = $sheet->getCell("Q" . strval($i))->getValue();
 
-
                 // insert Publisher
                 $existing = $repoPublisher->findOneBy(["publisherNumber" => $vnr]);
 
