@@ -20,15 +20,50 @@ values (4, 'Std-User');
 
 -- Password is a for everyone
 insert into user (role_id, short_name, first_name, last_name, email, token, password)
-VALUES (3, 'cchimani', 'Christian', 'Chimani', 'cchimani@htl-steyr.ac.at', 'asjdflhadsf7824gbjk', '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
+VALUES (4, 'kimb', 'Christoph', 'Kimbacher', 'Christoph.Kimbacher@htl-steyr.ac.at', 'asjdflhadsf7824gbjk',
+        '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
 insert into user (role_id, short_name, first_name, last_name, email, token, password)
-VALUES (3, 'meder1', 'Manuel', 'Eder', 'meder1@htl-steyr.ac.at', 'awedfjkiz17zue', '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
+VALUES (4, 'proe', 'Margit', 'Prömer', 'Margit.Proemer@htl-steyr.ac.at', 'awedfjkiz17zue',
+        '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
 insert into user (role_id, short_name, first_name, last_name, email, token, password)
-VALUES (3, 'emik', 'Elias', 'Miklutsch', 'emik@htl-steyr.ac.at', 'dkasfjhkui12edsa', '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
+VALUES (4, 'hesd', 'Daniela', 'Hessmann', 'Daniela.Hessmann@htl-steyr.ac.at', 'dkasfjhkui12edsa',
+        '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
 insert into user (role_id, short_name, first_name, last_name, email, token, password)
-VALUES (3, 'nmekina', 'Nico', 'Mekina', 'nmekina@htl-steyr.ac.at', 'safhbaskdlfuiu34eds', '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
+VALUES (4, 'parz', 'Franz', 'Parzer', 'Franz.Parzer@htl-steyr.ac.at', 'safhbaskdlfuiu34eds',
+        '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
 insert into user (role_id, short_name, first_name, last_name, email, token, password)
-VALUES (3, 'smediko', 'Semirrrr', 'Medikovic', 'smediko@htl-steyr.ac.at', 'ahscjasdf9o78uhjs', '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
+VALUES (4, 'pusc', 'Wolfgang', 'Pusch', 'Wolfgang.Pusch@htl-steyr.ac.at', 'ahscjasdf9o78uhjs',
+        '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
+insert into user (role_id, short_name, first_name, last_name, email, token, password)
+VALUES (4, 'bene', 'Alfred', 'Benedetto', 'Alfred.benedetto@htl-steyr.ac.at', 'ahscjasdf9o78uhjs',
+        '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
+insert into user (role_id, short_name, first_name, last_name, email, token, password)
+VALUES (4, 'obea', 'Andreas', 'Oberauer', 'Andreas.Oberauer@htl-steyr.ac.at', 'ahscjasdf9o78uhjs',
+        '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
+insert into user (role_id, short_name, first_name, last_name, email, token, password)
+VALUES (4, 'pich', 'Klaus', 'Pichler', 'Klaus.Pichler@htl-steyr.ac.at', 'ahscjasdf9o78uhjs',
+        '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
+insert into user (role_id, short_name, first_name, last_name, email, token, password)
+VALUES (4, 'hint', 'Franz', 'Hinterreither', 'Franz.Hinterreither@htl-steyr.ac.at', 'ahscjasdf9o78uhjs',
+        '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
+insert into user (role_id, short_name, first_name, last_name, email, token, password)
+VALUES (4, 'amot', 'Thomas', 'Amon', 'thomas.amon@htl-steyr.ac.at', 'ahscjasdf9o78uhjs',
+        '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
+insert into user (role_id, short_name, first_name, last_name, email, token, password)
+VALUES (4, 'niet', 'Bernhard', 'Nietrost', 'Bernhard.Nietrost@htl-steyr.ac.at', 'ahscjasdf9o78uhjs',
+        '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
+insert into user (role_id, short_name, first_name, last_name, email, token, password)
+VALUES (4, 'pang', 'Gerald', 'Panhuber', 'gerald.panhuber@htl-steyr.ac.at', 'ahscjasdf9o78uhjs',
+        '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
+insert into user (role_id, short_name, first_name, last_name, email, token, password)
+VALUES (4, 'hils', 'Stefan', 'Hillbrand', 'stefan.hillbrand@htl-steyr.ac.at', 'ahscjasdf9o78uhjs',
+        '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
+insert into user (role_id, short_name, first_name, last_name, email, token, password)
+VALUES (4, 'ramk', 'Karl', 'Ramsmaier', 'karl.ramsmaier@htl-steyr.ac.at', 'ahscjasdf9o78uhjs',
+        '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
+insert into user (role_id, short_name, first_name, last_name, email, token, password)
+VALUES (4, 'pfas', 'Susanne', 'Pfaller', 'susanne.pfaller@htl-steyr.ac.at', 'ahscjasdf9o78uhjs',
+        '$2y$13$ze3sbKM1jUmp0I6w8tRCYeitNE9ZHDmwUpfTOvJnA28ZkITs3oTFO');
 
 insert into subject (id, head_of_subject_id, name, short_name)
 values (1, 1, 'Softwareentwicklung', 'SEW');
@@ -112,13 +147,13 @@ insert into school_class (id, department_id, name, grade, student_amount, rep_am
                           school_form)
 values (5, 1, '5ahitn', 3, 3, 3, 100000, 150000, 2018, 3);
 
-insert into book_order (id, school_class_id, book_id,  count, ebook, ebook_plus, teacher_copy)
+insert into book_order (id, school_class_id, book_id, count, ebook, ebook_plus, teacher_copy)
 values (1, 5, 3, 4, 19, 2, 16);
-insert into book_order (id, school_class_id, book_id,  count, ebook, ebook_plus, teacher_copy)
+insert into book_order (id, school_class_id, book_id, count, ebook, ebook_plus, teacher_copy)
 values (2, 2, 5, 3, 10, 6, 0);
-insert into book_order (id, school_class_id, book_id,  count, ebook, ebook_plus, teacher_copy)
+insert into book_order (id, school_class_id, book_id, count, ebook, ebook_plus, teacher_copy)
 values (3, 1, 5, 40, 9, 2, 17);
-insert into book_order (id, school_class_id, book_id,  count, ebook, ebook_plus, teacher_copy)
+insert into book_order (id, school_class_id, book_id, count, ebook, ebook_plus, teacher_copy)
 values (4, 3, 3, 35, 13, 14, 4);
-insert into book_order (id, school_class_id, book_id,  count, ebook, ebook_plus, teacher_copy)
+insert into book_order (id, school_class_id, book_id, count, ebook, ebook_plus, teacher_copy)
 values (5, 5, 1, 33, 1, 9, 6);
