@@ -39,6 +39,8 @@ class ReadController extends AbstractController
             $reader = IOFactory::createReader("Xlsx");
             $spreadsheet = $reader->load($destination . "/" .$file->getClientOriginalName());
             $sheet = $spreadsheet->getSheet(0);
+
+            // get Attributes from XLSX
             for ($i = 2; $i <= $sheet->getHighestRow(); $i++) {
                 $bookNumber = $sheet->getCell("A" . strval($i))->getValue();
                 $shortTitle = $sheet->getCell("B" . strval($i))->getValue();
@@ -57,6 +59,7 @@ class ReadController extends AbstractController
                 $ebookPlus = $sheet->getCell("Q" . strval($i))->getValue();
 
 
+                // insert Publisher
                 $existing = $repoPublisher->findOneBy(["publisherNumber" => $vnr]);
 
                 if (!isset($existing)) {
@@ -67,8 +70,8 @@ class ReadController extends AbstractController
                 }
 
 
+                // insert Subjects
                 $existing =  null;
-
                 $user = "amot";
                 $shortName = "N/A";
 
@@ -83,6 +86,7 @@ class ReadController extends AbstractController
                     $repoSubject->save($subject, true);
                 }
 
+                // insert Books
                 $existing = null;
                 $subject = $repoSubject->findOneBy(["name" => $subjectName]);
                 $publisher = $repoPublisher->findOneBy(["name" => $publisherName]);
@@ -107,6 +111,7 @@ class ReadController extends AbstractController
                 }
 
 
+                // insert BookPrice
                 $existing = null;
                 $book = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
                 if (isset($book)){
