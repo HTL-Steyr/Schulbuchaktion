@@ -24,16 +24,16 @@ class Subject {
     #[ORM\Column(length: 255)]
     private ?string $shortName = null;
 
-    #[Groups(['subject'])]
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $headOfSubject = null;
 
     #[ORM\OneToMany(mappedBy: 'subject', targetEntity: Book::class)]
     private Collection $books;
 
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'subjects')]
+    private Collection $headOfSubject;
+
     public function __construct() {
         $this->books = new ArrayCollection();
+        $this->headOfSubject = new ArrayCollection();
     }
 
     public function getId(): ?int {
@@ -60,15 +60,8 @@ class Subject {
         return $this;
     }
 
-    public function getHeadOfSubject(): ?User {
-        return $this->headOfSubject;
-    }
 
-    public function setHeadOfSubject(User $headOfSubject): self {
-        $this->headOfSubject = $headOfSubject;
 
-        return $this;
-    }
 
     /**
      * @return Collection<int, Book>
@@ -93,6 +86,30 @@ class Subject {
                 $book->setSubject(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getHeadOfSubject(): Collection
+    {
+        return $this->headOfSubject;
+    }
+
+    public function addHeadOfSubject(User $headOfSubject): self
+    {
+        if (!$this->headOfSubject->contains($headOfSubject)) {
+            $this->headOfSubject->add($headOfSubject);
+        }
+
+        return $this;
+    }
+
+    public function removeHeadOfSubject(User $headOfSubject): self
+    {
+        $this->headOfSubject->removeElement($headOfSubject);
 
         return $this;
     }

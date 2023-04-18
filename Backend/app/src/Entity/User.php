@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -45,6 +47,14 @@ class User implements PasswordAuthenticatedUserInterface {
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Role $role = null;
+
+    #[ORM\ManyToMany(targetEntity: Subject::class, mappedBy: 'headOfSubject')]
+    private Collection $subjects;
+
+    public function __construct()
+    {
+        $this->subjects = new ArrayCollection();
+    }
 
     public function getId(): ?int {
         return $this->id;
@@ -116,6 +126,33 @@ class User implements PasswordAuthenticatedUserInterface {
 
     public function setRole(?Role $role): self {
         $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Subject>
+     */
+    public function getSubjects(): Collection
+    {
+        return $this->subjects;
+    }
+
+    public function addSubject(Subject $subject): self
+    {
+        if (!$this->subjects->contains($subject)) {
+            $this->subjects->add($subject);
+            $subject->addHeadOfSubject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubject(Subject $subject): self
+    {
+        if ($this->subjects->removeElement($subject)) {
+            $subject->removeHeadOfSubject($this);
+        }
 
         return $this;
     }
