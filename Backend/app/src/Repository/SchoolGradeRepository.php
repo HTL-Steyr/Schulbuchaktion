@@ -1,8 +1,8 @@
 <?php
 
-namespace app\src\Repository;
+namespace App\Repository;
 
-use app\src\Entity\SchoolGrade;
+use App\Entity\SchoolGrade;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
