@@ -2,7 +2,7 @@ name: Symfony-Tests
 
 on:
   push:
-    branches: [ "backend" ]
+    branches: [ "master" ]
 
 permissions:
   contents: read
