@@ -7,6 +7,7 @@ use App\Entity\BookPrice;
 use App\Entity\Publisher;
 use App\Entity\Subject;
 use App\Entity\User;
+use App\Service\AuthService;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectRepository;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -22,8 +23,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class ReadController extends AbstractController
 {
     #[Route('/read/xlsx', name: 'app_read_xlsx')]
-    public function readPublisher(Request $request, ManagerRegistry $registry): Response
+    public function readPublisher(Request $request, ManagerRegistry $registry, AuthService $authService): Response
     {
+        $user = $authService->authenticateByAuthorizationHeader($request);
+        if (!isset($user)) {
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        }
+
         $repoSubject = $registry->getRepository(Subject::class);
         $repoUser = $registry->getRepository(User::class);
         $repoPublisher = $registry->getRepository(Publisher::class);
