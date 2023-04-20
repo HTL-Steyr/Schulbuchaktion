@@ -1,10 +1,497 @@
+html {
+  background-image: linear-gradient(to bottom, #6f7983, #848f99, #8998a7, #abbed2, #cfe6ff);
+  background-size: 100% 1000px;
+}
+
 button {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
+  font-family: Abel Regular, Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #ffffff;
+  background-color: black;
+  padding: 10px 31px;
+  border: solid #000000 1px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  border-radius: 50px;
+  transition: 803ms;
+  transform: translateY(0);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+button:hover {
+  transition: 803ms;
+  padding: 10px 40px;
+  transform: translateY(-0px);
+  background-color: #64758a;
+  color: #000000;
+  border: solid 1px black;
+}
+
+.checkboxText {
+  color: black;
+}
+
+.dropdown {
+  position: relative;
   display: inline-block;
+  margin-bottom: 15px;
+  width: 200px;
+}
+
+.dropdown select {
+  font-family: Abel Regular, Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+  padding: 10px 15px;
+  outline: 0;
+  border: 1px solid #000000;
+  border-radius: 26px;
+  background: black;
+  color: #ffffff;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.dropdown select::-ms-expand {
+  display: none;
+}
+
+.dropdown select:hover, .dropdown select:focus {
+  color: #000000;
+  background: #64758a;
+}
+
+.dropdown select:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.select_arrow {
+  position: absolute;
+  top: 16px;
+  right: 15px;
+  pointer-events: none;
+  border-style: solid;
+  border-width: 8px 5px 0px 5px;
+  border-color: #ffffff transparent transparent transparent;
+}
+
+.dropdown select:hover ~ .select_arrow, .dropdown select:focus ~ .select_arrow {
+  border-top-color: #000000;
+}
+
+.dropdown select:disabled ~ .select_arrow {
+  border-top-color: #64758a;
+}
+
+.h1 {
+  font-size: 2.5rem;
+  text-align: center;
+  font-family: Abel Regular, Arial, Helvetica, sans-serif;
+  color: white !important;
+}
+
+.normal {
+  font-family: Abel Regular, Arial, Helvetica, sans-serif;
+  color: black;
+}
+
+.h2 {
+  font-weight: 300;
+  text-transform: uppercase;
+  font-size: 20px;
+  letter-spacing: 0em;
+  line-height: 1.6em;
+  font-family: Abel Regular, Arial, Helvetica, sans-serif;
+  color: black !important;
+}
+
+#menu {
+  background: #000000;
+  color: #FFF;
+  height: 45px;
+  padding-left: 18px;
+  border-radius: 32px;
+}
+
+#menu ul, #menu li {
+  margin: 0 auto;
+  padding: 0;
+  list-style: none
+}
+
+#menu ul {
+  width: 100%;
+}
+
+#menu li {
+  float: left;
+  display: inline;
+  position: relative;
+}
+
+#menu a {
+  display: block;
+  line-height: 45px;
+  padding: 0 14px;
+  text-decoration: none;
+  color: #FFFFFF;
   font-size: 16px;
+  font-family: Abel Regular, Arial, Helvetica, sans-serif;
+}
+
+#menu a.dropdown-arrow:after {
+  content: "\23F7";
+  margin-left: 5px;
+}
+
+#menu li a:hover {
+  color: #000000;
+  background: #64758a;
+}
+
+#menu input {
+  display: none;
+  margin: 0;
+  padding: 0;
+  height: 45px;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer
+}
+
+#menu label {
+  display: none;
+  line-height: 45px;
+  text-align: center;
+  position: absolute;
+  left: 35px
+}
+
+#menu label:before {
+  font-size: 1.6em;
+  content: "\2261";
+  margin-left: 20px;
+}
+
+#menu ul.sub-menus {
+  height: auto;
+  overflow: hidden;
+  width: 170px;
+  background: #444444;
+  position: absolute;
+  z-index: 99;
+  display: none;
+}
+
+#menu ul.sub-menus li {
+  display: block;
+  width: 100%;
+}
+
+#menu ul.sub-menus a {
+  color: #FFFFFF;
+  font-size: 16px;
+}
+
+#menu li:hover ul.sub-menus {
+  display: block
+}
+
+#menu ul.sub-menus a:hover {
+  background: #F2F2F2;
+  color: #444444;
+}
+
+@media screen and (max-width: 800px) {
+  #menu {
+    position: relative
+  }
+
+  #menu ul {
+    background: #111;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    z-index: 3;
+    height: auto;
+    display: none
+  }
+
+  #menu ul.sub-menus {
+    width: 100%;
+    position: static;
+  }
+
+  #menu ul.sub-menus a {
+    padding-left: 30px;
+  }
+
+  #menu li {
+    display: block;
+    float: none;
+    width: auto;
+  }
+
+  #menu input, #menu label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block
+  }
+
+  #menu input {
+    z-index: 4
+  }
+
+  #menu input:checked + label {
+    color: white
+  }
+
+  #menu input:checked + label:before {
+    content: "\00d7"
+  }
+
+  #menu input:checked ~ ul {
+    display: block
+  }
+}
+
+
+/* Base for label styling */
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+  position: absolute;
+  left: -9999px;
+}
+
+[type="checkbox"]:not(:checked) + label,
+[type="checkbox"]:checked + label {
+  position: relative;
+  padding-left: 30px;
+  padding-top: 2px;
+  cursor: pointer;
+  margin-bottom: 5px;
+  display: inline-block;
+  font-size: 18px;
+  font-family: Abel Regular, Arial, Helvetica, sans-serif;
+
+}
+
+/* checkbox aspect */
+[type="checkbox"]:not(:checked) + label:before,
+[type="checkbox"]:checked + label:before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0;
+  width: 22px;
+  height: 21px;
+  border: 1px solid #000000;
+  background: #ffffff;
+  border-radius: 5px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, .1);
+}
+
+/* checked mark aspect */
+[type="checkbox"]:not(:checked) + label:after,
+[type="checkbox"]:checked + label:after {
+  content: '✔';
+  position: absolute;
+  top: 0;
+  left: 5px;
+  font-size: 20px;
+  line-height: 1.2;
+  color: black;
+  transition: all .2s;
+}
+
+/* checked mark aspect changes */
+[type="checkbox"]:not(:checked) + label:after {
+  opacity: 0;
+  transform: scale(0);
+}
+
+[type="checkbox"]:checked + label:after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* disabled checkbox */
+[type="checkbox"]:disabled:not(:checked) + label:before,
+[type="checkbox"]:disabled:checked + label:before {
+  box-shadow: none;
+  border-color: #999999;
+  background-color: #dddddd;
+}
+
+[type="checkbox"]:disabled:checked + label:after {
+  color: #999999;
+}
+
+[type="checkbox"]:disabled + label {
+  color: #aaaaaa;
+}
+
+/* accessibility */
+[type="checkbox"]:checked:focus + label:before,
+[type="checkbox"]:not(:checked):focus + label:before {
+  border: 2px #000000;
+}
+
+/* hover style just for information */
+label:hover:before {
+  border: 2px solid #64758a !important;
+  background: #ffffff
+}
+
+
+#menuToggle {
+  display: block;
+  position: relative;
+  top: 50px;
+  left: 50px;
+
+  z-index: 1;
+
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#menuToggle a {
+  text-decoration: none;
+  color: white;
+
+  transition: color 0.3s ease;
+}
+
+#menuToggle a:hover {
+  color: black;
+}
+
+
+#menuToggle input {
+  display: block;
+  width: 40px;
+  height: 32px;
+  position: absolute;
+  top: -7px;
+  left: -5px;
+
+  cursor: pointer;
+
+  opacity: 0; /* hide this */
+  z-index: 2; /* and place it over the hamburger */
+
+  -webkit-touch-callout: none;
+}
+
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #232323;
+  color: #cdcdcd;
+  font-family: Abel Regular, Arial, Helvetica, sans-serif;
+
+}
+
+/*
+* hamburger
+*/
+#menuToggle span {
+  display: block;
+  width: 33px;
+  height: 4px;
+  margin-bottom: 5px;
+  position: relative;
+
+  background: #000000;
+  border-radius: 3px;
+
+  z-index: 1;
+
+  transform-origin: 4px 0;
+
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+  background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+  opacity 0.55s ease;
+}
+
+#menuToggle span:first-child {
+  transform-origin: 0 0;
+}
+
+#menuToggle span:nth-last-child(2) {
+  transform-origin: 0 100%;
+}
+
+#menuToggle input:checked ~ span {
+  opacity: 1;
+  transform: rotate(45deg) translate(-2px, -1px);
+  background: white;
+}
+
+
+#menuToggle input:checked ~ span:nth-last-child(3) {
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+
+#menuToggle input:checked ~ span:nth-last-child(2) {
+  transform: rotate(-45deg) translate(0, -1px);
+}
+
+
+#menu2 {
+  position: absolute;
+  width: 300px;
+  margin: -100px 0 0 -50px;
+  padding: 50px;
+  padding-top: 125px;
+
+  background: #6f7980;
+  list-style-type: none;
+  -webkit-font-smoothing: antialiased;
+
+  transform-origin: 0 0;
+  transform: translate(-100%, 0);
+
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+}
+
+#menu2 li {
+  padding: 10px 0;
+  font-size: 22px;
+  font-family: Abel Regular, Arial, Helvetica, sans-serif;
+
+}
+
+#menuToggle input:checked ~ ul {
+  transform: none;
+}
+
+input {
+  padding: 5px;
+  font-size: 25px;
+  border-width: 2px;
+  width: 500px;
+  border-color: #292828;
+  background-color: #FFFFFF;
+  color: #000000;
+  border-style: solid;
+  border-radius: 20px;
+  box-shadow: black;
+  text-shadow: black;
+}
+.css-input:focus {
+  outline:none;
 }
