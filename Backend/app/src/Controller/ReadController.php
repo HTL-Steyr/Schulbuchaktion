@@ -71,15 +71,15 @@ class ReadController extends AbstractController
 
                 // insert Subjects
                 $existing =  null;
-                $user = "amot";
                 $shortName = "N/A";
+                $user = "amot";
 
                 $headOfSubject = $repoUser->findOneBy(["shortName" => $user]);
                 $existing = $repoSubject->findOneBy(["name" => $subjectName]);
 
                 if (!isset($existing)) {
                     $subject = new Subject();
-                    $subject->setHeadOfSubject($headOfSubject);
+                    $subject->addHeadOfSubject($headOfSubject);
                     $subject->setName($subjectName);
                     $subject->setShortName($shortName);
                     $repoSubject->save($subject, true);
