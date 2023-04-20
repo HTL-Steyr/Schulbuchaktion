@@ -1,39 +1,36 @@
-<!-- Toolbar -->
-<div *ngIf="userService.user" class="toolbar" role="banner">
-    <span class="title">Schulbuchaktion</span>
-    <div class="card-container">
-        <a routerLink="bestelluebersicht" class="card" rel="noopener">
-            <span>Bestellungen</span>
-            <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-            </svg> </a>
+<div class="body">
 
-        <a routerLink="klassenuebersicht" class="card" rel="noopener">
-            <span>Klassen</span>
-            <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-            </svg>
-        </a>
-        <a routerLink="gelduebersicht" class="card" rel="noopener">
-            <span>Geldübersicht</span>
-            <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-            </svg>
-        </a>
 
-        <a routerLink="import" class="card" rel="noopener">
-            <span>Importieren</span>
-            <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-            </svg>
-        </a>
+
+  <input type="checkbox"  class="openSidebarMenu" id="openSidebarMenu">
+  <label for="openSidebarMenu" class="sidebarIconToggle">
+    <div class="spinner diagonal part-1"></div>
+    <div class="spinner horizontal"></div>
+    <div class="spinner diagonal part-2"></div>
+  </label>
+  <div id="sidebarMenu">
+    <div class="main-content-wrapper">
+      <a>
+
+
+        <div class="dropdown">
+          <button id="dropbtn" class="dropbtn">Jahrgang</button>
+          <div class="dropdown-content">
+            <a href="#">Link 1</a>
+            <a href="#">Link 2</a>
+            <a href="#">Link 3</a>
+          </div>
+        </div>
+
+
+        <input type="text" id="textfield">
+      </a>
+
+
 
     </div>
-  <a routerLink="login" class="button" onClick="window.location.reload();">
-    <span>Logout</span>
-  </a>
-</div>
+  </div>
 
-<div class="content" role="main">
-    <router-outlet></router-outlet>
+
+
 </div>
