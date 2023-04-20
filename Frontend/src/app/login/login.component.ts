@@ -19,7 +19,7 @@ export class LoginComponent {
                 id: 1,
                 shortName: "admin",
                 password: "admin",
-                roleId: {
+                role: {
                     id: 1,
                     name: "admin",
                     users: []
