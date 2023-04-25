@@ -1,7 +1,9 @@
 <h1>Bestellübersicht</h1>
 <dx-data-grid
     [allowColumnResizing]="true"
-    [allowColumnReordering]="true">
+    [allowColumnReordering]="true"
+    [columnHidingEnabled]="true">
+<dxo-column-chooser [enabled]="true"></dxo-column-chooser>
 <dxi-column dataField="id" dataType="number" [width]="100"></dxi-column>
 <dxi-column dataField="Fach" dataType="string" [width]="100"></dxi-column>
 <dxi-column dataField="Buchtitel" dataType="string" [width]="100"></dxi-column>
