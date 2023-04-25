@@ -12,7 +12,7 @@ class MoneyListController extends AbstractController
     public function index(): Response
     {
         return $this->render('money_list/index.html.twig', [
-            'controller_name' => 'MoneyListController',
+            'controller_name' =>   'MoneyListController',
         ]);
     }
 }
