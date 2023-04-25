@@ -14,7 +14,7 @@ class  AuthController extends AbstractController {
     #[Route(
         path: "/user/login",
         name: "app_auth",
-        methods: ["POST"]
+        methods: ["POST", "OPTIONS"]
     )]
     public function index(Request $request, ManagerRegistry $registry, UserPasswordHasherInterface $hasher): Response {
 
