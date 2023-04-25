@@ -19,7 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
-    SideBarComponent
+    SideBarComponent,
     MoneyViewComponent,
     AppComponent,
     OrderlistComponent,
