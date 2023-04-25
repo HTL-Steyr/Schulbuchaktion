@@ -30,23 +30,23 @@ class MoneyListController extends AbstractController
         name: 'app_moneylist_get_by_book_id',
         methods: ['GET']
     )]
-    public function getMoneyListByBookId(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
+    public function getMoneyListByBookId(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response
+    {
         $user = $authService->authenticateByAuthorizationHeader($request);
-        if (!isset($user)) {
+        if ($user->getRole()->getName() == "Admin" || $user->getRole()->getName() == "Abteilungsvorstand") {#
+            $context = (new ObjectNormalizerContextBuilder())
+                ->withGroups('bookPrice')
+                ->toArray();
+
+            $moneylist = $registry->getRepository(BookPrice::class)->find($id);
+
+            if (isset($moneylist)) {
+                return $this->json($moneylist, status: Response::HTTP_OK, context: $context);
+
+            }
+            return $this->json(null, status: Response::HTTP_NOT_FOUND);
+        } else {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
-
-        $context = (new ObjectNormalizerContextBuilder())
-            ->withGroups('bookPrice')
-            ->toArray();
-
-        $moneylist = $registry->getRepository(BookPrice::class)->find($id);
-
-        if (isset($moneylist)) {
-            return $this->json($moneylist, status: Response::HTTP_OK, context: $context);
-
-        }
-        return $this->json(null, status: Response::HTTP_NOT_FOUND);
-
     }
 }
