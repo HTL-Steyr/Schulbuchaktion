@@ -12,7 +12,6 @@ export class LoginComponent {
     password: string = "";
 
     constructor(private router: Router, private userService: UserService) {
-      userService.user = undefined;
     }
 
     login() {
