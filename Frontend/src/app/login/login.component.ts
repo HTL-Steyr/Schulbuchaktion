@@ -11,7 +11,9 @@ export class LoginComponent {
     username: string = "";
     password: string = "";
 
-    constructor(private router: Router, private userService: UserService) { }
+    constructor(private router: Router, private userService: UserService) {
+      userService.user = undefined;
+    }
 
     login() {
         if (this.username == "admin" && this.password == "admin") {
