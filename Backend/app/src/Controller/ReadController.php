@@ -176,7 +176,7 @@ class ReadController extends AbstractController
                 if ($user != "N/A") {
                     $headOfSubject = $repoUser->findOneBy(["shortName" => $user]);
                     $existing = $repoSubject->findOneBy(["name" => $subjectName]);
-
+                    echo isset($headOfSubject) . " " . isset($existing) . "\n";
                     if (!isset($existing) && isset($headOfSubject)) {
                         $subject = new Subject();
                         $subject->addHeadOfSubject($headOfSubject);
