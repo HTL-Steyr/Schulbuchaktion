@@ -7,6 +7,8 @@ use App\Entity\BookPrice;
 use App\Entity\Publisher;
 use App\Entity\Subject;
 use App\Entity\User;
+use App\Service\AuthService;
+use ContainerMmpMt0D\getConsole_ErrorListenerService;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectRepository;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -27,6 +29,8 @@ define("ADMIN", 1);
  */
 class ReadController extends AbstractController
 {
+
+
     /**
      * @Route('/read/xlsx', name: 'app_read_xlsx')
      * This function reads data from an Excel file and populates data into Publisher, Subject, Book, and BookPrice entities
@@ -54,7 +58,7 @@ class ReadController extends AbstractController
 
         // Get the uploaded file from the request object and move it to the uploads directory
         $file = $request->files->get("schoolBookList");
-        $destination = $this->getParameter('kernel.project_dir').'/public/uploads';
+        $destination = $this->getParameter('kernel.project_dir') . '/public/uploads';
         $file->move($destination, $file->getClientOriginalName());
         echo $file->isValid();
 
@@ -62,7 +66,7 @@ class ReadController extends AbstractController
         if (file_exists($destination . "/" . $file->getClientOriginalName())) {
             // Load the file and get the first sheet
             $reader = IOFactory::createReader("Xlsx");
-            $spreadsheet = $reader->load($destination . "/" .$file->getClientOriginalName());
+            $spreadsheet = $reader->load($destination . "/" . $file->getClientOriginalName());
             $sheet = $spreadsheet->getSheet(0);
 
             // Iterate through each row and populate data into entities
@@ -98,10 +102,41 @@ class ReadController extends AbstractController
                 // check if subject already exists
                 // if not then insert the new one
                 $existing =  null;
-                $user = "amot";
                 $shortName = "N/A";
 
-                $headOfSubject = $repoUser->findOneBy(["shortName" => $user]);
+                if (str_contains($subjectName, "DEUTSCH")) {
+                    $user = "proe";
+                } else if (str_contains($subjectName, "ENGLISCH")) {
+                    $user = "hesd";
+                } else if (str_contains($subjectName, "ETHIK")) {
+                    $user = "pfas";
+                } else if (str_contains($subjectName, "GEOGRAFIE") ||
+                    str_contains($subjectName, "GESCHICHTE") ||
+                    str_contains($subjectName, "POLITISCHE BILDUNG")) {
+                    $user = "amot";
+                } else if (str_contains($subjectName, "NATURWISSENSCHAFTEN")
+                    || str_contains($subjectName, "CHEMIE")) {
+                    $user = "kimc";
+                } else if (str_contains($subjectName, "MATHEMATIK")) {
+                    $user = "nieb";
+                } else if (str_contains($subjectName, "WIRTSCHAFT")) {
+                    $user = "hils";
+                } else if (str_contains($subjectName, "RELIGION")) {
+                    $user = "ramk";
+                } else if (str_contains($subjectName, "ELEKTROTECHNIK") ||
+                    str_contains($subjectName, "SYSTEMTECHNIK") ||
+                    str_contains($subjectName, "INFORMATIK")) {
+                    $user = "pusc";
+                } else if (str_contains($subjectName, "MASCHINENBAU")) {
+                    $user = "obea";
+                } else if (str_contains($subjectName, "MECHATRONIK")) {
+                    $user = "hint";
+                } else {
+                    $user = "N/A";
+                }
+                if ($user != "N/A") {
+                    $headOfSubject = $repoUser->findOneBy(["shortName" => $user]);
+                }
                 $existing = $repoSubject->findOneBy(["name" => $subjectName]);
 
                 if (!isset($existing)) {
@@ -142,20 +177,20 @@ class ReadController extends AbstractController
                 // if not then insert the new one
                 $existing = null;
                 $book = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
-                if (isset($book)){
+                if (isset($book)) {
 
                     $existing = $repoBookPrice->findOneBy(["book" => $book]);
                 }
                 if (!isset($existing)) {
-                        $bookprice = new BookPrice();
-                        $bookprice->setBook($book);
-                        $bookprice->setYear(date('Y'));
-                        $bookprice->setPriceEbook(intval($bookpriceebook));
-                        $bookprice->setPriceEbookPlus(intval($bookpriceplus));
-                        $bookprice->setPriceInclusiveEbook(intval($bookpricenormal));
-                        $repoBookPrice->save($bookprice, true);
-                    }
+                    $bookprice = new BookPrice();
+                    $bookprice->setBook($book);
+                    $bookprice->setYear(date('Y'));
+                    $bookprice->setPriceEbook(intval($bookpriceebook));
+                    $bookprice->setPriceEbookPlus(intval($bookpriceplus));
+                    $bookprice->setPriceInclusiveEbook(intval($bookpricenormal));
+                    $repoBookPrice->save($bookprice, true);
                 }
+            }
 
         } else {
             die("file not found 125");
