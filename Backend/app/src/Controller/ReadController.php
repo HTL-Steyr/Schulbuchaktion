@@ -19,29 +19,46 @@ use Symfony\Component\Routing\Annotation\Route;
  * https://symfonycasts.com/screencast/symfony-uploads/upload-request
  * https://symfonycasts.com/screencast/symfony-uploads/storing-uploaded-file#play
  */
+
+/**
+ * This class reads data from an Excel file and populates data into entities
+ */
 class ReadController extends AbstractController
 {
+    /**
+     * @Route('/read/xlsx', name: 'app_read_xlsx')
+     * This function reads data from an Excel file and populates data into Publisher, Subject, Book, and BookPrice entities
+     *
+     * @param Request $request Symfony's Request object
+     * @param ManagerRegistry $registry Symfony's ManagerRegistry object
+     * @return Response Symfony's Response object
+     */
     #[Route('/read/xlsx', name: 'app_read_xlsx')]
     public function readPublisher(Request $request, ManagerRegistry $registry): Response
     {
+        // Get repositories for entities
         $repoSubject = $registry->getRepository(Subject::class);
         $repoUser = $registry->getRepository(User::class);
         $repoPublisher = $registry->getRepository(Publisher::class);
         $repoBook = $registry->getRepository(Book::class);
         $repoBookPrice = $registry->getRepository(BookPrice::class);
 
-
+        // Get the uploaded file from the request object and move it to the uploads directory
         $file = $request->files->get("schoolBookList");
         $destination = $this->getParameter('kernel.project_dir').'/public/uploads';
         $file->move($destination, $file->getClientOriginalName());
         echo $file->isValid();
+
+        // Check if the file has been uploaded successfully
         if (file_exists($destination . "/" . $file->getClientOriginalName())) {
+            // Load the file and get the first sheet
             $reader = IOFactory::createReader("Xlsx");
             $spreadsheet = $reader->load($destination . "/" .$file->getClientOriginalName());
             $sheet = $spreadsheet->getSheet(0);
 
-            // get Attributes from XLSX
+            // Iterate through each row and populate data into entities
             for ($i = 2; $i <= $sheet->getHighestRow(); $i++) {
+                // Get cell values
                 $bookNumber = $sheet->getCell("A" . strval($i))->getValue();
                 $shortTitle = $sheet->getCell("B" . strval($i))->getValue();
                 $title = $sheet->getCell("C" . strval($i))->getValue();
@@ -58,9 +75,9 @@ class ReadController extends AbstractController
                 $ebook = $sheet->getCell("P" . strval($i))->getValue();
                 $ebookPlus = $sheet->getCell("Q" . strval($i))->getValue();
 
-                // insert Publisher
+                // check if publisher already exists
+                // if not then insert the new one
                 $existing = $repoPublisher->findOneBy(["publisherNumber" => $vnr]);
-
                 if (!isset($existing)) {
                     $publisher = new Publisher();
                     $publisher->setPublisherNumber($vnr);
@@ -68,8 +85,8 @@ class ReadController extends AbstractController
                     $repoPublisher->save($publisher, true);
                 }
 
-
-                // insert Subjects
+                // check if subject already exists
+                // if not then insert the new one
                 $existing =  null;
                 $user = "amot";
                 $shortName = "N/A";
@@ -85,7 +102,8 @@ class ReadController extends AbstractController
                     $repoSubject->save($subject, true);
                 }
 
-                // insert Books
+                // check if book already exists
+                // if not then insert the new one
                 $existing = null;
                 $subject = $repoSubject->findOneBy(["name" => $subjectName]);
                 $publisher = $repoPublisher->findOneBy(["name" => $publisherName]);
@@ -110,7 +128,8 @@ class ReadController extends AbstractController
                 }
 
 
-                // insert BookPrice
+                // check if bookprice already exists
+                // if not then insert the new one
                 $existing = null;
                 $book = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
                 if (isset($book)){
@@ -136,13 +155,24 @@ class ReadController extends AbstractController
             'controller_name' => 'ReadController',
         ]);
     }
+
+    /**
+     * Deletes all data from the given ObjectRepository.
+     *
+     * @param ObjectRepository $repo The repository to delete data from.
+     * @return Response A JSON response with an HTTP status code of 200.
+     */
     public function deleteAllData(ObjectRepository $repo): Response
     {
+        // Retrieve all entities from the repository.
         $myEntities = $repo->findAll();
+
+        // Loop through each entity and remove it from the repository.
         foreach ($myEntities as $myEntity) {
             $repo->remove($myEntity, true);
         }
 
+        // Return a JSON response with an HTTP status code of 200.
         return $this->json(null, status: Response::HTTP_OK);
     }
 }
