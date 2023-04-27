@@ -156,60 +156,61 @@ class ReadController extends AbstractController
                 }
                 if ($user != "N/A") {
                     $headOfSubject = $repoUser->findOneBy(["shortName" => $user]);
+                    $existing = $repoSubject->findOneBy(["name" => $subjectName]);
+
+                    if (!isset($existing) && isset($headOfSubject)) {
+                        $subject = new Subject();
+                        $subject->addHeadOfSubject($headOfSubject);
+                        $subject->setName($subjectName);
+                        $subject->setShortName($shortName);
+                        $repoSubject->save($subject, true);
+                    }
+
+                    // check if book already exists and has a subject and a publisher
+                    // if not then insert the new one
+                    $existing = null;
+                    $subject = $repoSubject->findOneBy(["name" => $subjectName]);
+                    $publisher = $repoPublisher->findOneBy(["name" => $publisherName]);
+                    $mainBook = $repoBook->findOneBy(["id" => $mainBook]);
+
+                    $existing = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
+
+                    if (!isset($existing) && isset($subject) && isset($publisher)) {
+                        $book = new Book();
+                        $book->setSubject($subject);
+                        $book->setPublisher($publisher);
+                        $book->setMainBook($mainBook);
+                        $book->setBookNumber($bookNumber);
+                        $book->setTitle($title);
+                        $book->setShortTitle($shortTitle);
+                        $book->setListType($listType);
+                        $book->setSchoolForm($schoolForm);
+                        $book->setInfo($info);
+                        $book->setEbook($ebook);
+                        $book->setEbookPlus($ebookPlus);
+                        $repoBook->save($book, true);
+                    }
+
+
+                    // check if bookprice already exists and if it has a book
+                    // if not then insert the new one
+                    $existing = null;
+                    $book = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
+                    if (isset($book)) {
+
+                        $existing = $repoBookPrice->findOneBy(["book" => $book]);
+                    }
+                    if (!isset($existing) && isset($book)) {
+                        $bookprice = new BookPrice();
+                        $bookprice->setBook($book);
+                        $bookprice->setYear(date('Y'));
+                        $bookprice->setPriceEbook(intval($bookpriceebook));
+                        $bookprice->setPriceEbookPlus(intval($bookpriceplus));
+                        $bookprice->setPriceInclusiveEbook(intval($bookpricenormal));
+                        $repoBookPrice->save($bookprice, true);
+                    }
                 }
-                $existing = $repoSubject->findOneBy(["name" => $subjectName]);
 
-                if (!isset($existing) && isset($headOfSubject)) {
-                    $subject = new Subject();
-                    $subject->addHeadOfSubject($headOfSubject);
-                    $subject->setName($subjectName);
-                    $subject->setShortName($shortName);
-                    $repoSubject->save($subject, true);
-                }
-
-                // check if book already exists and has a subject and a publisher
-                // if not then insert the new one
-                $existing = null;
-                $subject = $repoSubject->findOneBy(["name" => $subjectName]);
-                $publisher = $repoPublisher->findOneBy(["name" => $publisherName]);
-                $mainBook = $repoBook->findOneBy(["id" => $mainBook]);
-
-                $existing = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
-
-                if (!isset($existing) && isset($subject) && isset($publisher)) {
-                    $book = new Book();
-                    $book->setSubject($subject);
-                    $book->setPublisher($publisher);
-                    $book->setMainBook($mainBook);
-                    $book->setBookNumber($bookNumber);
-                    $book->setTitle($title);
-                    $book->setShortTitle($shortTitle);
-                    $book->setListType($listType);
-                    $book->setSchoolForm($schoolForm);
-                    $book->setInfo($info);
-                    $book->setEbook($ebook);
-                    $book->setEbookPlus($ebookPlus);
-                    $repoBook->save($book, true);
-                }
-
-
-                // check if bookprice already exists and if it has a book
-                // if not then insert the new one
-                $existing = null;
-                $book = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
-                if (isset($book)) {
-
-                    $existing = $repoBookPrice->findOneBy(["book" => $book]);
-                }
-                if (!isset($existing) && isset($book)) {
-                    $bookprice = new BookPrice();
-                    $bookprice->setBook($book);
-                    $bookprice->setYear(date('Y'));
-                    $bookprice->setPriceEbook(intval($bookpriceebook));
-                    $bookprice->setPriceEbookPlus(intval($bookpriceplus));
-                    $bookprice->setPriceInclusiveEbook(intval($bookpricenormal));
-                    $repoBookPrice->save($bookprice, true);
-                }
             }
 
         } else {
