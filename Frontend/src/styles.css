@@ -397,10 +397,16 @@ label:hover:before {
 body {
   margin: 0;
   padding: 0;
-  background: #232323;
   color: #cdcdcd;
   font-family: Abel Regular, Arial, Helvetica, sans-serif;
+}
 
+.body {
+  background: #232323;
+  border-radius: 5px;
+  padding: 0 5px 5px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 /*
