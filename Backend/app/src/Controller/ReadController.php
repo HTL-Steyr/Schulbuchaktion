@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+define("ADMIN", 1);
+
 /**
  * https://symfonycasts.com/screencast/symfony-uploads/upload-request
  * https://symfonycasts.com/screencast/symfony-uploads/storing-uploaded-file#play
@@ -34,9 +36,15 @@ class ReadController extends AbstractController
      * @return Response Symfony's Response object
      */
     #[Route('/read/xlsx', name: 'app_read_xlsx')]
-    public function readPublisher(Request $request, ManagerRegistry $registry): Response
+    public function readPublisher(Request $request, ManagerRegistry $registry, AuthService $authService): Response
     {
-        // Get repositories for entities
+        $user = $authService->authenticateByAuthorizationHeader($request);
+        if (!isset($user)) {
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        } elseif (!($user->getRole()->getId()==ADMIN)){
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        }
+
         $repoSubject = $registry->getRepository(Subject::class);
         $repoUser = $registry->getRepository(User::class);
         $repoPublisher = $registry->getRepository(Publisher::class);
@@ -78,6 +86,7 @@ class ReadController extends AbstractController
                 // check if publisher already exists
                 // if not then insert the new one
                 $existing = $repoPublisher->findOneBy(["publisherNumber" => $vnr]);
+
                 if (!isset($existing)) {
                     $publisher = new Publisher();
                     $publisher->setPublisherNumber($vnr);
