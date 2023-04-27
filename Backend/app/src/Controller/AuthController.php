@@ -21,6 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Set the token for the user and update the user in the database with the new token.
  * Return the token for debugging purposes
  */
+
 class  AuthController extends AbstractController {
     #[Route(
         path: "/user/login",
