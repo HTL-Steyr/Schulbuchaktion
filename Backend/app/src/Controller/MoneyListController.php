@@ -13,13 +13,6 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 
 class MoneyListController extends AbstractController
 {
-    #[Route('/money/list', name: 'app_money_list')]
-    public function index(): Response
-    {
-        return $this->render('money_list/index.html.twig', [
-            'controller_name' => 'MoneyListController',
-        ]);
-    }
 
 
     /**
@@ -35,6 +28,7 @@ class MoneyListController extends AbstractController
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
+
 
         $context = (new ObjectNormalizerContextBuilder())
             ->withGroups('bookPrice')
