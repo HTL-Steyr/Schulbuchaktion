@@ -111,36 +111,50 @@ class ReadController extends AbstractController
                 || str_contains($subjectName,'DEUTSCH-SPRACHLEHRE')
                 || str_contains($subjectName,'DEUTSCH-SPRACHLEHRE-ZUSATZ')
                 ) {
+                    $subjectName="Deutsch";
                     $user = "proe";
                 } else if (str_contains($subjectName, "ENGLISCH")
                     || str_contains($subjectName,'ENGLISCH-SPRACHLEHRE')
                     || str_contains($subjectName,'ENGLISCH-WÖRTERBÜCHER')
                     || str_contains($subjectName,'ENGLISCH-ZUSATZ')) {
                     $user = "hesd";
+                    $subjectName="Englisch";
+
                 } else if (str_contains($subjectName, "ETHIK")) {
                     $user = "pfas";
+                    $subjectName="ETHIK";
                 } else if (str_contains($subjectName, "GEOGRAFIE") ||
                     str_contains($subjectName, "GESCHICHTE") ||
                     str_contains($subjectName, "POLITISCHE BILDUNG")) {
                     $user = "amot";
+                    $subjectName="GGP";
+
                 } else if (str_contains($subjectName, "NATURWISSENSCHAFTEN")
                     || str_contains($subjectName, "CHEMIE")
                     || str_contains($subjectName,'PHYSIK')
                     || str_contains($subjectName,'BIOCHEMIE')) {
                     $user = "kimc";
+                    $subjectName="NATURWISSENSCHAFTEN";
+
                 } else if (str_contains($subjectName, "MATHEMATIK")) {
                     $user = "nieb";
+                    $subjectName="AM";
+
                 } else if (str_contains($subjectName, "WIRTSCHAFT")
                     || str_contains($subjectName, 'BETRIEBSWIRTSCHAFT')
                     || str_contains($subjectName, 'WIRTSCHAFTSRECHT')) {
-
                     $user = "hils";
-                } else if (str_contains($subjectName, "RELIGION")) {
-                    $user = "ramk";
+                    $subjectName = "WIRTSCHAFT";
+
+                //} else if (str_contains($subjectName, "RELIGION")) {
+                  //  $user = "ramk";
                 } else if (str_contains($subjectName, "ELEKTRONIK") ||
                     str_contains($subjectName, "SYSTEMTECHNIK") ||
                     str_contains($subjectName, "INFORMATIK")) {
                     $user = "pusc";
+                    $subjectName="FACHLEHRE IT-ELEKTRONIK";
+
+
                 } else if (str_contains($subjectName, "MASCHINENBAU")
                     || str_contains($subjectName, 'FERTIGUNGSTECHNIK')
                     || str_contains($subjectName,' MASCHINENBAU-ZUSATZ')
@@ -148,9 +162,13 @@ class ReadController extends AbstractController
                     || str_contains($subjectName,'MOTORENTECHNIK')
                     || str_contains($subjectName,'ANTRIEBSTECHNIK')) {
                     $user = "obea";
+                    $subjectName="FACHLEHRE MASCHINENBAU";
+
                 } else if (str_contains($subjectName, "MECHATRONIK")
                     || str_contains($subjectName,'GEOMETRIE')) {
                     $user = "hint";
+                    $subjectName="FACHLEHRE MECHATRONIK";
+
                 } else {
                     $user = "N/A";
                 }
