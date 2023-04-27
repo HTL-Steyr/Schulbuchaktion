@@ -33,7 +33,7 @@ class MoneyListController extends AbstractController
     public function getMoneyListByBookId(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response
     {
         $user = $authService->authenticateByAuthorizationHeader($request);
-        if ($user->getRole()->getName() == "Admin" || $user->getRole()->getName() == "Abteilungsvorstand") {#
+        if ($user->getRole()->getName() == "Admin" || $user->getRole()->getName() == "Abteilungsvorstand") {
             $context = (new ObjectNormalizerContextBuilder())
                 ->withGroups('bookPrice')
                 ->toArray();
