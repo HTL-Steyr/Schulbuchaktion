@@ -114,7 +114,8 @@ class ReadController extends AbstractController
                     str_contains($subjectName, "SYSTEMTECHNIK") ||
                     str_contains($subjectName, "INFORMATIK")) {
                     $user = "pusc";
-                } else if (str_contains($subjectName, "MASCHINENBAU")) {
+                } else if (str_contains($subjectName, "MASCHINENBAU") ||
+                    str_contains($subjectName, "FAHRZEUGTECHNIK")) {
                     $user = "obea";
                 } else if (str_contains($subjectName, "MECHATRONIK")) {
                     $user = "hint";
