@@ -45,6 +45,7 @@ class ReadController extends AbstractController
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
 
+        // Get repositories for entities
         $repoSubject = $registry->getRepository(Subject::class);
         $repoUser = $registry->getRepository(User::class);
         $repoPublisher = $registry->getRepository(Publisher::class);
