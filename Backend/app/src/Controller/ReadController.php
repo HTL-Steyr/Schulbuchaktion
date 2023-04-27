@@ -100,11 +100,11 @@ class ReadController extends AbstractController
                     $repoPublisher->save($publisher, true);
                 }
 
-                // check if subject already exists
+                // check if subject already exists and if it has a head of subject
                 // if not then insert the new one
                 $existing =  null;
                 $shortName = "N/A";
-                $user = "amot";
+                $headOfSubject = null;
 
                 if (str_contains($subjectName, "DEUTSCH")
                 || str_contains($subjectName,'DEUTSCH-LITERATURKUNDE')
@@ -159,7 +159,7 @@ class ReadController extends AbstractController
                 }
                 $existing = $repoSubject->findOneBy(["name" => $subjectName]);
 
-                if (!isset($existing)) {
+                if (!isset($existing) && isset($headOfSubject)) {
                     $subject = new Subject();
                     $subject->addHeadOfSubject($headOfSubject);
                     $subject->setName($subjectName);
@@ -167,7 +167,7 @@ class ReadController extends AbstractController
                     $repoSubject->save($subject, true);
                 }
 
-                // check if book already exists
+                // check if book already exists and has a subject and a publisher
                 // if not then insert the new one
                 $existing = null;
                 $subject = $repoSubject->findOneBy(["name" => $subjectName]);
@@ -176,7 +176,7 @@ class ReadController extends AbstractController
 
                 $existing = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
 
-                if (!isset($existing)) {
+                if (!isset($existing) && isset($subject) && isset($publisher)) {
                     $book = new Book();
                     $book->setSubject($subject);
                     $book->setPublisher($publisher);
@@ -193,7 +193,7 @@ class ReadController extends AbstractController
                 }
 
 
-                // check if bookprice already exists
+                // check if bookprice already exists and if it has a book
                 // if not then insert the new one
                 $existing = null;
                 $book = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
@@ -201,7 +201,7 @@ class ReadController extends AbstractController
 
                     $existing = $repoBookPrice->findOneBy(["book" => $book]);
                 }
-                if (!isset($existing)) {
+                if (!isset($existing) && isset($book)) {
                     $bookprice = new BookPrice();
                     $bookprice->setBook($book);
                     $bookprice->setYear(date('Y'));
@@ -213,7 +213,7 @@ class ReadController extends AbstractController
             }
 
         } else {
-            die("file not found 125");
+            die("file not found");
         }
 
         return $this->render('read/index.html.twig', [
