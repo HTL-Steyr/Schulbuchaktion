@@ -106,9 +106,16 @@ class ReadController extends AbstractController
                 $shortName = "N/A";
                 $user = "amot";
 
-                if (str_contains($subjectName, "DEUTSCH")) {
+                if (str_contains($subjectName, "DEUTSCH")
+                || str_contains($subjectName,'DEUTSCH-LITERATURKUNDE')
+                || str_contains($subjectName,'DEUTSCH-SPRACHLEHRE')
+                || str_contains($subjectName,'DEUTSCH-SPRACHLEHRE-ZUSATZ')
+                ) {
                     $user = "proe";
-                } else if (str_contains($subjectName, "ENGLISCH")) {
+                } else if (str_contains($subjectName, "ENGLISCH")
+                    || str_contains($subjectName,'ENGLISCH-SPRACHLEHRE')
+                    || str_contains($subjectName,'ENGLISCH-WÖRTERBÜCHER')
+                    || str_contains($subjectName,'ENGLISCH-ZUSATZ')) {
                     $user = "hesd";
                 } else if (str_contains($subjectName, "ETHIK")) {
                     $user = "pfas";
@@ -117,21 +124,32 @@ class ReadController extends AbstractController
                     str_contains($subjectName, "POLITISCHE BILDUNG")) {
                     $user = "amot";
                 } else if (str_contains($subjectName, "NATURWISSENSCHAFTEN")
-                    || str_contains($subjectName, "CHEMIE")) {
+                    || str_contains($subjectName, "CHEMIE")
+                    || str_contains($subjectName,'PHYSIK')
+                    || str_contains($subjectName,'BIOCHEMIE')) {
                     $user = "kimc";
                 } else if (str_contains($subjectName, "MATHEMATIK")) {
                     $user = "nieb";
-                } else if (str_contains($subjectName, "WIRTSCHAFT")) {
+                } else if (str_contains($subjectName, "WIRTSCHAFT")
+                    || str_contains($subjectName, 'BETRIEBSWIRTSCHAFT')
+                    || str_contains($subjectName, 'WIRTSCHAFTSRECHT')) {
+
                     $user = "hils";
                 } else if (str_contains($subjectName, "RELIGION")) {
                     $user = "ramk";
-                } else if (str_contains($subjectName, "ELEKTROTECHNIK") ||
+                } else if (str_contains($subjectName, "ELEKTRONIK") ||
                     str_contains($subjectName, "SYSTEMTECHNIK") ||
                     str_contains($subjectName, "INFORMATIK")) {
                     $user = "pusc";
-                } else if (str_contains($subjectName, "MASCHINENBAU")) {
+                } else if (str_contains($subjectName, "MASCHINENBAU")
+                    || str_contains($subjectName, 'FERTIGUNGSTECHNIK')
+                    || str_contains($subjectName,' MASCHINENBAU-ZUSATZ')
+                    || str_contains($subjectName,'TECHNISCHES ZEICHNEN')
+                    || str_contains($subjectName,'MOTORENTECHNIK')
+                    || str_contains($subjectName,'ANTRIEBSTECHNIK')) {
                     $user = "obea";
-                } else if (str_contains($subjectName, "MECHATRONIK")) {
+                } else if (str_contains($subjectName, "MECHATRONIK")
+                    || str_contains($subjectName,'GEOMETRIE')) {
                     $user = "hint";
                 } else {
                     $user = "N/A";
