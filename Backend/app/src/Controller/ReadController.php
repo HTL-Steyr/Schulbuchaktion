@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+define("ADMIN", 1);
+
 /**
  * https://symfonycasts.com/screencast/symfony-uploads/upload-request
  * https://symfonycasts.com/screencast/symfony-uploads/storing-uploaded-file#play
@@ -27,6 +29,8 @@ class ReadController extends AbstractController
     {
         $user = $authService->authenticateByAuthorizationHeader($request);
         if (!isset($user)) {
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        } elseif (!($user->getRole()->getId()==ADMIN)){
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
 

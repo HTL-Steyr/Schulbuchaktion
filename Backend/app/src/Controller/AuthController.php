@@ -10,6 +10,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Controller for logging in a user.
+ * Json encoded content of request gets decoded to php object $json.
+ * User gets identified by searching for the User with the same email
+ * as the one in the $json variable.
+ * If no user is found return unauthorized.
+ * Otherwise, check if the password is correct.
+ * If it's correct generate a token with the email and set it for the user.
+ * Set the token for the user and update the user in the database with the new token.
+ * Return the token for debugging purposes
+ */
 class  AuthController extends AbstractController {
     #[Route(
         path: "/user/login",

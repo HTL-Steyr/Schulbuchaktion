@@ -11,6 +11,15 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
 
+/**
+ * Controller for getting an orderlist by id.
+ * Check if the user is logged in.
+ * Save the groups of which the content should be returned in the $context variable.
+ * Search for an orderlist in the repository with the value of the given id parameter.
+ * Return the orderlist with the json serializer and add the $context parameter.
+ * Only the attributes with the group "orderlist" get serialized and returned.
+ * Return HTTP NOT FOUND if no orderlist has the given id.
+ */
 class OrderListController extends AbstractController
 {
     /**
