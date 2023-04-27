@@ -29,7 +29,7 @@ class Department {
     private ?int $usedBudget = null;
 
     #[Groups(['department', 'schoolclass'])]
-    #[ORM\OneToMany(cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy:'id',targetEntity: User::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $headOfDepartment = null;
 
