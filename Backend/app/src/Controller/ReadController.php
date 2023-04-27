@@ -19,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 define("ADMIN", 1);
 
+
 /**
  * https://symfonycasts.com/screencast/symfony-uploads/upload-request
  * https://symfonycasts.com/screencast/symfony-uploads/storing-uploaded-file#play
