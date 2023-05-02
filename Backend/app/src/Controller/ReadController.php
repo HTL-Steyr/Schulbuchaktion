@@ -91,9 +91,9 @@ class ReadController extends AbstractController
 
                 // check if publisher already exists
                 // if not then insert the new one
-                $existing = $repoPublisher->findOneBy(["publisherNumber" => $vnr]);
+                $isSubjectExisting = $repoPublisher->findOneBy(["publisherNumber" => $vnr]);
 
-                if (!isset($existing)) {
+                if (!isset($isSubjectExisting)) {
                     $publisher = new Publisher();
                     $publisher->setPublisherNumber($vnr);
                     $publisher->setName($publisherName);
@@ -102,7 +102,7 @@ class ReadController extends AbstractController
 
                 // check if subject already exists and if it has a head of subject
                 // if not then insert the new one
-                $existing =  null;
+                $isSubjectExisting =  null;
                 $shortName = "N/A";
                 $headOfSubject = null;
 
@@ -175,28 +175,29 @@ class ReadController extends AbstractController
                 echo $subjectName . " " . $user . "\n";
                 if ($user != "N/A") {
                     $headOfSubject = $repoUser->findOneBy(["shortName" => $user]);
-                    $existing = $repoSubject->findOneBy(["name" => $subjectName]);
-                    if (!isset($existing) && isset($headOfSubject)) {
+                    $isSubjectExisting = $repoSubject->findOneBy(["name" => $subjectName]);
+
+                    if (!isset($isSubjectExisting) && isset($headOfSubject)) {
 
                         $subject = new Subject();
                         echo $headOfSubject->toString() . "\n";
                         $subject->addHeadOfSubject($headOfSubject);
-
                         $subject->setName($subjectName);
                         $subject->setShortName($shortName);
+                        $headOfSubject->addSubject($subject);
                         $repoSubject->save($subject, true);
                     }
 
                     // check if book already exists and has a subject and a publisher
                     // if not then insert the new one
-                    $existing = null;
+                    $isSubjectExisting = null;
                     $subject = $repoSubject->findOneBy(["name" => $subjectName]);
                     $publisher = $repoPublisher->findOneBy(["name" => $publisherName]);
                     $mainBook = $repoBook->findOneBy(["id" => $mainBook]);
 
-                    $existing = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
+                    $isSubjectExisting = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
 
-                    if (!isset($existing) && isset($subject) && isset($publisher)) {
+                    if (!isset($isSubjectExisting) && isset($subject) && isset($publisher)) {
                         $book = new Book();
                         $book->setSubject($subject);
                         $book->setPublisher($publisher);
@@ -215,13 +216,13 @@ class ReadController extends AbstractController
 
                     // check if bookprice already exists and if it has a book
                     // if not then insert the new one
-                    $existing = null;
+                    $isSubjectExisting = null;
                     $book = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
                     if (isset($book)) {
 
-                        $existing = $repoBookPrice->findOneBy(["book" => $book]);
+                        $isSubjectExisting = $repoBookPrice->findOneBy(["book" => $book]);
                     }
-                    if (!isset($existing) && isset($book)) {
+                    if (!isset($isSubjectExisting) && isset($book)) {
                         $bookprice = new BookPrice();
                         $bookprice->setBook($book);
                         $bookprice->setYear(date('Y'));
