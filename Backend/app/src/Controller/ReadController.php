@@ -184,7 +184,6 @@ class ReadController extends AbstractController
                         $subject->setHeadOfSubject($headOfSubject);
                         $subject->setName($subjectName);
                         $subject->setShortName($shortName);
-                        $repoUser->save($headOfSubject, true);
                         $repoSubject->save($subject, true);
                     }
 
