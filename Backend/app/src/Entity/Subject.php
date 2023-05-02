@@ -9,7 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SubjectRepository::class)]
-class Subject {
+class Subject
+{
     #[Groups(['subject'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -28,49 +29,57 @@ class Subject {
     #[ORM\OneToMany(mappedBy: 'subject', targetEntity: Book::class)]
     private Collection $books;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'subjects')]
-    private Collection $headOfSubject;
 
-    public function __construct() {
+    #[Groups(['subject'])]
+    #[ORM\OneToMany(targetEntity: User::class, cascade: ['persist', 'remove'], mappedby: 'id')]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $headOfSubject;
+
+    public function __construct()
+    {
         $this->books = new ArrayCollection();
-        $this->headOfSubject = new ArrayCollection();
     }
 
-    public function getId(): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
 
-    public function getName(): ?string {
+    public function getName(): ?string
+    {
         return $this->name;
     }
 
-    public function setName(string $name): self {
+    public function setName(string $name): self
+    {
         $this->name = $name;
 
         return $this;
     }
 
-    public function getShortName(): ?string {
+    public function getShortName(): ?string
+    {
         return $this->shortName;
     }
 
-    public function setShortName(string $shortName): self {
+    public function setShortName(string $shortName): self
+    {
         $this->shortName = $shortName;
 
         return $this;
     }
 
 
-
-
     /**
      * @return Collection<int, Book>
      */
-    public function getBooks(): Collection {
+    public function getBooks(): Collection
+    {
         return $this->books;
     }
 
-    public function addBook(Book $book): self {
+    public function addBook(Book $book): self
+    {
         if (!$this->books->contains($book)) {
             $this->books->add($book);
             $book->setSubject($this);
@@ -79,7 +88,8 @@ class Subject {
         return $this;
     }
 
-    public function removeBook(Book $book): self {
+    public function removeBook(Book $book): self
+    {
         if ($this->books->removeElement($book)) {
             // set the owning side to null (unless already changed)
             if ($book->getSubject() === $this) {
@@ -90,27 +100,20 @@ class Subject {
         return $this;
     }
 
+
     /**
-     * @return Collection<int, User>
+     * @return User
      */
-    public function getHeadOfSubject(): Collection
+    public function getHeadOfSubject(): User
     {
         return $this->headOfSubject;
     }
 
-    public function addHeadOfSubject(User $headOfSubject): self
+    /**
+     * @param User $headOfSubject
+     */
+    public function setHeadOfSubject(User $headOfSubject): void
     {
-        if (!$this->headOfSubject->contains($headOfSubject)) {
-            $this->headOfSubject->add($headOfSubject);
-        }
-
-        return $this;
-    }
-
-    public function removeHeadOfSubject(User $headOfSubject): self
-    {
-        $this->headOfSubject->removeElement($headOfSubject);
-
-        return $this;
+        $this->headOfSubject = $headOfSubject;
     }
 }
