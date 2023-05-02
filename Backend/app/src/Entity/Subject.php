@@ -31,7 +31,7 @@ class Subject
 
 
     #[Groups(['subject'])]
-    #[ORM\OneToMany(targetEntity: User::class, cascade: ['persist', 'remove'], mappedby: 'id')]
+    #[ORM\OneToMany(mappedBy: 'id', targetEntity: User::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private User $headOfSubject;
 
