@@ -156,4 +156,8 @@ class User implements PasswordAuthenticatedUserInterface {
 
         return $this;
     }
+
+    public function toString(): string {
+        return $this->getFirstName() . ' ' . $this->getLastName() . ' ' . $this->getId();
+    }
 }
