@@ -24,7 +24,6 @@ class UserController extends AbstractController
     {
         //Get the current user
         $user = $service->authenticateByAuthorizationHeader($request);
-        echo $user->getFirstName();
 
         //Check if the user is logged in
         if ($user != null) {
