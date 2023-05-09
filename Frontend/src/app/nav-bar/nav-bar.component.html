@@ -7,5 +7,9 @@
     <a routerLink="/klassenuebersicht">Klassen</a>
     <a routerLink="/gelduebersicht">Geld</a>
     <a routerLink="/import">Import</a>
+    <div class="logout">
+      <span>{{userService.user.shortName}}</span>
+      <button (click)="userService.logout()">Logout</button>
+    </div>
   </div>
 </div>

@@ -7,6 +7,9 @@ import { Observable } from "rxjs";
     providedIn: 'root'
 })
 export class UserService {
+  logout() {
+    this.user = undefined;
+  }
     private _user?: User;
   private readonly baseUrl = '../user';
 
