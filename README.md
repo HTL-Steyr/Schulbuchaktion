@@ -25,6 +25,7 @@ When something is unclear as
     * Also use private properties for inheritance. Prefer getters/setters over protected unsafe access.
 
 ## Github
+* COMMIT EARLY, COMMIT OFTEN!
 * Commit Messages layout:
   * [<"TASK"|"BUGFIX">] \<commit message> (\<hh:mm>h)
   * If additional information has to be given add line break after \<time invested>
@@ -38,7 +39,7 @@ When something is unclear as
         * backend
     * Feature branches instead of branches per person
         * Wrong: sprechtl-develop
-        * Right: frontend/login-component
+        * Right: frontend-login-component
     * The technical contact people will then review the code from
     front- and backend branches and merge them to develop where the paired
     functionallity will be tested further.
@@ -51,20 +52,20 @@ When something is unclear as
                 branch frontend
                 branch backend
                 checkout frontend
-                branch frontend/login-component
-                checkout frontend/login-component
+                branch frontend-login-component
+                checkout frontend-login-component
                 commit
                 commit
                 checkout frontend
-                merge frontend/login-component
+                merge frontend-login-component
                 checkout backend
-                branch backend/login-route
-                checkout backend/login-route
+                branch backend-login-route
+                checkout backend-login-route
                 commit
                 commit
                 commit
                 checkout backend
-                merge backend/login-route
+                merge backend-login-route
                 checkout develop
                 merge backend
                 merge frontend

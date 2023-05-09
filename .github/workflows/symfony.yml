@@ -1,0 +1,112 @@
+name: Symfony-Tests
+
+on:
+  push:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  symfony-tests:
+    runs-on: ubuntu-latest
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: roottest
+          MYSQL_DATABASE: backend_test
+          MYSQL_USER: testuser
+          MYSQL_PASSWORD: testpwd
+        ports:
+          - '3306:3306'
+    steps:
+    # To automatically get bug fixes and new Php versions for shivammathur/setup-php,
+    # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
+    # - uses: shivammathur/setup-php@v2
+    - uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
+      with:
+        php-version: '8.2'
+    - uses: actions/checkout@v3
+    #- name: Copy .env.test.local
+    #  run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+    - name: Install Dependencies
+      run: |
+        cd Backend/app
+        composer install --no-interaction --no-scripts --no-progress --prefer-dist
+    - name: Run tests
+      run: |
+        cd Backend/app
+        # php bin/console doctrine:database:create --env=test
+        php bin/console doctrine:schema:create --env=test
+        php bin/console doctrine:fixtures:load --env=test -n
+        # php bin/phpunit --coverage-text --colors=never
+        php bin/phpunit
+    #- name: Upload coverage report
+    #  uses: actions/upload-artifact@v2
+    #  with:
+    #    name: coverage
+    #    path: ./app/coverage
+    #- name: Check code style
+    #  run: |
+    #     cd Backend/app
+    #     vendor/bin/phpcs
+
+    #- name: Check code coverage threshold
+    #  run: |
+    #    cd Backend/app
+    #    vendor/bin/phpcov check --path=./coverage --clover=./coverage/clover.xml --lines=80
+
+    - name: Check security vulnerabilities
+      run: |
+        cd Backend/app
+        composer audit
+        
+    - name: Deploy via FTP
+      uses: SamKirkland/FTP-Deploy-Action@4.3.3 # Verwenden Sie eine FTP-Deploy-Action, um Ihre Anwendung auf den Server zu laden
+      with:
+        local-dir: Backend/app/
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        ftp-server: ${{ secrets.FTP_SERVER }}
+        ftp-username: ${{ secrets.FTP_USERNAME }}
+        ftp-password: ${{ secrets.FTP_PASSWORD }}
+        exclude: |
+          .env 
+          Backend/app/.env
+          app/.env
+          var/**
+          var/cache/**
+          var/log/**
+          vendor/**
+          Backend/app/var/**
+          Backend/app/var/cache/**
+          Backend/app/var/log/**
+          Backend/app/vendor/**
+          app/var/**
+          app/var/cache/**
+          app/var/log/** 
+          app/var/vendor/**
+        
+    - name: executing remote ssh commands for migration
+      uses: appleboy/ssh-action@v0.1.8
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd ${{ secrets.SERVER_APP_PATH }}
+          ln -sfv /usr/bin/php81 /usr/bin/php
+          composer install --no-interaction --no-scripts --no-progress --prefer-dist
+          php bin/console doctrine:migrations:migrate

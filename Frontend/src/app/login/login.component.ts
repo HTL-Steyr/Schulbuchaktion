@@ -11,7 +11,8 @@ export class LoginComponent {
     username: string = "";
     password: string = "";
 
-    constructor(private router: Router, private userService: UserService) { }
+    constructor(private router: Router, private userService: UserService) {
+    }
 
     login() {
         if (this.username == "admin" && this.password == "admin") {
@@ -19,7 +20,7 @@ export class LoginComponent {
                 id: 1,
                 shortName: "admin",
                 password: "admin",
-                roleId: {
+                role: {
                     id: 1,
                     name: "admin",
                     users: []

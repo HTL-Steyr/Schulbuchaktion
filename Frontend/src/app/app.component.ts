@@ -13,7 +13,6 @@ export class AppComponent {
   constructor(private router: Router, public userService: UserService) {
         router.events.subscribe((val) => {
             if (!(val instanceof NavigationStart)) return;
-            console.log(val);
 
             if (!this.userService.user && val.url != '/login') {
                 this.router.navigate(['login']);

@@ -1,36 +1,4 @@
-<!-- Toolbar -->
-<div *ngIf="userService.user" class="toolbar" role="banner">
-    <span class="title">Schulbuchaktion</span>
-    <div class="card-container">
-        <a routerLink="bestelluebersicht" class="card" rel="noopener">
-            <span>Bestellungen</span>
-            <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-            </svg> </a>
-
-        <a routerLink="klassenuebersicht" class="card" rel="noopener">
-            <span>Klassen</span>
-            <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-            </svg>
-        </a>
-        <a routerLink="gelduebersicht" class="card" rel="noopener">
-            <span>Geldübersicht</span>
-            <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-            </svg>
-        </a>
-
-        <a routerLink="import" class="card" rel="noopener">
-            <span>Importieren</span>
-            <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-            </svg>
-        </a>
-
-    </div>
-</div>
-
-<div class="content" role="main">
-    <router-outlet></router-outlet>
+<app-nav-bar></app-nav-bar>
+<div class="body">
+  <router-outlet />
 </div>
