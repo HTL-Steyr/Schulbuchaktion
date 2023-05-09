@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
 
 @Component({
@@ -7,5 +8,11 @@ import { UserService } from '../service/user.service';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent {
-    constructor(public userService: UserService) { }
+    constructor(public userService: UserService, private router: Router) { }
+
+    logoutButtonClicked() {
+      this.userService.logout();
+      this.router.navigate(['/login']);
+    }
+
 }

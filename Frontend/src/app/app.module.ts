@@ -15,6 +15,7 @@ import { MoneyViewComponent } from './money-view/money-view.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { HttpClientModule } from '@angular/common/http';
     XlsImportComponent,
     LoginErrorAlertComponent,
     LoginComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,

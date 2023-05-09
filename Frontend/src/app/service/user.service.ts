@@ -46,6 +46,7 @@ export class UserService {
 
   public logout() {
     this.user = null;
+    localStorage.removeItem(this.localStorageKey);
   }
 
   public findOneById(id: number): Observable<User> {
