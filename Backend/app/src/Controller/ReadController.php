@@ -180,7 +180,6 @@ class ReadController extends AbstractController
                     if (!isset($isSubjectExisting) && isset($headOfSubject)) {
 
                         $subject = new Subject();
-                        echo $headOfSubject->toString() . "\n";
                         $subject->setHeadOfSubject($headOfSubject);
                         $subject->setName($subjectName);
                         $subject->setShortName($shortName);
