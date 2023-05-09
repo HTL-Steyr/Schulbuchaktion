@@ -25,7 +25,7 @@ button:hover {
   transition: 803ms;
   padding: 10px 40px;
   transform: translateY(-0px);
-  background-color: #64758a;
+  background-color: #cfe6ff;
   color: #000000;
   border: solid 1px black;
 }
@@ -64,7 +64,7 @@ button:hover {
 
 .dropdown select:hover, .dropdown select:focus {
   color: #000000;
-  background: #64758a;
+  background: #cfe6ff;
 }
 
 .dropdown select:disabled {
@@ -87,10 +87,10 @@ button:hover {
 }
 
 .dropdown select:disabled ~ .select_arrow {
-  border-top-color: #64758a;
+  border-top-color: #cfe6ff;
 }
 
-.h1 {
+h1 {
   font-size: 2.5rem;
   text-align: center;
   font-family: Abel Regular, Arial, Helvetica, sans-serif;
@@ -153,7 +153,7 @@ button:hover {
 
 #menu li a:hover {
   color: #000000;
-  background: #64758a;
+  background: #cfe6ff;
 }
 
 #menu input {
@@ -348,7 +348,7 @@ button:hover {
 
 /* hover style just for information */
 label:hover:before {
-  border: 2px solid #64758a !important;
+  border: 2px solid #cfe6ff !important;
   background: #ffffff
 }
 
@@ -402,7 +402,6 @@ body {
 }
 
 .body {
-  background: #232323;
   border-radius: 5px;
   padding: 0 5px 5px;
   margin-left: 5px;
