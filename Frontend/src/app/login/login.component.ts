@@ -11,7 +11,8 @@ export class LoginComponent {
     email: string = "";
     password: string = "";
 
-    constructor(private router: Router, private userService: UserService) { }
+    constructor(private router: Router, private userService: UserService) {
+    }
 
     async login() {
       const user = await this.userService.login(this.email, this.password)
