@@ -26,7 +26,7 @@ import { HttpClientModule } from '@angular/common/http';
     UploadButtonComponent,
     XlsImportComponent,
     LoginErrorAlertComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
