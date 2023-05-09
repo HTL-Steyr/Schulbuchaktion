@@ -33,7 +33,6 @@ class ReadController extends AbstractController
 
 
     /**
-     * @Route('/read/xlsx', name: 'app_read_xlsx')
      * This function reads data from an Excel file and populates data into Publisher, Subject, Book, and BookPrice entities
      *
      * @param Request $request Symfony's Request object
