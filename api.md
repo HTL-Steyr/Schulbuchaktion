@@ -1,113 +1,183 @@
 # API
 
-- SCRUM -> first make a simple version, then implement the harder featuResponse
-  - filters late
-  - API for Creating/Updating adn the moneylist will be defined later
+# /user/login
 
-## POST /user/login
-Request body
+## Methods
+POST
+
+## Request
+
 ```json
 {
-  "username": "string",
-  "password": "string"
-}
-```
-Response body
-```json
-{
-  "token": "string"
+  "email": "String",
+  "password": "String"
 }
 ```
 
-**Überall ab hier:**
-Request headers
+## Response
+
 ```json
 {
-  "Authorization": "Bearer XXX"
+  "token": "String"
 }
 ```
 
-## GET /user/getme
-Response body
+<!-- FIXME: This route does not work the same -->
+# /department
+
+## Methods
+GET
+
+## Response
+
 ```json
-{
-  // User object matching authorization header
-}
+
 ```
 
-## GET /orderlist
-Request query parameters
+<!-- FIXME: This route does not work the same -->
+# /department/{id}
+
+## Methods
+GET
+
+## Response
+
 ```json
-{
-  "schoolyear": "string" // default current
-}
-```
-Response body
-```json
-{
-  "schoolyear": "string",
-  "row": [
-      {
-          "rowId": "int",
-          "book": {
-              // Book object
-          },
-          "orderedFor": [
-              {
-                  // SchoolClass Object
-              }
-          ]
-      }
-  ]
-}
+
 ```
 
-## GET /subject/:?id
-Response body
+<!-- FIXME: This route currently has no data in it -->
+# /moneylist/{id}
+
+## Methods
+GET
+
+## Response
+
+```json
+
+```
+
+<!-- FIXME: This route currently has no data in it -->
+# /orderlist/{id}
+
+## Methods
+GET
+
+## Response
+
+```json
+
+```
+
+# /read/xlsx
+
+## Methods
+POST
+
+## Request
+
+As `form-data`:\
+`key`: schoolBookList
+`value`: official xlsx file from [schulbuchaktion.at](https://www.schulbuchaktion.at/schulbuchlisten.html)
+
+## Response
+
+Just a response code.
+
+
+<!-- FIXME: This route currently has no data in it -->
+# /schoolclass
+
+## Methods
+GET
+
+## Response
+
+```json
+
+```
+
+<!-- FIXME: This route currently has no data in it -->
+# /schoolclass/{id}
+
+## Methods
+GET
+
+## Response
+
+```json
+
+```
+
+# /subject
+
+## Methods
+GET
+
+## Response
+
 ```json
 [
   {
-      // Subject object
+    "id": Integer,
+    "name": "String",
+    "shortName": "String",
+    "headOfSubject": {
+      "id": Integer,
+      "shortName": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "email": "String",
+      "role": []
+    }
+  },
+  {
+
   }
 ]
 ```
 
-## GET /department/:?id
-Response body
-```json
-[
-  {
-      // Department object
-  }
-]
-```
+# /subject/{id}
 
-## GET /schoolclass/:?id
-Response body
-```json
-[
-  {
-      // SchoolClass object
-  }
-]
-```
+## Methods
+GET
 
-## ? /xls/orderlist
-Request
-```json
-// orderlist.xls
-```
+## Response
 
-## ? /xls/prices
-Request
-```json
-// prices.xls
-```
-
-## GET /moneylist
-Response body
 ```json
 {
-  // TBD
+  "id": Integer,
+  "name": "String",
+  "shortName": "String",
+  "headOfSubject": {
+    "id": Integer,
+    "shortName": "String",
+    "firstName": "String",
+    "lastName": "String",
+    "email": "String",
+    "role": []
+  }
+}
+```
+
+# /user/getme
+
+## Methods
+GET
+
+## Response
+
+```json
+{
+  "id": Integer,
+  "shortName": "String",
+  "firstName": "String",
+  "lastName": "String",
+  "email": "String",
+  "role": {
+    "id": Integer,
+    "name": "String"
+  }
 }
 ```
