@@ -4,6 +4,8 @@ import {MoneylistEntry} from "../model/moneylistEntry";
 import DataSource from "devextreme/data/data_source";
 import DevExpress from "devextreme";
 import CustomStore = DevExpress.data.CustomStore;
+import {UserService} from "../service/user.service";
+import {User} from "../model/user";
 
 @Component({
   selector: 'app-money-view',
@@ -11,17 +13,12 @@ import CustomStore = DevExpress.data.CustomStore;
   styleUrls: ['./money-view.component.css']
 })
 
-
 export class MoneyViewComponent {
   private moneyListService: any;
-  constructor() {
-  }
-
-    dataSource: DataSource<MoneylistEntry> =  new DataSource({
-      key: "id",
-      load: () => {
-        return this.moneyListService.findAll();
-      },
-    });
-
+      dataSource: DataSource<MoneylistEntry> =  new DataSource({
+        key: "id",
+        load: () => {
+          return this.moneyListService.findAll();
+        },
+      });
 }
