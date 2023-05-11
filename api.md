@@ -72,7 +72,11 @@ Authorization Header: Bearer Token
       "year": Integer,
       "priceInclusiveEbook": Integer,
       "priceEbook": Integer,
-      "priceEbookPlus": Integer
+      "priceEbookPlus": Integer,
+      "book": {
+            "title": "String",
+            "shortTitle": "String"
+      }
   },
   {
   
@@ -97,7 +101,11 @@ Authorization Header: Bearer Token
     "year": Integer,
     "priceInclusiveEbook": Integer,
     "priceEbook": Integer,
-    "priceEbookPlus": Integer
+    "priceEbookPlus": Integer,
+    "book": {
+            "title": "String",
+            "shortTitle": "String"
+    }
 }
 ```
 
