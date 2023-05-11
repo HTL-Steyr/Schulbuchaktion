@@ -1,6 +1,8 @@
 html {
   background-image: linear-gradient(to bottom, #6f7983, #848f99, #8998a7, #abbed2, #cfe6ff);
-  background-size: 100% 1000px;
+  background-size: 100% 100vh;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 
@@ -119,7 +121,12 @@ h1 {
   height: 45px;
   padding-left: 18px;
   border-radius: 32px;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
 }
+
 
 #menu ul, #menu li {
   margin: 0 auto;
@@ -498,6 +505,7 @@ input {
   box-shadow: black;
   text-shadow: black;
 }
+
 .css-input:focus {
-  outline:none;
+  outline: none;
 }
