@@ -52,12 +52,17 @@ body{
   height: 100px;
 }
 
-.login-content h2{
-  margin: 15px 0;
-  color: #333;
-  text-transform: uppercase;
-  font-size: 2.9rem;
+
+.normal {
+  font-family: Abel Regular, Arial, Helvetica, sans-serif;
+  color: black;
 }
+/*.login-content h2{*/
+/*  margin: 15px 0;*/
+/*  color: #333;*/
+/*  text-transform: uppercase;*/
+/*  font-size: 2.9rem;*/
+/*}*/
 
 .login-content .input-div{
   position: relative;
@@ -140,8 +145,8 @@ body{
   background: none;
   padding: 0.5rem 0.7rem;
   font-size: 1.2rem;
-  color: #555;
-  font-family: 'poppins', sans-serif;
+  font-family: Abel Regular, Arial, Helvetica, sans-serif;
+  color: black;
 }
 
 .input-div.pass{
@@ -161,24 +166,52 @@ a:hover{
   color: #38d39f;
 }
 
-.btn{
-  display: block;
-  width: 100%;
-  height: 50px;
-  border-radius: 25px;
-  outline: none;
-  border: none;
-  background-image: linear-gradient(to right, #9ebcdd, #9ebcdd, #9ebcdd);
-  background-size: 200%;
-  font-size: 1.2rem;
-  color: #fff;
-  font-family: 'Poppins', sans-serif;
-  text-transform: uppercase;
-  margin: 1rem 0;
+/*.btn{*/
+/*  display: block;*/
+/*  width: 100%;*/
+/*  height: 50px;*/
+/*  border-radius: 25px;*/
+/*  outline: none;*/
+/*  border: none;*/
+/*  background-image: linear-gradient(to right, #9ebcdd, #9ebcdd, #9ebcdd);*/
+/*  background-size: 200%;*/
+/*  font-size: 1.2rem;*/
+/*  color: #fff;*/
+/*  font-family: 'Poppins', sans-serif;*/
+/*  text-transform: uppercase;*/
+/*  margin: 1rem 0;*/
+/*  cursor: pointer;*/
+/*  transition: .5s;*/
+/*}*/
+/*.btn:hover{*/
+/*  background-position: right;*/
+/*}*/
+
+
+
+button {
+  font-family: Abel Regular, Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size:20px;
+  color: #ffffff;
+  background-color: black;
+  padding: 10px 31px;
+  border: solid #000000 1px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  border-radius: 50px;
+  transition: 803ms;
+  transform: translateY(0);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   cursor: pointer;
-  transition: .5s;
-}
-.btn:hover{
-  background-position: right;
 }
 
+button:hover {
+  transition: 803ms;
+  padding: 10px 40px;
+  transform: translateY(-0px);
+  background-color: #cfe6ff;
+  color: #000000;
+  border: solid 1px black;
+}
