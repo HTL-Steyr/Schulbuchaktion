@@ -19,7 +19,7 @@ export class NavBarComponent {
           this.isDisabledMoney=false
        }
        if (userService.user?.role.name=="Admin"){
-         this.isDisabledMoney=false
+         this.isDisabledClass=false
        }
 
      }
