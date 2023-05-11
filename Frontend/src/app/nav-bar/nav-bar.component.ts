@@ -15,10 +15,10 @@ export class NavBarComponent {
   isDisabledClass: boolean = true;
   constructor(public userService: UserService, private router:Router) {
 
-        if (userService.user?.role.name=="ADMIN"||userService.user?.role.name=="AV") {
+        if (userService.user?.role.name=="Admin"||userService.user?.role.name=="Abteilungsvorstand") {
           this.isDisabledMoney=false
        }
-       if (userService.user?.role.name=="ADMIN"){
+       if (userService.user?.role.name=="Admin"){
          this.isDisabledMoney=false
        }
 
