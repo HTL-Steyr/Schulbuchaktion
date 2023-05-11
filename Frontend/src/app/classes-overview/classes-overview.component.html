@@ -1,35 +1,20 @@
-
 <h1>Klassen & SchuelerInnen:</h1>
 
-
-<div class="dropdown"><select>
-  <option>--Klassen--</option>
-  <option>3AHITN</option>
-  <option>4AHITN</option>
-  <option>5AHITN</option>
-  <option>2AHITN</option>
-
-</select>
-
-  <div class="select_arrow"></div>
+<div class="dropdown">
+  <button class="dropbtn">Dropdown</button>
+  <div class="dropdown-content">
+    <a href="#" *ngFor="let item of items" (click)="selectClass(item.field)">{{ item.field }}</a>
+  </div>
 </div>
 
 <p>
-
+  Ausgewählte Klasse: {{ selectedClass }}
 </p>
-<ng-container matColumnDef="score">
-  <th mat-header-cell *matHeaderCellDef> Score </th>
-  <td mat-cell> Test </td>
-</ng-container>
 
 <dx-data-grid
+  [dataSource]="classes"
+  [columns]="['JG', 'Klasse', 'SuS ඞ', 'HEL', 'HME', 'SuS ඞ']"
+  [showBorders]="true"
   [allowColumnResizing]="true"
   [allowColumnReordering]="true">
-  <dxi-column dataField="JG" dataType="number" [width]="100"></dxi-column>
-  <dxi-column dataField="HITN" dataType="string" [width]="100"></dxi-column>
-  <dxi-column dataField="SuS ඞ" dataType="string" [width]="100"></dxi-column>
-  <dxi-column dataField="HEL" dataType="number" [width]="100"></dxi-column>
-  <dxi-column dataField="HME" dataType="boolean" [width]="100"></dxi-column>
-  <dxi-column dataField="SuS ඞ" dataType="string" [width]="100"></dxi-column>
 </dx-data-grid>
-
