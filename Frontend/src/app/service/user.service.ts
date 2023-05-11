@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {User} from "../model/user";
 import {firstValueFrom, Observable} from "rxjs";
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class UserService {
   }
 
   constructor(
-    private _http: HttpClient,
+    private _http: HttpClient, private router: Router,
   ) { }
 
   public async login(email: string, password: string): Promise<User> {
@@ -51,6 +52,7 @@ export class UserService {
   public logout() {
     this.user = null;
     localStorage.removeItem(this.localStorageKey);
+    this.router.navigate(["/login"]);
   }
 
   public findOneById(id: number): Observable<User> {
