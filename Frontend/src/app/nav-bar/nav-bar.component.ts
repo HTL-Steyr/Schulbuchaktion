@@ -18,7 +18,7 @@ export class NavBarComponent {
         if (userService.user?.role.id==1||userService.user?.role.id==2) {
           this.isDisabledMoney=false
        }
-       if (userService.user?.role.id==2){
+       if (userService.user?.role.id==1){
          this.isDisabledClass=false
        }
 
