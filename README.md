@@ -77,6 +77,3 @@ When something is unclear as
         ```
 ## User Manual
      https://docs.google.com/document/d/1hxwuLxC_6g1_kxMc8J4ZdDsT6m_qknLXxB-l33nQBwI/edit?usp=sharing
-
-
-
