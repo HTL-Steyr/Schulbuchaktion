@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 /**
  * Controller for:
  * ->(getOrderList) getting an orderlist by id.
- * ->(addOrderList) creating an order and add it to the database.
+ * ->(addOrderList) adding an order to the database.
  */
 class OrderListController extends AbstractController
 {
