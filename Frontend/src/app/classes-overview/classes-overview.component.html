@@ -1,15 +1,10 @@
+<h1>Klassen & SchülerInnen:</h1>
 
-<h1>Klassen & SchuelerInnen:</h1>
-
-<div class="dropdown"><select>
-  <option>--Klassen--</option>
-  <option>3AHITN</option>
-  <option>4AHITN</option>
-  <option>5AHITN</option>
-  <option>2AHITN</option>
-
-</select>
-
+<div class="dropdown">
+  <select [(ngModel)]="selectedClass" (change)="selectClass()">
+    <option value="">--Klassen--</option>
+    <option *ngFor="let item of items" [value]="item.field">{{ item.field }}</option>
+  </select>
   <div class="select_arrow"></div>
 </div>
 
@@ -18,11 +13,21 @@
 </p>
 
 <dx-data-grid
+  [dataSource]="filteredClasses"
+  [columns]="['JG', 'Klasse', 'SuS', 'HEL', 'HME', 'Suss']"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+  [allowColumnReordering]="true">
+</dx-data-grid>
+
+
+<!--
+<dx-data-grid
   [dataSource]="classes"
   [columns]="['JG', 'Klasse', 'SuS', 'HEL', 'HME', 'Suss']"
   [showBorders]="true"
   [allowColumnResizing]="true"
   [allowColumnReordering]="true">
 
-</dx-data-grid>
+</dx-data-grid> -->
 

@@ -21,13 +21,23 @@ export class ClassesOverviewComponent {
     { JG: '2019', Klasse: '5AHITN', 'SuS': 'Hans Huber', HEL: 6, HME: true },
     { JG: '2020', Klasse: '5AHITN', 'SuS': 'Lisa Müller', HEL: 7, HME: false },
   ];
-  selectedClass: string | null = null;
+
+
+
+  selectedClass: string = '';
   filteredClasses: any[] = [];
 
-
-  selectClass(className: string) {
-    this.selectedClass = className;
-    this.filteredClasses = this.classes.filter((item) => item.Klasse == className);
-
+  selectClass() {
+    if (this.selectedClass) {
+      this.filteredClasses = this.classes.filter((item) => item.Klasse === this.selectedClass);
+    } else {
+      this.filteredClasses = this.classes;
+    }
   }
+
+
+  /* selectClass(className: string) {
+     this.selectedClass = className;
+     this.filteredClasses = this.classes.filter((item) => item.Klasse == className);
+   }*/
 }
