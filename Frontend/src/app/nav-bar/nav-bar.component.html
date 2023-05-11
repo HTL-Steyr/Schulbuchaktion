@@ -4,8 +4,12 @@
       <span>Schulbuchaktion</span>
     </div>
     <a routerLink="/bestelluebersicht">Bestellungen</a>
-    <a [routerLink]="isDisabledClass?null:'/klassenuebersicht'">Klassen</a>
-    <a [routerLink]="isDisabledMoney?null:'/gelduebersicht'">Geld</a>
+    <div *ngIf="!isDisabledClass">
+      <a routerLink="/klassenuebersicht">Klassen</a>
+    </div>
+    <div *ngIf="!isDisabledMoney">
+      <a routerLink="/gelduebersicht">Geld</a>
+    </div>
     <a routerLink="/import">Import</a>
     <div class="logout">
       <span>{{userService.user.shortName}}</span>
