@@ -55,6 +55,11 @@ class OrderListController extends AbstractController
 
 
     /**
+     * The function addOrderList is used to add a new orderList to the database.
+     * First it is being checked if the user is either an "Admin", "Abteilungsvorstand" or "Fachverantwortlicher".
+     * If the user is not one of these roles, the function returns a HTTP_UNAUTHORIZED.
+     * If the user is one of these roles, the function gets the data from the request and saves it in the database.
+     * The function returns a HTTP_OK if the orderList was successfully added to the database.
      * @return Response -> the orderList with the given id
      */
     #[Route(
