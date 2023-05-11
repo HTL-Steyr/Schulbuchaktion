@@ -12,9 +12,13 @@ export class UploadButtonComponent {
     input.accept = '.xlsx, .xls, .csv'
     input.onchange = _ => {
       // @ts-ignore
-      let files =   Array.from(input.files);
-      console.log(files);
+      let file =   Array.from(input.files);
+
+      console.log(file);
+
+      alert("File Successfully Uploaded");
     };
+
     input.click();
   }
 }
