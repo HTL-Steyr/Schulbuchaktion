@@ -1,9 +1,10 @@
 import {Component, NgModule, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {MoneylistEntry} from "../model/moneylistEntry";
-import DataSource from "devextreme/data/data_source";
 import DevExpress from "devextreme";
 import CustomStore = DevExpress.data.CustomStore;
+import { Datasource } from '../datasources/datasource';
+import { MoneylistService } from '../service/moneylist.service';
 
 @Component({
   selector: 'app-money-view',
@@ -13,15 +14,8 @@ import CustomStore = DevExpress.data.CustomStore;
 
 
 export class MoneyViewComponent {
-  private moneyListService: any;
-  constructor() {
+  public dataSource: Datasource<MoneylistService>;
+  constructor(moneylistService: MoneylistService) {
+    this.dataSource = new Datasource<MoneylistService>(moneylistService);
   }
-
-    dataSource: DataSource<MoneylistEntry> =  new DataSource({
-      key: "id",
-      load: () => {
-        return this.moneyListService.findAll();
-      },
-    });
-
 }

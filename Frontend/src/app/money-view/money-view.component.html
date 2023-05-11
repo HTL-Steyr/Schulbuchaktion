@@ -1,1 +1,13 @@
 <h1>Geldübersicht</h1>
+<dx-data-grid
+    [allowColumnResizing]="true"
+    [allowColumnReordering]="true"
+    [columnHidingEnabled]="true"
+    [dataSource]="dataSource">
+<dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+<dxi-column dataField="id" dataType="number" ></dxi-column>
+<dxi-column dataField="year" dataType="number"></dxi-column>
+<dxi-column dataField="priceInclusiveEbook" dataType="number"></dxi-column>
+<dxi-column dataField="priceEbook" dataType="number"></dxi-column>
+<dxi-column dataField="priceEbookPlus" dataType="number"></dxi-column>
+</dx-data-grid>
