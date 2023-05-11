@@ -9,6 +9,11 @@ import { OrderlistService } from '../service/orderlist.service';
   templateUrl: './orderlist.component.html',
   styleUrls: ['./orderlist.component.css']
 })
-export class OrderlistComponent{
 
+export class OrderlistComponent{
+public dataSource: DataSource<OrderlistService>;
+constructor(orderlistService: OrderlistService) {
+  this.dataSource = new DataSource<OrderlistService>(orderlistService)
+  }
 }
+
