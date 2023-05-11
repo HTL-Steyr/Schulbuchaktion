@@ -1,12 +1,16 @@
-<div *ngIf="userService.user">
-  <nav id='menu'><input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
-    <ul>
-      <li><a routerLink="/bestelluebersicht">Bestellungen</a></li>
-      <li><a routerLink="/klassenuebersicht">Klassen</a></li>
-      <li><a routerLink="/gelduebersicht">Geld</a></li>
-      <li><a routerLink="/import">Import</a></li>
-    </ul>
-  </nav>
-
-
+<div *ngIf="userService.user" class="wrapper">
+  <div class="bar">
+    <div class="title">
+      <span>Schulbuchaktion</span>
+    </div>
+    <a routerLink="/bestelluebersicht">Bestellungen</a>
+    <a routerLink="/klassenuebersicht">Klassen</a>
+    <a routerLink="/gelduebersicht">Geld</a>
+    <a routerLink="/import">Import</a>
+    <div class="logout">
+      <span>{{userService.user.shortName}}</span>
+      <button (click)="userService.logout()">Logout</button>
+    </div>
+  </div>
 </div>
+
