@@ -10,47 +10,60 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book {
+    #[Groups(['orderlist'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['orderlist'])]
     #[ORM\Column]
     private ?int $bookNumber = null;
 
+    #[Groups(['orderlist'])]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[Groups(['orderlist'])]
     #[ORM\Column(length: 255)]
     private ?string $shortTitle = null;
 
+    #[Groups(['orderlist'])]
     #[ORM\Column]
     private ?int $listType = null;
 
+    #[Groups(['orderlist'])]
     #[ORM\Column]
     private ?int $schoolForm = null;
 
+    #[Groups(['orderlist'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $info = null;
 
+    #[Groups(['orderlist'])]
     #[ORM\Column]
     private ?bool $ebook = null;
 
+    #[Groups(['orderlist'])]
     #[ORM\Column]
     private ?bool $ebookPlus = null;
 
+    #[Groups(['orderlist'])]
     #[ORM\ManyToOne(inversedBy: 'books')]
     private ?Subject $subject = null;
 
+    #[Groups(['orderlist'])]
     #[ORM\ManyToOne(inversedBy: 'books')]
     private ?Publisher $publisher = null;
 
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookOrder::class)]
     private Collection $bookOrders;
 
+    #[Groups(['orderlist'])]
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: SchoolGrade::class)]
     private Collection $schoolGrades;
 
+    #[Groups(['orderlist'])]
     #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookPrice::class)]
     private Collection $bookPrices;
 
