@@ -11,6 +11,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
 
+/*
+ * This controller is either used to get all schoolclasses or a schoolclass by id
+ */
 class SchoolClassController extends AbstractController
 {
     /**
