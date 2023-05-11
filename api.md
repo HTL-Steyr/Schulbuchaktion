@@ -54,6 +54,32 @@ Authorization Header: Bearer Token
 
 ```
 
+# /moneylist
+
+## Methods
+GET
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+```json
+[
+  {
+      "id": Integer,
+      "year": Integer,
+      "priceInclusiveEbook": Integer,
+      "priceEbook": Integer,
+      "priceEbookPlus": Integer
+  },
+  {
+  
+  }
+]
+```
+
 # /moneylist/{id}
 
 ## Methods
