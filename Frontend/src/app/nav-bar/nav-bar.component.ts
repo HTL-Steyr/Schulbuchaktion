@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
+import {User} from "../model/user";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-nav-bar',
@@ -8,11 +9,20 @@ import { UserService } from '../service/user.service';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent {
-    constructor(public userService: UserService, private router: Router) { }
 
-    logoutButtonClicked() {
-      this.userService.logout();
-      this.router.navigate(['/login']);
-    }
+  private currentUser: User | undefined;
+  isDisabled: boolean = true;
+  constructor(public userService: UserService, private router:Router) {
+
+        if (userService.user?.role.name=="ADMIN"||userService.user?.role.name=="AV") {
+          this.isDisabled=false
+       }
+     }
+
+  logoutButtonClicked() {
+    this.userService.logout();
+    this.router.navigate(['/login']);
+  }
+
 
 }

@@ -1,10 +1,16 @@
+
 <h1>Klassen & SchuelerInnen:</h1>
 
-<div class="dropdown">
-  <button class="dropbtn">Dropdown</button>
-  <div class="dropdown-content">
-    <a href="#" *ngFor="let item of items" (click)="selectClass(item.field)">{{ item.field }}</a>
-  </div>
+<div class="dropdown"><select>
+  <option>--Klassen--</option>
+  <option>3AHITN</option>
+  <option>4AHITN</option>
+  <option>5AHITN</option>
+  <option>2AHITN</option>
+
+</select>
+
+  <div class="select_arrow"></div>
 </div>
 
 <p>
@@ -17,4 +23,6 @@
   [showBorders]="true"
   [allowColumnResizing]="true"
   [allowColumnReordering]="true">
+
 </dx-data-grid>
+

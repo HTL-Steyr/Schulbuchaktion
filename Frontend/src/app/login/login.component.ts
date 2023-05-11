@@ -12,6 +12,9 @@ export class LoginComponent {
     password: string = "";
 
     constructor(private router: Router, private userService: UserService) {
+      if (userService.loggedIn) {
+        this.router.navigate(['/bestelluebersicht'])
+      }
     }
 
     async login() {
