@@ -14,12 +14,12 @@ export class ClassesOverviewComponent {
   ];
 
   public classes = [
-    { JG: '2019', Klasse: '3AHITN', 'SuS ඞ': 'Max Mustermann', HEL: 2, HME: true },
-    { JG: '2020', Klasse: '3AHITN', 'SuS ඞ': 'Maria Musterfrau', HEL: 3, HME: false },
-    { JG: '2019', Klasse: '4AHTIN', 'SuS ඞ': 'John Doe', HEL: 4, HME: true },
-    { JG: '2020', Klasse: '4AHTIN', 'SuS ඞ': 'Jane Doe', HEL: 5, HME: false },
-    { JG: '2019', Klasse: '5AHITN', 'SuS ඞ': 'Hans Huber', HEL: 6, HME: true },
-    { JG: '2020', Klasse: '5AHITN', 'SuS ඞ': 'Lisa Müller', HEL: 7, HME: false },
+    { JG: '2019', Klasse: '3AHITN', 'SuS': 'Max Mustermann', HEL: 2, HME: true },
+    { JG: '2020', Klasse: '3AHITN', 'SuS': 'Maria Musterfrau', HEL: 3, HME: false },
+    { JG: '2019', Klasse: '4AHTIN', 'SuS': 'John Doe', HEL: 4, HME: true },
+    { JG: '2020', Klasse: '4AHTIN', 'SuS': 'Jane Doe', HEL: 5, HME: false },
+    { JG: '2019', Klasse: '5AHITN', 'SuS': 'Hans Huber', HEL: 6, HME: true },
+    { JG: '2020', Klasse: '5AHITN', 'SuS': 'Lisa Müller', HEL: 7, HME: false },
   ];
   selectedClass: string | null = null;
   filteredClasses: any[] = [];
