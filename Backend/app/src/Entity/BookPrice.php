@@ -30,6 +30,7 @@ class BookPrice {
     #[ORM\Column(nullable: true)]
     private ?int $priceEbookPlus = null;
 
+    #[Group(["bookPrice"])]
     #[ORM\ManyToOne(inversedBy: 'bookPrices')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Book $book = null;
