@@ -26,10 +26,10 @@ class OrderListController extends AbstractController {
      */
     #[Route(
         path: "/orderlist/{id}",
-        name: "app_orderlist_get_by_schoolyear",
+        name: "app_orderlist_get",
         methods: ["GET"]
     )]
-    public function getOrderList(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
+    public function getOrderListById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
         // Get the current user
         $user = $authService->authenticateByAuthorizationHeader($request);
         // Check if the user is logged in
@@ -45,6 +45,36 @@ class OrderListController extends AbstractController {
 
         // Get the BookOrder entity with the given book id from the database
         $orderList = $registry->getRepository(BookOrder::class)->find($id);
+
+        // Check if orderList is found
+        if (isset($orderList)) {
+            return $this->json($orderList, status: Response::HTTP_OK, context: $context);
+        }
+        // Return HTTP NOT FOUND if no departments are found
+        return $this->json(null, status: Response::HTTP_NOT_FOUND);
+    }
+    
+    #[Route(
+        path: "/orderlist",
+        name: "app_orderlist_get_all",
+        methods: ["GET"]
+    )]
+    public function getOrderLists(AuthService $authService, Request $request, ManagerRegistry $registry): Response {
+        // Get the current user
+        $user = $authService->authenticateByAuthorizationHeader($request);
+        // Check if the user is logged in
+        if (!isset($user)) {
+            //Return HTTP UNAUTHORIZED if the user is not logged in or the token is invalid or expired or the user is not found
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        // Create a context object for the ObjectNormalizer that specifies the serialization groups to use
+        $context = (new ObjectNormalizerContextBuilder())
+            ->withGroups("orderlist")
+            ->toArray();
+
+        // Get the BookOrder entity with the given book id from the database
+        $orderList = $registry->getRepository(BookOrder::class)->findAll();
 
         // Check if orderList is found
         if (isset($orderList)) {
