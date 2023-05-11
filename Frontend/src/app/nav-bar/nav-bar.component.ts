@@ -11,12 +11,17 @@ import {Router} from "@angular/router";
 export class NavBarComponent {
 
   private currentUser: User | undefined;
-  isDisabled: boolean = true;
+  isDisabledMoney: boolean = true;
+  isDisabledClass: boolean = true;
   constructor(public userService: UserService, private router:Router) {
 
         if (userService.user?.role.name=="ADMIN"||userService.user?.role.name=="AV") {
-          this.isDisabled=false
+          this.isDisabledMoney=false
        }
+       if (userService.user?.role.name=="ADMIN"){
+         this.isDisabledMoney=false
+       }
+
      }
 
   logoutButtonClicked() {
