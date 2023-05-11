@@ -36,6 +36,11 @@ class  AuthController extends AbstractController {
      *
      * @return Response
      */
+    #[Route(
+        path: "/user/login",
+        name: "app_auth",
+        methods: ["POST", "OPTIONS"]
+    )]
     public function index(Request $request, ManagerRegistry $registry, UserPasswordHasherInterface $hasher): Response {
 
         // Decode the JSON content of the request into a PHP object.
@@ -46,7 +51,6 @@ class  AuthController extends AbstractController {
 
         // If no user is found with the email, return an unauthorized response.
         if (isset($user)) {
-
             // If the password in the request data is valid for the user, generate a token and save it.
             if ($hasher->isPasswordValid($user, $json->password)) {
                 $token = uniqid($user->getEmail());
