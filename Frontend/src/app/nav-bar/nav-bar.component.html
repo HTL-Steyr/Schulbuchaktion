@@ -5,7 +5,7 @@
     </div>
     <a routerLink="/bestelluebersicht">Bestellungen</a>
     <a routerLink="/klassenuebersicht">Klassen</a>
-    <a routerLink="/gelduebersicht">Geld</a>
+    <a [routerLink]="isDisabled?null:'/gelduebersicht'">Link</a>
     <a routerLink="/import">Import</a>
     <div class="logout">
       <span>{{userService.user.shortName}}</span>
