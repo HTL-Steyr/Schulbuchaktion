@@ -10,17 +10,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PublisherRepository::class)]
 class Publisher {
-    #[Groups(["orderlist", "bookPrice"])]
+    #[Groups(["orderlist"])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
     
-    #[Groups(["orderlist", "bookPrice"])]
+    #[Groups(["orderlist"])]
     #[ORM\Column]
     private ?int $publisherNumber = null;
     
-    #[Groups(["orderlist", "bookPrice"])]
+    #[Groups(["orderlist"])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
