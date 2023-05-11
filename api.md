@@ -28,6 +28,10 @@ POST
 ## Methods
 GET
 
+## Request
+
+Authorization Header: Bearer Token
+
 ## Response
 
 ```json
@@ -39,6 +43,10 @@ GET
 
 ## Methods
 GET
+
+## Request
+
+Authorization Header: Bearer Token
 
 ## Response
 
@@ -52,6 +60,10 @@ GET
 ## Methods
 GET
 
+## Request
+
+Authorization Header: Bearer Token
+
 ## Response
 
 ```json
@@ -64,6 +76,10 @@ GET
 ## Methods
 GET
 
+## Request
+
+Authorization Header: Bearer Token
+
 ## Response
 
 ```json
@@ -74,6 +90,10 @@ GET
 
 ## Methods
 POST
+
+## Request
+
+Authorization Header: Bearer Token
 
 ## Request
 
@@ -92,6 +112,10 @@ Just a response code.
 ## Methods
 GET
 
+## Request
+
+Authorization Header: Bearer Token
+
 ## Response
 
 ```json
@@ -104,6 +128,10 @@ GET
 ## Methods
 GET
 
+## Request
+
+Authorization Header: Bearer Token
+
 ## Response
 
 ```json
@@ -114,6 +142,10 @@ GET
 
 ## Methods
 GET
+
+## Request
+
+Authorization Header: Bearer Token
 
 ## Response
 
@@ -143,6 +175,10 @@ GET
 ## Methods
 GET
 
+## Request
+
+Authorization Header: Bearer Token
+
 ## Response
 
 ```json
@@ -165,6 +201,10 @@ GET
 
 ## Methods
 GET
+
+## Request
+
+Authorization Header: Bearer Token
 
 ## Response
 
