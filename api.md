@@ -54,7 +54,6 @@ Authorization Header: Bearer Token
 
 ```
 
-<!-- FIXME: This route currently has no data in it -->
 # /moneylist/{id}
 
 ## Methods
@@ -67,7 +66,13 @@ Authorization Header: Bearer Token
 ## Response
 
 ```json
-
+{
+    "id": Integer,
+    "year": Integer,
+    "priceInclusiveEbook": Integer,
+    "priceEbook": Integer,
+    "priceEbookPlus": Integer
+}
 ```
 
 <!-- FIXME: This route currently has no data in it -->
