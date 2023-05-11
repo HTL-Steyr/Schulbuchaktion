@@ -42,3 +42,13 @@
   border-radius: 10px;
 }
 
+.logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout span {
+  color: white;
+  margin-right: 10px;
+}
