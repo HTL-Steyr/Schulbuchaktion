@@ -15,19 +15,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
 
 /**
- * Controller for getting an orderlist by id.
- * Check if the user is logged in.
- * Save the groups of which the content should be returned in the $context variable.
- * Search for an orderlist in the repository with the value of the given id parameter.
- * Return the orderlist with the json serializer and add the $context parameter.
- * Only the attributes with the group "orderlist" get serialized and returned.
- * Return HTTP NOT FOUND if no orderlist has the given id.
+ * Controller for:
+ * ->(getOrderList) getting an orderlist by id.
+ * ->(addOrderList) creating an order and add it to the database.
  */
 class OrderListController extends AbstractController
 {
-    /**
-     * @return Response -> the orderList with the given id
-     */
+    /*
+    * Controller for getting an orderlist by id.
+    * Check if the user is logged in.
+    * Save the groups of which the content should be returned in the $context variable.
+    * Search for an orderlist in the repository with the value of the given id parameter.
+    * return the orderlist with the json serializer and add the $context parameter.
+    * Only the attributes with the group "orderlist" get serialized and returned.
+    * return HTTP NOT FOUND if no orderlist has the given id.
+    * @return Response->the orderList with the given id
+    */
     #[Route(
         path: '/orderlist/{id}',
         name: 'app_orderlist_get_by_schoolyear',
@@ -70,7 +73,7 @@ class OrderListController extends AbstractController
     public function addOrderList(AuthService $authService, Request $request, BookOrderRepository $orderRepository): Response
     {
         $user = $authService->authenticateByAuthorizationHeader($request);
-        if ($user->getRole()->getName() == "Admin" || $user->getRole()->getName() == "Abteilungsvorstand" || $user->getRole()->getName() == "Fachverantwortlicher"){
+        if ($user->getRole()->getName() == "Admin" || $user->getRole()->getName() == "Abteilungsvorstand" || $user->getRole()->getName() == "Fachverantwortlicher") {
             $data = json_decode($request->getContent(), true);
 
             $schoolClass = new SchoolClass();
