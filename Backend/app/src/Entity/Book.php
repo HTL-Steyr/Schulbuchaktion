@@ -10,49 +10,49 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book {
-    #[Groups(['orderlist'])]
+    #[Groups(['orderlist', "bookPrice"])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['orderlist'])]
+    #[Groups(['orderlist', "bookPrice"])]
     #[ORM\Column]
     private ?int $bookNumber = null;
 
-    #[Groups(['orderlist'])]
+    #[Groups(['orderlist', "bookPrice"])]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[Groups(['orderlist'])]
+    #[Groups(['orderlist', "bookPrice"])]
     #[ORM\Column(length: 255)]
     private ?string $shortTitle = null;
 
-    #[Groups(['orderlist'])]
+    #[Groups(['orderlist', "bookPrice"])]
     #[ORM\Column]
     private ?int $listType = null;
 
-    #[Groups(['orderlist'])]
+    #[Groups(['orderlist', "bookPrice"])]
     #[ORM\Column]
     private ?int $schoolForm = null;
 
-    #[Groups(['orderlist'])]
+    #[Groups(['orderlist', "bookPrice"])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $info = null;
 
-    #[Groups(['orderlist'])]
+    #[Groups(['orderlist', "bookPrice"])]
     #[ORM\Column]
     private ?bool $ebook = null;
 
-    #[Groups(['orderlist'])]
+    #[Groups(['orderlist', "bookPrice"])]
     #[ORM\Column]
     private ?bool $ebookPlus = null;
 
-    #[Groups(['orderlist'])]
+    #[Groups(['orderlist', "bookPrice"])]
     #[ORM\ManyToOne(inversedBy: 'books')]
     private ?Subject $subject = null;
 
-    #[Groups(['orderlist'])]
+    #[Groups(['orderlist', "bookPrice"])]
     #[ORM\ManyToOne(inversedBy: 'books')]
     private ?Publisher $publisher = null;
 
