@@ -21,6 +21,10 @@ export class UserService {
     localStorage.setItem(this.localStorageKey, JSON.stringify(value))
   }
 
+  public get loggedIn(): boolean {
+    return !!this.user;
+  }
+
   constructor(
     private _http: HttpClient,
   ) { }
