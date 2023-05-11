@@ -1,0 +1,35 @@
+
+<h1>Klassen & SchuelerInnen:</h1>
+
+
+<div class="dropdown"><select>
+  <option>--Klassen--</option>
+  <option>3AHITN</option>
+  <option>4AHITN</option>
+  <option>5AHITN</option>
+  <option>2AHITN</option>
+
+</select>
+
+  <div class="select_arrow"></div>
+</div>
+
+<p>
+
+</p>
+<ng-container matColumnDef="score">
+  <th mat-header-cell *matHeaderCellDef> Score </th>
+  <td mat-cell> Test </td>
+</ng-container>
+
+<dx-data-grid
+  [allowColumnResizing]="true"
+  [allowColumnReordering]="true">
+  <dxi-column dataField="JG" dataType="number" [width]="100"></dxi-column>
+  <dxi-column dataField="HITN" dataType="string" [width]="100"></dxi-column>
+  <dxi-column dataField="SuS ඞ" dataType="string" [width]="100"></dxi-column>
+  <dxi-column dataField="HEL" dataType="number" [width]="100"></dxi-column>
+  <dxi-column dataField="HME" dataType="boolean" [width]="100"></dxi-column>
+  <dxi-column dataField="SuS ඞ" dataType="string" [width]="100"></dxi-column>
+</dx-data-grid>
+

@@ -1,5 +1,9 @@
 import {Component, NgModule, OnInit} from '@angular/core';
-import { DxButtonModule } from 'devextreme-angular';
+import {Observable} from "rxjs";
+import {MoneylistEntry} from "../model/moneylistEntry";
+import DataSource from "devextreme/data/data_source";
+import DevExpress from "devextreme";
+import CustomStore = DevExpress.data.CustomStore;
 
 @Component({
   selector: 'app-money-view',
@@ -8,19 +12,16 @@ import { DxButtonModule } from 'devextreme-angular';
 })
 
 
-export class MoneyViewComponent implements OnInit {
-
-
-
-
+export class MoneyViewComponent {
+  private moneyListService: any;
   constructor() {
   }
 
-  ngOnInit(): void {
-  }
+    dataSource: DataSource<MoneylistEntry> =  new DataSource({
+      key: "id",
+      load: () => {
+        return this.moneyListService.findAll();
+      },
+    });
 
-  helloWorld() {
-
-    console.log("Hello")
-  }
 }
