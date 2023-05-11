@@ -12,7 +12,6 @@ import { MoneylistService } from '../service/moneylist.service';
   styleUrls: ['./money-view.component.css']
 })
 
-
 export class MoneyViewComponent {
   public dataSource: Datasource<MoneylistService>;
   constructor(moneylistService: MoneylistService) {
