@@ -88,7 +88,15 @@ Authorization Header: Bearer Token
 ## Response
 
 ```json
-
+{
+    "id": Integer,
+    "count": Integer,
+    "ebook": Bool,
+    "ebookPlus": Bool,
+    "schoolClass": [],
+    "book": [],
+    "teacherCopy": Bool
+}
 ```
 
 # /read/xlsx
