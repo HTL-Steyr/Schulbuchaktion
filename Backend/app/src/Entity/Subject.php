@@ -9,28 +9,25 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SubjectRepository::class)]
-class Subject
-{
-    #[Groups(['subject'])]
+class Subject {
+    #[Groups(['subject', "orderlist"])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['subject'])]
+    #[Groups(['subject', "orderlist"])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['subject'])]
+    #[Groups(['subject', "orderlist"])]
     #[ORM\Column(length: 255)]
     private ?string $shortName = null;
-
 
     #[ORM\OneToMany(mappedBy: 'subject', targetEntity: Book::class)]
     private Collection $books;
 
-
-    #[Groups(['subject'])]
+    #[Groups(['subject', "orderlist"])]
     #[ORM\OneToOne(mappedBy: 'id', targetEntity: User::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private User $headOfSubject;
