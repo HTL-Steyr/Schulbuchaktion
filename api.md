@@ -75,7 +75,34 @@ Authorization Header: Bearer Token
 }
 ```
 
-<!-- FIXME: This route currently has no data in it -->
+# /orderlist
+
+## Methods
+GET
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+```json
+[
+  {
+      "id": Integer,
+      "count": Integer,
+      "ebook": Bool,
+      "ebookPlus": Bool,
+      "schoolClass": [],
+      "book": [],
+      "teacherCopy": Bool
+  },
+  {
+  
+  }
+]
+```
+
 # /orderlist/{id}
 
 ## Methods
