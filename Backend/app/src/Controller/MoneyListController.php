@@ -16,8 +16,7 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
  * Class MoneyListController
  * Retrieve a moneylist with the given id
  */
-class MoneyListController extends AbstractController
-{
+class MoneyListController extends AbstractController {
 
     /**
      * This method returns the moneylist with the given book id.
@@ -30,17 +29,23 @@ class MoneyListController extends AbstractController
      * @return Response - a JSON response containing the moneylist object or a null value with an appropriate status code
      */
     #[Route(
-        path: '/moneylist/{id}',
-        name: 'app_moneylist_get_by_book_id',
-        methods: ['GET']
+        path: "/moneylist/{id}",
+        name: "app_moneylist_get_by_book_id",
+        methods: ["GET"]
     )]
-    public function getMoneyListByBookId(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response
-    {
+    public function getMoneyListByBookId(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
+        //Get the current user
         $user = $authService->authenticateByAuthorizationHeader($request);
+        //Check if the user is logged in
+        if (!isset($user)) {
+            //Return HTTP UNAUTHORIZED if the user is not logged in or the token is invalid or expired or the user is not found
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        }
+
         if ($user->getRole()->getName() == "Admin" || $user->getRole()->getName() == "Abteilungsvorstand") {
             // Create a context object for the ObjectNormalizer that specifies the serialization groups to use
             $context = (new ObjectNormalizerContextBuilder())
-                ->withGroups('bookPrice')
+                ->withGroups("bookPrice")
                 ->toArray();
 
             // Get the BookPrice entity with the given book id from the database
@@ -51,11 +56,9 @@ class MoneyListController extends AbstractController
                 return $this->json($moneylist, status: Response::HTTP_OK, context: $context);
 
             }
-            // Return a null JSON response with a NOT_FOUND status code if the BookPrice entity is not found
-            return $this->json(null, status: Response::HTTP_NOT_FOUND);
-        } else {
-            // Return a null response with an UNAUTHORIZED status code if the user is not authorized to access the resource
-            return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
+
+        // Return a null JSON response with a NOT_FOUND status code if the BookPrice entity is not found
+        return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
 }
