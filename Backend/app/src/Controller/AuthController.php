@@ -21,34 +21,44 @@ use Symfony\Component\Routing\Annotation\Route;
  * Set the token for the user and update the user in the database with the new token.
  * Return the token for debugging purposes
  */
-
 class  AuthController extends AbstractController {
-    #[Route(
-        path: "/user/login",
-        name: "app_auth",
-        methods: ["POST", "OPTIONS"]
-    )]
+
+    /**
+     * @Route(
+     *     path: "/user/login",
+     *     name: "app_auth",
+     *     methods: ["POST", "OPTIONS"]
+     * )
+     *
+     * @param Request $request
+     * @param ManagerRegistry $registry
+     * @param UserPasswordHasherInterface $hasher
+     *
+     * @return Response
+     */
     public function index(Request $request, ManagerRegistry $registry, UserPasswordHasherInterface $hasher): Response {
 
-        /**
-         * @var $json \stdClass
-         */
-
+        // Decode the JSON content of the request into a PHP object.
         $json = json_decode($request->getContent());
 
+        // Find a user with the email in the request data.
         $user = $registry->getRepository(User::class)->findOneBy(["email" => $json->email]);
 
+        // If no user is found with the email, return an unauthorized response.
         if (isset($user)) {
+
+            // If the password in the request data is valid for the user, generate a token and save it.
             if ($hasher->isPasswordValid($user, $json->password)) {
                 $token = uniqid($user->getEmail());
                 $user->setToken($token);
                 $registry->getRepository(User::class)->save($user, true);
 
-                $response = $this->json(["token" => $token]);
-                return $response;
+                // Return the token in a JSON response for debugging purposes.
+                return $this->json(["token" => $token]);
             }
-
         }
+
+        // Return an unauthorized response if the user could not be authenticated.
         return new Response(null, Response::HTTP_UNAUTHORIZED);
     }
 }
