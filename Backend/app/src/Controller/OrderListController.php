@@ -70,35 +70,53 @@ class OrderListController extends AbstractController
         name: 'app_orderlist_write',
         methods: ['POST']
     )]
-    public function addOrderList(AuthService $authService, Request $request, BookOrderRepository $orderRepository): Response
+    public function addOrderList(AuthService $authService, Request $request, ManagerRegistry $registry, BookOrderRepository $orderRepository): Response
     {
         $user = $authService->authenticateByAuthorizationHeader($request);
         if ($user->getRole()->getName() == "Admin" || $user->getRole()->getName() == "Abteilungsvorstand" || $user->getRole()->getName() == "Fachverantwortlicher") {
-            $data = json_decode($request->getContent(), true);
+            $data = json_decode($request->getContent());
 
-            $schoolClass = new SchoolClass();
-            $schoolClass = $data['schoolClass'];
+            echo gettype($data->price);
 
-            $book = new Book();
-            $book = $data['book'];
 
             $bookOrder = new BookOrder();
-            $bookOrder->setPrice($data['price']);
-            $bookOrder->setCount($data['count']);
-            $bookOrder->setEbook($data['ebook']);
-            $bookOrder->setEbookPlus($data['ebookPlus']);
-            $bookOrder->setTeacherCopy($data['teacherCopy']);
-            $bookOrder->setSchoolClass($schoolClass);
-            $bookOrder->setBook($book);
+            $bookOrder->setCount($data->count);
+            $bookOrder->setEbook($data->ebook);
+            $bookOrder->setEbookPlus($data->ebookPlus);
+            $bookOrder->setTeacherCopy($data->teacherCopy);
+            $bookOrder->setSchoolClass($registry->getRepository(SchoolClass::class)->find($data->schoolClass));
+            $bookOrder->setBook($registry->getRepository(Book::class)->find($data->book));
+            $orderRepository->save($bookOrder,true);
 
-            $orderRepository->save($bookOrder);
-
-            $order = new BookOrder();
-
-
-            return $this->json($order, status: Response::HTTP_OK);
+            return new Response(null, Response::HTTP_OK);
         } else {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
+        }
+    }
+
+    #[Route(
+        path: '/orderlist/delete/{id}',
+        name: 'app_orderlist_delete',
+        methods: ['DELETE']
+    )]
+    public function deleteOrderList(AuthService $authService, Request $request, int $id, BookOrderRepository $bookOrderRepository): Response
+    {
+        $user = $authService->authenticateByAuthorizationHeader($request);
+        if ($user->getRole()->getName() == "Admin" || $user->getRole()->getName() == "Abteilungsvorstand" || $user->getRole()->getName() == "Fachverantwortlicher") {
+
+            $bookOrder = $bookOrderRepository->find($id);
+
+            if (isset($bookOrder)) {
+                $bookOrderRepository->remove($bookOrder,true);
+                return new Response(null, Response::HTTP_OK);
+            } else {
+                return new Response(null, Response::HTTP_NOT_FOUND);
+
+            }
+
+        } else {
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+
         }
     }
 }
