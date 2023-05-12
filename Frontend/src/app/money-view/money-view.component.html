@@ -3,11 +3,13 @@
     [allowColumnResizing]="true"
     [allowColumnReordering]="true"
     [columnHidingEnabled]="true"
+    [columnAutoWidth]="true"
     [dataSource]="dataSource">
 <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
-<dxi-column dataField="id" dataType="number" ></dxi-column>
-<dxi-column dataField="year" dataType="number"></dxi-column>
-<dxi-column dataField="priceInclusiveEbook" dataType="number"></dxi-column>
-<dxi-column dataField="priceEbook" dataType="number"></dxi-column>
-<dxi-column dataField="priceEbookPlus" dataType="number"></dxi-column>
+<dxi-column dataField="year" caption="Jahr" dataType="number"></dxi-column>
+<dxi-column dataField="priceInclusiveEbook" caption="Preis inklusive Ebook" dataType="number"></dxi-column>
+<dxi-column dataField="priceEbook" caption="Preis Ebook" dataType="number"></dxi-column>
+<dxi-column dataField="priceEbookPlus" caption="Preis Ebook Plus" dataType="number"></dxi-column>
+<dxi-column dataField="book.shortTitle" caption="Titel" dataType="string"></dxi-column>
 </dx-data-grid>
+
