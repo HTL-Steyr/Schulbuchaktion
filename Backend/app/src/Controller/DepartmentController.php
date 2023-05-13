@@ -84,46 +84,4 @@ class DepartmentController extends AbstractController {
         //Return HTTP NOT FOUND if no department has the given id
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
-
-    /**
-     * Creates a department in the database.
-     * Considers roles of the user.
-     *
-     * @return Response
-     */
-    #[Route(
-        path: "/department/write",
-        name: "app_department_write",
-        methods: ["POST"]
-    )]
-    public function addDepartment(
-        AuthService          $authService,
-        Request              $request,
-        ManagerRegistry      $registry,
-        DepartmentRepository $departmentRepository,
-    ): Response {
-        $user = $authService->authenticateByAuthorizationHeader($request);
-        if (!isset($user)) {
-            return new Response(null, Response::HTTP_UNAUTHORIZED);
-        }
-
-        if ($user->getRole()->getName() == "Admin" ||
-            $user->getRole()->getName() == "Abteilungsvorstand" ||
-            $user->getRole()->getName() == "Fachverantwortlicher"
-        ) {
-            $data = json_decode($request->getContent());
-
-            $department = new Department();
-            $department->setName($data->name);
-            $department->setBudget($data->budget);
-            $department->setUsedBudget($data->usedBudget);
-            $department->setHeadOfDepartment($registry->getRepository(User::class)->find($data->headOfDepartment));
-            $departmentRepository->save($department, true);
-
-            return $this->json(null, Response::HTTP_OK);
-        }
-
-        return $this->json(null, status: Response::HTTP_NOT_FOUND);
-    }
-    
 }
