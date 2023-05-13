@@ -14,6 +14,9 @@ class BookOrder {
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(["orderlist"])]
+    #[ORM\Column]
+    private ?int $price = null;
 
     #[Groups(['subject','orderlist'])]
     #[ORM\Column]
