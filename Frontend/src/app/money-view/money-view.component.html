@@ -1,15 +1,29 @@
 <h1>Geldübersicht</h1>
 <dx-data-grid
-    [allowColumnResizing]="true"
-    [allowColumnReordering]="true"
-    [columnHidingEnabled]="true"
-    [columnAutoWidth]="true"
-    [dataSource]="dataSource">
-<dxo-column-chooser [enabled]="true"></dxo-column-chooser>
-<dxi-column dataField="year" caption="Jahr" dataType="number"></dxi-column>
-<dxi-column dataField="priceInclusiveEbook" caption="Preis inklusive Ebook" dataType="number"></dxi-column>
-<dxi-column dataField="priceEbook" caption="Preis Ebook" dataType="number"></dxi-column>
-<dxi-column dataField="priceEbookPlus" caption="Preis Ebook Plus" dataType="number"></dxi-column>
-<dxi-column dataField="book.shortTitle" caption="Titel" dataType="string"></dxi-column>
-</dx-data-grid>
+  [dataSource]="dataSource"
+  [allowColumnResizing]="true"
+  [allowColumnReordering]="true"
+  [columnHidingEnabled]="true"
+  [columnAutoWidth]="true"
+>
+  <dxi-column dataField="year" caption="Jahr" dataType="number" [groupIndex]="0"></dxi-column>
+  <dxi-column dataField="priceInclusiveEbook" caption="Preis inklusive Ebook" dataType="number"></dxi-column>
+  <dxi-column dataField="priceEbook" caption="Preis Ebook" dataType="number"></dxi-column>
+  <dxi-column dataField="priceEbookPlus" caption="Preis Ebook Plus" dataType="number"></dxi-column>
+  <dxi-column dataField="book.shortTitle" caption="Titel" dataType="string"></dxi-column>
 
+  <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+  <dxo-search-panel [visible]="true"></dxo-search-panel>
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[5, 10, 20]"
+  ></dxo-pager>
+  <!-- Maybe add delete here later, dont know if it is needed in money-view -->
+  <dxo-editing
+    mode="cell"
+    [allowUpdating]="true"
+  ></dxo-editing>
+  <dxo-group-panel [visible]="true"></dxo-group-panel>
+  <dxo-grouping #expand [autoExpandAll]="false"></dxo-grouping>
+</dx-data-grid>
