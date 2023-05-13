@@ -22,7 +22,6 @@ POST
 }
 ```
 
-<!-- FIXME: This route does not work the same -->
 # /department
 
 ## Methods
@@ -35,10 +34,43 @@ Authorization Header: Bearer Token
 ## Response
 
 ```json
-
+[
+    {
+        "id": Integer,
+        "name": "String",
+        "budget": Integer,
+        "usedBudget": Integer,
+        "headOfDepartment": {
+            "id": Integer,
+            "shortName": "String",
+            "firstName": "String",
+            "lastName": "String",
+            "email": "String",
+            "role": []
+        },
+        "schoolClasses": [
+            {
+                "id": Integer,
+                "name": "String",
+                "grade": Integer,
+                "studentAmount": Integer,
+                "repAmount": Integer,
+                "usedBudget": Integer,
+                "budget": Integer,
+                "year": Integer,
+                "schoolForm": Integer
+            },
+            {
+            
+            }
+        ]
+    },
+    {
+    
+    }
+]
 ```
 
-<!-- FIXME: This route does not work the same -->
 # /department/{id}
 
 ## Methods
@@ -51,8 +83,75 @@ Authorization Header: Bearer Token
 ## Response
 
 ```json
+{
+    "id": Integer,
+    "name": "String",
+    "budget": Integer,
+    "usedBudget": Integer,
+    "headOfDepartment": {
+        "id": Integer,
+        "shortName": "String",
+        "firstName": "String",
+        "lastName": "String",
+        "email": "String",
+        "role": []
+    },
+    "schoolClasses": [
+        {
+            "id": Integer,
+            "name": "String",
+            "grade": Integer,
+            "studentAmount": Integer,
+            "repAmount": Integer,
+            "usedBudget": Integer,
+            "budget": Integer,
+            "year": Integer,
+            "schoolForm": Integer
+        },
+        {
+            "id": Integer,
+            "name": "String",
+            "grade": Integer,
+            "studentAmount": Integer,
+            "repAmount": Integer,
+            "usedBudget": Integer,
+            "budget": Integer,
+            "year": Integer,
+            "schoolForm": Integer
+        }
+    ]
+}
+```
+
+<!-- FIXME: no worky -->
+# /department/delete/{id}
+
+## Methods
+DELETE
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+Response Code: HTTP_OK: 200
+
+# /department/write
+
+## Methods
+DELETE
+
+## Request
+
+Authorization Header: Bearer Token
+```json
 
 ```
+
+## Response
+
+Response Code: HTTP_OK: 200
 
 # /moneylist
 
@@ -109,6 +208,41 @@ Authorization Header: Bearer Token
 }
 ```
 
+# /moneylist/delete/{id}
+
+## Methods
+DELETE
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+Response Code: HTTP_OK: 200
+
+# /moneylist/write
+
+## Methods
+POST
+
+## Request
+
+Authorization Header: Bearer Token
+```json
+{
+    "year": Integer,
+    "priceInclusiveEbook": Integer,
+    "priceEbook": Integer,
+    "priceEbookPlus": Integer,
+    "book": Integer (book id)
+}
+```
+
+## Response
+
+Response Code: HTTP_OK: 200
+
 # /orderlist
 
 ## Methods
@@ -160,6 +294,43 @@ Authorization Header: Bearer Token
 }
 ```
 
+# /orderlist/delete/{id}
+
+## Methods
+DELETE
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+Response Code: HTTP_OK: 200
+
+# /orderlist/write
+
+## Methods
+POST
+
+## Request
+
+Authorization Header: Bearer Token
+```json
+{
+    "count": Integer,
+    "price": Integer,
+    "ebook": Integer,
+    "ebookPlus": Integer,
+    "teacherCopy": Integer,
+    "schoolClass": Integer (schoolClass id),
+    "book": Integer (book id)
+}
+```
+
+## Response
+
+Response Code: HTTP_OK: 200
+
 # /read/xlsx
 
 ## Methods
@@ -177,10 +348,10 @@ As `form-data`:\
 
 ## Response
 
-Just a response code.
+Response Code: HTTP_OK: 200
 
 
-<!-- FIXME: This route currently has no data in it -->
+<!-- FIXME: This route is broken -->
 # /schoolclass
 
 ## Methods
@@ -196,7 +367,7 @@ Authorization Header: Bearer Token
 
 ```
 
-<!-- FIXME: This route currently has no data in it -->
+<!-- FIXME: This route is broken -->
 # /schoolclass/{id}
 
 ## Methods
