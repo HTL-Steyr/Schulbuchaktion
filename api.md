@@ -123,32 +123,6 @@ Authorization Header: Bearer Token
 }
 ```
 
-<!-- FIXME: no worky -->
-# /department/delete/{id}
-
-## Methods
-DELETE
-
-## Request
-
-Authorization Header: Bearer Token
-
-## Response
-
-Response Code: HTTP_OK: 200
-
-# /department/write
-
-## Methods
-DELETE
-
-## Request
-
-Authorization Header: Bearer Token
-```json
-
-```
-
 ## Response
 
 Response Code: HTTP_OK: 200
