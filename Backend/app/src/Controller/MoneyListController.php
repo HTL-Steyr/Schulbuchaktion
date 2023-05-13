@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Book;
 use App\Entity\BookPrice;
+use App\Repository\BookPriceRepository;
 use App\Service\AuthService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,9 +18,7 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
  * Class MoneyListController
  * Retrieve a moneylist with the given id
  */
-class MoneyListController extends AbstractController
-{
-
+class MoneyListController extends AbstractController {
     /**
      * This method returns the moneylist with the given book id.
      *
@@ -34,8 +34,7 @@ class MoneyListController extends AbstractController
         name: 'app_moneylist_get_by_book_id',
         methods: ['GET']
     )]
-    public function getMoneyListByBookId(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response
-    {
+    public function getMoneyListByBookId(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
         $user = $authService->authenticateByAuthorizationHeader($request);
         if ($user->getRole()->getName() == "Admin" || $user->getRole()->getName() == "Abteilungsvorstand") {
             // Create a context object for the ObjectNormalizer that specifies the serialization groups to use
@@ -57,5 +56,84 @@ class MoneyListController extends AbstractController
             // Return a null response with an UNAUTHORIZED status code if the user is not authorized to access the resource
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
+    }
+
+    /**
+     * Creates a moneylist in the database.
+     * Considers roles of the user.
+     * 
+     * @return Response
+     */
+    #[Route(
+        path: "/moneylist/write",
+        name: "app_moneylist_write",
+        methods: ["POST"]
+    )]
+    public function addMoneyList(
+        AuthService $authService,
+        Request $request,
+        ManagerRegistry $registry,
+        BookPriceRepository $priceRepository,
+    ): Response {
+        $user = $authService->authenticateByAuthorizationHeader($request);
+        if (!isset($user)) {
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        }
+        
+        if ($user->getRole()->getName() == "Admin" || 
+            $user->getRole()->getName() == "Abteilungsvorstand" ||
+            $user->getRole()->getName() == "Fachverantwortlicher"
+        ) {
+            $data = json_decode($request->getContent());
+            
+            $bookPrice = new BookPrice();
+            $bookPrice->setYear($data->year);
+            $bookPrice->setPriceInclusiveEbook($data->priceInclusiveEbook);
+            $bookPrice->setPriceEbook($data->priceEbook);
+            $bookPrice->setPriceEbookPlus($data->priceEbookPlus);
+            $bookPrice->setBook($registry->getRepository(Book::class)->find($data->book));
+            $priceRepository->save($bookPrice, true);
+
+            return new Response(null, Response::HTTP_OK);
+        }
+        
+        return $this->json(null, status: Response::HTTP_NOT_FOUND);
+    }
+    
+    /**
+     * Deletes a moneylist in the database.
+     * Considers roles of the user.
+     *
+     * @return Response
+     */
+    #[Route(
+        path: "/moneylist/delete/{id}",
+        name: "app_moneylist_delete",
+        methods: ["DELETE"]
+    )]
+    public function deleteMoneyList(
+        AuthService $authService,
+        Request $request,
+        int $id,
+        BookPriceRepository $priceRepository
+    ): Response {
+        $user = $authService->authenticateByAuthorizationHeader($request);
+        if (!isset($user)) {
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        if ($user->getRole()->getName() == "Admin" ||
+            $user->getRole()->getName() == "Abteilungsvorstand" ||
+            $user->getRole()->getName() == "Fachverantwortlicher"
+        ) {
+            $bookPrice = $priceRepository->find($id);
+
+            if (isset($bookPrice)) {
+                $priceRepository->remove($bookPrice, true);
+                return new Response(null, Response::HTTP_OK);
+            }
+        }
+
+        return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
 }
