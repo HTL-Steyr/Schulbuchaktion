@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
+import { UserService } from './service/user.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'SchoolBookOrderSystem';
+
+  constructor(private router: Router, public userService: UserService) {
+        router.events.subscribe((val) => {
+            if (!(val instanceof NavigationStart)) return;
+
+            if (!this.userService.user && val.url != '/login') {
+                this.router.navigate(['login']);
+            }
+        }
+    );
+  }
 }

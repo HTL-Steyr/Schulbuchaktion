@@ -2,6 +2,12 @@
 <dx-data-grid
     [allowColumnResizing]="true"
     [allowColumnReordering]="true"
+    [columnHidingEnabled]="true"
+    [columnAutoWidth]="true"
     [dataSource]="dataSource">
-<dxi-column dataField="id" dataType="number" [width]="100"></dxi-column>
+<dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+<dxi-column dataField="book.subject.name" caption="Fach" dataType="string"></dxi-column>
+<dxi-column dataField="book.shortTitle" caption="Buchtitel" dataType="string"></dxi-column>
+<dxi-column dataField="ebook" dataType="boolean"></dxi-column>
+<dxi-column dataField="schoolClass.name" caption="Klasse" dataType="string"></dxi-column>
 </dx-data-grid>
