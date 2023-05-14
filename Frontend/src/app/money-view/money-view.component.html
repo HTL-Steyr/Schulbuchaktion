@@ -18,12 +18,9 @@
   <dxo-pager
     [showPageSizeSelector]="true"
     [allowedPageSizes]="[5, 10, 20]"
+    [showInfo]="true"
   ></dxo-pager>
   <!-- Maybe add delete here later, dont know if it is needed in money-view -->
-  <dxo-editing
-    mode="cell"
-    [allowUpdating]="true"
-  ></dxo-editing>
   <dxo-group-panel [visible]="true"></dxo-group-panel>
   <dxo-grouping #expand [autoExpandAll]="false"></dxo-grouping>
 </dx-data-grid>

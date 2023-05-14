@@ -9,7 +9,10 @@ export class Datasource<T extends FindAll<any>> extends DataSource {
                 load: () => {
                     return this.service.findAll().toPromise();
                 },
-                remove: async (id: number) => { },
+                remove: async (id: number) => {
+                    console.log("delete");
+                    return this.service.delete(id).toPromise();
+                },
                 update: (id: number, data: T) => { }
             }))
         }))

@@ -13,8 +13,23 @@ import { OrderlistService } from '../service/orderlist.service';
 export class OrderlistComponent{
   dataSource: Datasource<OrderlistService>;
 
+  selectedItemKeys:any[] = [];
+
+  selectionChanged(data: any) {
+    this.selectedItemKeys = data.selectedRowKeys;
+    console.log(this.selectedItemKeys);
+  }
+
+  deleteRecords() {
+    this.selectedItemKeys.forEach((key: any) => {
+      this.dataSource.store().remove(key.id);
+    });
+    this.dataSource.reload();
+    this.selectedItemKeys = [];
+  }
+
   constructor(private service: OrderlistService) {
     this.dataSource = new Datasource(service);
   }
-
 }
+
