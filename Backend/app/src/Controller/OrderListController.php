@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Book;
 use App\Entity\BookOrder;
+use App\Entity\SchoolClass;
+use App\Repository\BookOrderRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -80,7 +83,84 @@ class OrderListController extends AbstractController {
         if (isset($orderList)) {
             return $this->json($orderList, status: Response::HTTP_OK, context: $context);
         }
-        // Return HTTP NOT FOUND if no departments are found
+
+        return $this->json(null, status: Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * The function addOrderList is used to add a new orderList to the database.
+     * First it is being checked if the user is either an "Admin", "Abteilungsvorstand" or "Fachverantwortlicher".
+     * If the user is not one of these roles, the function returns a HTTP_UNAUTHORIZED.
+     * If the user is one of these roles, the function gets the data from the request and saves it in the database.
+     * The function returns a HTTP_OK if the orderList was successfully added to the database.
+     * @return Response -> the orderList with the given id
+     */
+    #[Route(
+        path: "/orderlist/write",
+        name: "app_orderlist_write",
+        methods: ["POST"]
+    )]
+    public function addOrderList(
+        AuthService $authService,
+        Request $request,
+        ManagerRegistry $registry,
+        BookOrderRepository $orderRepository,
+    ): Response {
+        $user = $authService->authenticateByAuthorizationHeader($request);
+        if (!isset($user)) {
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        }
+        
+        if ($user->getRole()->getName() == "Admin" || 
+            $user->getRole()->getName() == "Abteilungsvorstand" ||
+            $user->getRole()->getName() == "Fachverantwortlicher"
+        ) {
+            $data = json_decode($request->getContent());
+            
+            $bookOrder = new BookOrder();
+            $bookOrder->setCount($data->count);
+            $bookOrder->setPrice($data->price);
+            $bookOrder->setEbook($data->ebook);
+            $bookOrder->setEbookPlus($data->ebookPlus);
+            $bookOrder->setTeacherCopy($data->teacherCopy);
+            $bookOrder->setSchoolClass($registry->getRepository(SchoolClass::class)->find($data->schoolClass));
+            $bookOrder->setBook($registry->getRepository(Book::class)->find($data->book));
+            $orderRepository->save($bookOrder, true);
+
+            return new Response(null, Response::HTTP_OK);
+        }
+        
+        return $this->json(null, status: Response::HTTP_NOT_FOUND);
+    }
+
+    #[Route(
+        path: "/orderlist/delete/{id}",
+        name: "app_orderlist_delete",
+        methods: ["DELETE"]
+    )]
+    public function deleteOrderList(
+        AuthService $authService,
+        Request $request,
+        int $id,
+        BookOrderRepository $bookOrderRepository
+    ): Response {
+        $user = $authService->authenticateByAuthorizationHeader($request);
+        if (!isset($user)) {
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        }
+        
+        if ($user->getRole()->getName() == "Admin" ||
+            $user->getRole()->getName() == "Abteilungsvorstand" ||
+            $user->getRole()->getName() == "Fachverantwortlicher"
+        ) {
+            $bookOrder = $bookOrderRepository->find($id);
+
+            if (isset($bookOrder)) {
+                $bookOrderRepository->remove($bookOrder, true);
+                return new Response(null, Response::HTTP_OK);
+            }
+        }
+        
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
 }
