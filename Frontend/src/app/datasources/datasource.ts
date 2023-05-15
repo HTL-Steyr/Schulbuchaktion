@@ -1,5 +1,6 @@
 import CustomStore from "devextreme/data/custom_store";
 import DataSource from "devextreme/data/data_source";
+import { firstValueFrom } from "rxjs";
 import { FindAll } from "../service/findAll";
 
 export class Datasource<T extends FindAll<any>> extends DataSource {
@@ -7,12 +8,16 @@ export class Datasource<T extends FindAll<any>> extends DataSource {
         super(Object.assign({
             store: new CustomStore(Object.assign({
                 load: () => {
-                    return this.service.findAll().toPromise();
+                  return firstValueFrom(this.service.findAll());
                 },
                 remove: async (key: any) => {
-                    return this.service.delete(key).toPromise();
+                    return firstValueFrom(this.service.delete(key));
                 },
-                update: (id: number, data: T) => { },
+                update: (id: number, data: T) => {
+                  console.log(id);
+
+                  return firstValueFrom(this.service.update(id, data));
+                },
             }))
         }))
     }

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import DataSource from 'devextreme/data/data_source';
 import { Datasource } from '../datasources/datasource';
-import { BookOrder } from '../model/bookOrder';
 import { OrderlistService } from '../service/orderlist.service';
+import { SubjectService } from '../service/subject.service';
 
 
 @Component({
@@ -10,14 +9,18 @@ import { OrderlistService } from '../service/orderlist.service';
   templateUrl: './orderlist.component.html',
   styleUrls: ['./orderlist.component.css']
 })
-export class OrderlistComponent{
+export class OrderlistComponent {
+
+  selectedItemKeys: any[] = [];
+
   dataSource: Datasource<OrderlistService>;
 
-  selectedItemKeys:any[] = [];
+  constructor(private orderlstService: OrderlistService) {
+    this.dataSource = new Datasource(orderlstService);
+  }
 
   selectionChanged(data: any) {
     this.selectedItemKeys = data.selectedRowKeys;
-    console.log(this.selectedItemKeys);
   }
 
   deleteRecords() {
@@ -28,8 +31,5 @@ export class OrderlistComponent{
     this.selectedItemKeys = [];
   }
 
-  constructor(private service: OrderlistService) {
-    this.dataSource = new Datasource(service);
-  }
 }
 

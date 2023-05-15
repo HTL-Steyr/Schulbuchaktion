@@ -12,6 +12,10 @@ export class OrderlistService implements FindAll<BookOrder> {
   private readonly baseUrl = 'http://schulbuch.rathgeb.at/orderlist';
   constructor(private _http: HttpClient, private userService: UserService) { }
 
+  update(id: number, data: BookOrder): Observable<BookOrder> {
+    return this._http.put<BookOrder>(`${this.baseUrl}/update/${id}`, data, {headers: this.userService.getAuthorizationHeader()});
+  }
+
   public findAll(): Observable<BookOrder[]> {
     return this._http.get<BookOrder[]>(this.baseUrl, {headers: this.userService.getAuthorizationHeader()});
   }
