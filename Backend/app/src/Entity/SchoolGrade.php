@@ -8,13 +8,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SchoolGradeRepository::class)]
 class SchoolGrade {
-    #[Groups(['subject', "orderlist"])]
+    #[Groups(['subject', "orderlist", "book"])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['subject', "orderlist"])]
+    #[Groups(['subject', "orderlist", "book"])]
     #[ORM\Column]
     private ?int $grade = null;
 
