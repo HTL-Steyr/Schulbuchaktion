@@ -16,7 +16,8 @@ export class OrderlistService implements FindAll<BookOrder> {
     return this._http.get<BookOrder[]>(this.baseUrl, {headers: this.userService.getAuthorizationHeader()});
   }
 
-  public delete(id: number): Observable<BookOrder> {
+  public delete(key: any): Observable<BookOrder> {
+    const id = key.id;
     return this._http.delete(this.baseUrl + "/delete" + "/" + id, {headers: this.userService.getAuthorizationHeader()});
   }
 }

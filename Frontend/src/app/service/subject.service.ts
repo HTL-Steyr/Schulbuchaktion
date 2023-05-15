@@ -11,6 +11,10 @@ export class SubjectService implements FindAll<Subject>{
   private readonly baseUrl = '../subject';
   constructor(private _http: HttpClient) { }
 
+  public delete(key: any): Observable<Subject> {
+    throw new Error('Method not implemented.');
+  }
+
   public findAll(): Observable<Subject[]> {
         return this._http.get<Subject[]>(this.baseUrl);
   }

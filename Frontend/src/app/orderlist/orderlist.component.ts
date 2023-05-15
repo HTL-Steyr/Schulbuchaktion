@@ -22,7 +22,7 @@ export class OrderlistComponent{
 
   deleteRecords() {
     this.selectedItemKeys.forEach((key: any) => {
-      this.dataSource.store().remove(key.id);
+      this.dataSource.store().remove(key);
     });
     this.dataSource.reload();
     this.selectedItemKeys = [];

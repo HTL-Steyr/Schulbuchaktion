@@ -11,6 +11,10 @@ export class SchoolclassService implements FindAll<SchoolClass>{
   private readonly baseUrl = '../schoolclass';
   constructor(private _http: HttpClient) { }
 
+  public delete(key: any): Observable<SchoolClass> {
+    throw new Error('Method not implemented.');
+  }
+
   public findAll(): Observable<SchoolClass[]> {
     return this._http.get<SchoolClass[]>(this.baseUrl);
   }

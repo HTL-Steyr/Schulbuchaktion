@@ -12,6 +12,10 @@ export class BookService implements FindAll<Book>{
   private readonly baseUrl = '../book';
   constructor(private _http: HttpClient) { }
 
+  public delete(key: any): Observable<Book> {
+    throw new Error('Method not implemented.');
+  }
+
   public findAll(): Observable<Book[]> {
     throw new Error("Method not implemented")
   }
