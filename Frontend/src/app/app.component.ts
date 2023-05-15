@@ -17,16 +17,8 @@ export class AppComponent {
       if (!this.userService.user && val.url != '/login') {
         this.router.navigate(['login']);
       } else {
-        console.log("User is logged in");
-        console.log(userService.user);
-
-
         if (userService.user?.token) {
-          console.log('sameg');
-
           userService.authorizeToken(userService.user.token).subscribe(user => {
-            console.log("Ihna is logged in");
-
             if (userService.user?.token) {
               user.token = userService.user?.token;
               userService.user = user;

@@ -19,9 +19,6 @@ export class UserService {
 
   public set user(value: User | undefined | null) {
     if (!value) return;
-    console.log(JSON.stringify(value));
-    console.log("hier!");
-
     localStorage.setItem(this.localStorageKey, JSON.stringify(value))
   }
 
@@ -41,8 +38,6 @@ export class UserService {
     const loginResponse = await firstValueFrom(this._http.post<{ token: string }>(`${this.baseUrl}/login`, payload));
     const user = await firstValueFrom(this.authorizeToken(loginResponse.token));
     user.token = loginResponse.token;
-    console.log(user);
-
     return user;
   }
 
