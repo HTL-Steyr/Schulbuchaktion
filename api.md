@@ -22,6 +22,47 @@ POST
 }
 ```
 
+# /book
+
+## Methods
+GET
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+```json
+[
+    {
+        "id": Integer,
+        "bookNumber": Integer,
+        "title": "String",
+        "shortTitle": "String",
+        "listType": Integer,
+        "schoolForm": Integer,
+        "info": "String",
+        "ebook": Bool,
+        "ebookPlus": Bool,
+        "subject": {
+            "id": Integer,
+            "name": "String",
+            "shortName": "String"
+        },
+        "publisher": {
+            "id": Integer,
+            "publisherNumber": Integer,
+            "name": "String"
+        },
+        "schoolGrades": []
+    },
+    {
+    
+    }
+]
+```
+
 # /department
 
 ## Methods
