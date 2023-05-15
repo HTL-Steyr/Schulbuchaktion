@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {User} from "../model/user";
-import {firstValueFrom, Observable} from "rxjs";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { User } from "../model/user";
+import { firstValueFrom, Observable } from "rxjs";
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -19,6 +19,9 @@ export class UserService {
 
   public set user(value: User | undefined | null) {
     if (!value) return;
+    console.log(JSON.stringify(value));
+    console.log("hier!");
+
     localStorage.setItem(this.localStorageKey, JSON.stringify(value))
   }
 
@@ -35,13 +38,19 @@ export class UserService {
       email: email,
       password: password,
     }
-    const loginResponse = await firstValueFrom(this._http.post<{token: string}>(`${this.baseUrl}/login`, payload));
-    const user = await firstValueFrom(this._http.get<User>(
-      `${this.baseUrl}/getme`,
-      {headers: this.getAuthorizationHeader(loginResponse.token)}
-    ));
+    const loginResponse = await firstValueFrom(this._http.post<{ token: string }>(`${this.baseUrl}/login`, payload));
+    const user = await firstValueFrom(this.authorizeToken(loginResponse.token));
     user.token = loginResponse.token;
+    console.log(user);
+
     return user;
+  }
+
+  public authorizeToken(token: string): Observable<User> {
+    return this._http.get<User>(
+      `${this.baseUrl}/getme`,
+      { headers: this.getAuthorizationHeader(token) }
+    );
   }
 
   public getAuthorizationHeader(token: string | undefined = this.user?.token): HttpHeaders {
