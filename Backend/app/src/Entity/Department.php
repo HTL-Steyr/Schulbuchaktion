@@ -29,8 +29,7 @@ class Department {
     private ?int $usedBudget = null;
 
     #[Groups(['department', 'schoolclass'])]
-    #[ORM\OneToMany(mappedBy:'id',targetEntity: User::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'departments')]
     private ?User $headOfDepartment = null;
 
     #[Groups(['department'])]
