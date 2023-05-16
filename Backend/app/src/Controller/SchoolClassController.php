@@ -46,6 +46,9 @@ class SchoolClassController extends AbstractController {
             if (isset($schoolClasses)) {
                 return $this->json($schoolClasses, status: Response::HTTP_OK, context: $context);
             }
+        } else{
+            //if the user is not an Admin, return an HTTP_UNAUTHORIZED response
+            return $this->json(null, status: Response::HTTP_UNAUTHORIZED);
         }
         
         // If no school classes are found, return an HTTP_NOT_FOUND response
