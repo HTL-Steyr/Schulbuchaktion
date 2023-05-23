@@ -11,13 +11,13 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: RoleRepository::class)]
 class Role {
-    #[Groups('user')]
+    #[Groups('user', "orderlist")]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups('user')]
+    #[Groups('user', "orderlist")]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 

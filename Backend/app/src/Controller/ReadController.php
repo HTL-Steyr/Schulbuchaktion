@@ -8,6 +8,7 @@ use App\Entity\Publisher;
 use App\Entity\Subject;
 use App\Entity\User;
 use App\Service\AuthService;
+use App\Service\ImportService;
 use ContainerMmpMt0D\getConsole_ErrorListenerService;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectRepository;
@@ -17,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-define("ADMIN", 1);
+// define("ADMIN", 1);
 
 
 /**
@@ -31,9 +32,10 @@ define("ADMIN", 1);
 class ReadController extends AbstractController
 {
 
+    public const ADMIN = 1;
+
 
     /**
-     * @Route('/read/xlsx', name: 'app_read_xlsx')
      * This function reads data from an Excel file and populates data into Publisher, Subject, Book, and BookPrice entities
      *
      * @param Request $request Symfony's Request object
@@ -41,12 +43,12 @@ class ReadController extends AbstractController
      * @return Response Symfony's Response object
      */
     #[Route('/read/xlsx', name: 'app_read_xlsx')]
-    public function readPublisher(Request $request, ManagerRegistry $registry, AuthService $authService): Response
+    public function readXlsxFile(Request $request, ManagerRegistry $registry, AuthService $authService, ImportService $importService): Response
     {
         $user = $authService->authenticateByAuthorizationHeader($request);
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
-        } elseif (!($user->getRole()->getId()==ADMIN)){
+        } elseif (!($user->getRole()->getId() == self::ADMIN)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
 
@@ -91,9 +93,9 @@ class ReadController extends AbstractController
 
                 // check if publisher already exists
                 // if not then insert the new one
-                $isSubjectExisting = $repoPublisher->findOneBy(["publisherNumber" => $vnr]);
+                $isEntityExisting = $repoPublisher->findOneBy(["publisherNumber" => $vnr]);
 
-                if (!isset($isSubjectExisting)) {
+                if (!isset($isEntityExisting)) {
                     $publisher = new Publisher();
                     $publisher->setPublisherNumber($vnr);
                     $publisher->setName($publisherName);
@@ -102,103 +104,35 @@ class ReadController extends AbstractController
 
                 // check if subject already exists and if it has a head of subject
                 // if not then insert the new one
-                $isSubjectExisting =  null;
-                $shortName = "N/A";
-                $headOfSubject = null;
-
-                if (str_contains($subjectName, "DEUTSCH")
-                || str_contains($subjectName,'DEUTSCH-LITERATURKUNDE')
-                || str_contains($subjectName,'DEUTSCH-SPRACHLEHRE')
-                || str_contains($subjectName,'DEUTSCH-SPRACHLEHRE-ZUSATZ')
-                ) {
-                    $subjectName="Deutsch";
-                    $user = "proe";
-                } else if (str_contains($subjectName, "ENGLISCH")
-                    || str_contains($subjectName,'ENGLISCH-SPRACHLEHRE')
-                    || str_contains($subjectName,'ENGLISCH-WÖRTERBÜCHER')
-                    || str_contains($subjectName,'ENGLISCH-ZUSATZ')) {
-                    $user = "hesd";
-                    $subjectName="Englisch";
-
-                } else if (str_contains($subjectName, "ETHIK")) {
-                    $user = "pfas";
-                    $subjectName="ETHIK";
-                } else if (str_contains($subjectName, "GEOGRAFIE") ||
-                    str_contains($subjectName, "GESCHICHTE") ||
-                    str_contains($subjectName, "POLITISCHE BILDUNG")) {
-                    $user = "amot";
-                    $subjectName="GGP";
-
-                } else if (str_contains($subjectName, "NATURWISSENSCHAFTEN")
-                    || str_contains($subjectName, "CHEMIE")
-                    || str_contains($subjectName,'PHYSIK')
-                    || str_contains($subjectName,'BIOCHEMIE')) {
-                    $user = "kimc";
-                    $subjectName="NATURWISSENSCHAFTEN";
-
-                } else if (str_contains($subjectName, "MATHEMATIK")) {
-                    $user = "nieb";
-                    $subjectName="AM";
-
-                } else if (str_contains($subjectName, "WIRTSCHAFT")
-                    || str_contains($subjectName, 'BETRIEBSWIRTSCHAFT')
-                    || str_contains($subjectName, 'WIRTSCHAFTSRECHT')) {
-                    $user = "hils";
-                    $subjectName = "WIRTSCHAFT";
-
-                //} else if (str_contains($subjectName, "RELIGION")) {
-                  //  $user = "ramk";
-                } else if (str_contains($subjectName, "ELEKTRONIK") ||
-                    str_contains($subjectName, "SYSTEMTECHNIK") ||
-                    str_contains($subjectName, "INFORMATIK")) {
-                    $user = "pusc";
-                    $subjectName="FACHLEHRE IT-ELEKTRONIK";
+                $isEntityExisting = null;
 
 
-                } else if (str_contains($subjectName, "MASCHINENBAU")
-                    || str_contains($subjectName, 'FERTIGUNGSTECHNIK')
-                    || str_contains($subjectName,' MASCHINENBAU-ZUSATZ')
-                    || str_contains($subjectName,'TECHNISCHES ZEICHNEN')
-                    || str_contains($subjectName,'MOTORENTECHNIK')
-                    || str_contains($subjectName,'ANTRIEBSTECHNIK')) {
-                    $user = "obea";
-                    $subjectName="FACHLEHRE MASCHINENBAU";
+                $subjectName = $importService->checkSubject($subjectName);
 
-                } else if (str_contains($subjectName, "MECHATRONIK")
-                    || str_contains($subjectName,'GEOMETRIE')) {
-                    $user = "hint";
-                    $subjectName="FACHLEHRE MECHATRONIK";
+                if ($subjectName != null) {
+                    $result = $importService->getUser($subjectName);
+                    $headOfSubject = $repoUser->findOneBy(["shortName" => $result["user"]]);
+                    $isEntityExisting = $repoSubject->findOneBy(["name" => $result["shortname"]]);
 
-                } else {
-                    $user = "N/A";
-                }
-                echo $subjectName . " " . $user . "\n";
-                if ($user != "N/A") {
-                    $headOfSubject = $repoUser->findOneBy(["shortName" => $user]);
-                    $isSubjectExisting = $repoSubject->findOneBy(["name" => $subjectName]);
-
-                    if (!isset($isSubjectExisting) && isset($headOfSubject)) {
+                    if (!isset($isEntityExisting) && isset($headOfSubject)) {
 
                         $subject = new Subject();
-                        echo $headOfSubject->toString() . "\n";
-                        $subject->addHeadOfSubject($headOfSubject);
+                        $subject->setHeadOfSubject($headOfSubject);
                         $subject->setName($subjectName);
-                        $subject->setShortName($shortName);
-                        $headOfSubject->addSubject($subject);
-                        $repoUser->save($headOfSubject, true);
+                        $subject->setShortName($result["shortname"]);
                         $repoSubject->save($subject, true);
                     }
 
                     // check if book already exists and has a subject and a publisher
                     // if not then insert the new one
-                    $isSubjectExisting = null;
+                    $isEntityExisting = null;
                     $subject = $repoSubject->findOneBy(["name" => $subjectName]);
                     $publisher = $repoPublisher->findOneBy(["name" => $publisherName]);
                     $mainBook = $repoBook->findOneBy(["id" => $mainBook]);
+                    $isEntityExisting = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
 
-                    $isSubjectExisting = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
-
-                    if (!isset($isSubjectExisting) && isset($subject) && isset($publisher)) {
+                    // check if book already exists and has a subject and a publisher
+                    if (!isset($isEntityExisting) && isset($subject) && isset($publisher)) {
                         $book = new Book();
                         $book->setSubject($subject);
                         $book->setPublisher($publisher);
@@ -217,13 +151,13 @@ class ReadController extends AbstractController
 
                     // check if bookprice already exists and if it has a book
                     // if not then insert the new one
-                    $isSubjectExisting = null;
+                    $isEntityExisting = null;
                     $book = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
                     if (isset($book)) {
 
-                        $isSubjectExisting = $repoBookPrice->findOneBy(["book" => $book]);
+                        $isEntityExisting = $repoBookPrice->findOneBy(["book" => $book]);
                     }
-                    if (!isset($isSubjectExisting) && isset($book)) {
+                    if (!isset($isEntityExisting) && isset($book)) {
                         $bookprice = new BookPrice();
                         $bookprice->setBook($book);
                         $bookprice->setYear(date('Y'));
@@ -234,35 +168,13 @@ class ReadController extends AbstractController
                         $repoBookPrice->save($bookprice, true);
                     }
                 }
-
             }
 
+
         } else {
-            die("file not found");
+            die("File not found");
         }
 
-        return $this->render('read/index.html.twig', [
-            'controller_name' => 'ReadController',
-        ]);
-    }
-
-    /**
-     * Deletes all data from the given ObjectRepository.
-     *
-     * @param ObjectRepository $repo The repository to delete data from.
-     * @return Response A JSON response with an HTTP status code of 200.
-     */
-    public function deleteAllData(ObjectRepository $repo): Response
-    {
-        // Retrieve all entities from the repository.
-        $myEntities = $repo->findAll();
-
-        // Loop through each entity and remove it from the repository.
-        foreach ($myEntities as $myEntity) {
-            $repo->remove($myEntity, true);
-        }
-
-        // Return a JSON response with an HTTP status code of 200.
-        return $this->json(null, status: Response::HTTP_OK);
+       return new Response(null, Response::HTTP_OK);
     }
 }
