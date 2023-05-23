@@ -15,6 +15,7 @@ const routes: Routes = [
     { path: 'import', component: XlsImportComponent },
     { path: 'gelduebersicht', component: MoneyViewComponent },
     { path: 'loginerror', component: LoginErrorAlertComponent },
+    { path: 'navbar', component: NavBarComponent },
     { path: '**', component: NotFoundComponent },
 ]
 
@@ -25,4 +26,5 @@ const routes: Routes = [
 export class AppRoutingModule {
 }
 
-import { MoneyViewComponent } from "./money-view/money-view.component";
+import { MoneyViewComponent } from "./money-view/money-view.component";import { NavBarComponent } from './nav-bar/nav-bar.component';
+

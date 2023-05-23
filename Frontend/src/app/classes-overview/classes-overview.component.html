@@ -1,21 +1,27 @@
 
 <h1>Klassen & SchuelerInnen:</h1>
 
-<div class="dropdown">
-  <button class="dropbtn">Dropdown</button>
-  <div class="dropdown-content">
-    <a href="#">3AHITN</a>
-    <a href="#">4AHTIN</a>
-    <a href="#">5AHITN</a>
-  </div>
+
+<div class="dropdown"><select>
+  <option>--Klassen--</option>
+  <option>3AHITN</option>
+  <option>4AHITN</option>
+  <option>5AHITN</option>
+  <option>2AHITN</option>
+
+</select>
+  <div class="select_arrow"></div>
 </div>
 
-<p>
-
-</p>
-<ng-container matColumnDef="score">
-  <th mat-header-cell *matHeaderCellDef> Score </th>
-  <td mat-cell> Test </td>
-</ng-container>
-
+<dx-data-grid
+  [dataSource]="dataSource"
+  [allowColumnResizing]="true"
+  [allowColumnReordering]="true">
+  <dxi-column dataField="grade" caption="JG" dataType="number"></dxi-column>
+  <dxi-column dataField="name" caption="Name" dataType="string"></dxi-column>
+  <dxi-column dataField="studentAmount" caption="Schueler" dataType="number"></dxi-column>
+  <dxi-column dataField="repAmount" caption="Repetent" dataType="number"></dxi-column>
+  <dxi-column dataField="budget" caption="Budget" dataType="number"></dxi-column>
+  <dxi-column dataField="usedBudget" caption="Verwendetes Budget" dataType="number"></dxi-column>
+</dx-data-grid>
 

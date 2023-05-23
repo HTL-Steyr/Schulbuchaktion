@@ -3,6 +3,7 @@ import {BookOrder} from "./bookOrder";
 import {Publisher} from "./publisher";
 import {BookPrice} from "./bookPrice";
 import {SchoolGrade} from "./schoolGrade";
+import {DisplayNames} from "../utils/displayNames";
 
 export interface Book {
   id?: number;
@@ -21,4 +22,25 @@ export interface Book {
   bookPrices: BookPrice[];
   mainBook?: Book;
   childBooks?: Book[];
+}
+
+
+export const BOOK_DISPLAY_NAMES: DisplayNames<Book> = {
+  object: "Buch",
+  id: "ID",
+  bookNumber: "BNR",
+  title: "Titel",
+  shortTitle: "Kurztitel",
+  listType: "Listtyp",
+  schoolForm: "Schulform",
+  info: "Anmerkung",
+  ebook: "E-Book",
+  ebookPlus: "E-Book+",
+  subject: "Gegenstand",
+  publisher: "Verlag",
+  bookOrders: "Bestellungen",
+  schoolGrade: "Jahrgang",
+  bookPrices: "Buchpreise",
+  mainBook: "Hauptbuch",
+  childBooks: "childBooks",
 }

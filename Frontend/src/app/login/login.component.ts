@@ -8,28 +8,22 @@ import { UserService } from '../service/user.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-    username: string = "";
+    email: string = "";
     password: string = "";
 
-    constructor(private router: Router, private userService: UserService) { }
+    constructor(private router: Router, private userService: UserService) {
+      if (userService.loggedIn) {
+        this.router.navigate(['/bestelluebersicht'])
+      }
+    }
 
-    login() {
-        if (this.username == "admin" && this.password == "admin") {
-            this.userService.user = {
-                id: 1,
-                shortName: "admin",
-                password: "admin",
-                roleId: {
-                    id: 1,
-                    name: "admin",
-                    users: []
-                },
-                token: "admin",
-                firstName: "admin",
-                lastName: "admin",
-                email: "",
-            }
-            this.router.navigate(['/bestelluebersicht']);
-        }
+    async login() {
+      const user = await this.userService.login(this.email, this.password)
+      if (user) {
+        this.userService.user = user;
+        await this.router.navigate(['/bestelluebersicht'])
+      } else {
+        console.error("Login failed")
+      }
     }
 }
