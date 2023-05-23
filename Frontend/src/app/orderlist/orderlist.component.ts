@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { DxDataGridComponent } from 'devextreme-angular';
+import dxDataGrid from 'devextreme/ui/data_grid';
 import { Datasource } from '../datasources/datasource';
 import { OrderlistService } from '../service/orderlist.service';
 import { SubjectService } from '../service/subject.service';
@@ -14,6 +16,7 @@ export class OrderlistComponent {
   selectedItemKeys: any[] = [];
 
   dataSource: Datasource<OrderlistService>;
+  @ViewChild(DxDataGridComponent, { static: false }) dataGrid?: DxDataGridComponent;
 
   constructor(private orderlstService: OrderlistService) {
     this.dataSource = new Datasource(orderlstService);
@@ -27,7 +30,9 @@ export class OrderlistComponent {
     this.selectedItemKeys.forEach((key: any) => {
       this.dataSource.store().remove(key);
     });
-    this.dataSource.reload();
+    this.dataSource.reload().then(() => {
+      this.dataGrid?.instance.refresh()
+    });
     this.selectedItemKeys = [];
   }
 
