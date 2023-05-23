@@ -28,7 +28,7 @@ class BookPrice {
 
     #[Groups(['subject', 'bookPrice', "orderlist"])]
     #[ORM\Column(nullable: true)]
-    private ?int $priceBaseBook = null;
+    private ?int $priceBase = null;
 
     #[Groups(["bookPrice"])]
     #[ORM\ManyToOne(inversedBy: 'bookPrices')]
@@ -69,12 +69,12 @@ class BookPrice {
         return $this;
     }
 
-    public function getPriceBaseBook(): ?int {
-        return $this->priceBaseBook;
+    public function getPriceBase(): ?int {
+        return $this->priceBase;
     }
 
-    public function setPriceBaseBook(?int $priceBaseBook): self {
-        $this->priceBaseBook = $priceBaseBook;
+    public function setPriceBase(?int $priceBase): self {
+        $this->priceBase = $priceBase;
 
         return $this;
     }
