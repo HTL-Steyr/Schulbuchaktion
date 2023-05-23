@@ -8,6 +8,7 @@ use App\Entity\Publisher;
 use App\Entity\Subject;
 use App\Entity\User;
 use App\Service\AuthService;
+use App\Service\ImportService;
 use ContainerMmpMt0D\getConsole_ErrorListenerService;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectRepository;
@@ -17,49 +18,63 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+// define("ADMIN", 1);
+
+
 /**
  * https://symfonycasts.com/screencast/symfony-uploads/upload-request
  * https://symfonycasts.com/screencast/symfony-uploads/storing-uploaded-file#play
  */
+
+/**
+ * This class reads data from an Excel file and populates data into entities
+ */
 class ReadController extends AbstractController
 {
 
+    public const ADMIN = 1;
+
+
     /**
-     * @param Request $request
-     * @param ManagerRegistry $registry
-     * @param AuthService $authService
-     * @return Response
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
+     * This function reads data from an Excel file and populates data into Publisher, Subject, Book, and BookPrice entities
      *
-     * @Description: Read XLSX File and insert Publisher, Subject, Book, BookPrice
-     *
+     * @param Request $request Symfony's Request object
+     * @param ManagerRegistry $registry Symfony's ManagerRegistry object
+     * @return Response Symfony's Response object
      */
     #[Route('/read/xlsx', name: 'app_read_xlsx')]
-    public function readPublisher(Request $request, ManagerRegistry $registry, AuthService $authService): Response
+    public function readXlsxFile(Request $request, ManagerRegistry $registry, AuthService $authService, ImportService $importService): Response
     {
         $user = $authService->authenticateByAuthorizationHeader($request);
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
+        } elseif (!($user->getRole()->getId() == self::ADMIN)) {
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
+
+        // Get repositories for entities
         $repoSubject = $registry->getRepository(Subject::class);
         $repoUser = $registry->getRepository(User::class);
         $repoPublisher = $registry->getRepository(Publisher::class);
         $repoBook = $registry->getRepository(Book::class);
         $repoBookPrice = $registry->getRepository(BookPrice::class);
 
-
+        // Get the uploaded file from the request object and move it to the uploads directory
         $file = $request->files->get("schoolBookList");
         $destination = $this->getParameter('kernel.project_dir') . '/public/uploads';
         $file->move($destination, $file->getClientOriginalName());
         echo $file->isValid();
+
+        // Check if the file has been uploaded successfully
         if (file_exists($destination . "/" . $file->getClientOriginalName())) {
+            // Load the file and get the first sheet
             $reader = IOFactory::createReader("Xlsx");
             $spreadsheet = $reader->load($destination . "/" . $file->getClientOriginalName());
             $sheet = $spreadsheet->getSheet(0);
 
-            // get Attributes from XLSX
+            // Iterate through each row and populate data into entities
             for ($i = 2; $i <= $sheet->getHighestRow(); $i++) {
+                // Get cell values
                 $bookNumber = $sheet->getCell("A" . strval($i))->getValue();
                 $shortTitle = $sheet->getCell("B" . strval($i))->getValue();
                 $title = $sheet->getCell("C" . strval($i))->getValue();
@@ -76,125 +91,89 @@ class ReadController extends AbstractController
                 $ebook = $sheet->getCell("P" . strval($i))->getValue();
                 $ebookPlus = $sheet->getCell("Q" . strval($i))->getValue();
 
-                // insert Publisher
-                $existing = $repoPublisher->findOneBy(["publisherNumber" => $vnr]);
+                // check if publisher already exists
+                // if not then insert the new one
+                $isEntityExisting = $repoPublisher->findOneBy(["publisherNumber" => $vnr]);
 
-                if (!isset($existing)) {
+                if (!isset($isEntityExisting)) {
                     $publisher = new Publisher();
                     $publisher->setPublisherNumber($vnr);
                     $publisher->setName($publisherName);
                     $repoPublisher->save($publisher, true);
                 }
 
-
-                // insert Subjects
-                $existing = null;
-                $shortName = "N/A";
-
-                if (str_contains($subjectName, "DEUTSCH")) {
-                    $user = "proe";
-                } else if (str_contains($subjectName, "ENGLISCH")) {
-                    $user = "hesd";
-                } else if (str_contains($subjectName, "ETHIK")) {
-                    $user = "pfas";
-                } else if (str_contains($subjectName, "GEOGRAFIE") ||
-                    str_contains($subjectName, "GESCHICHTE") ||
-                    str_contains($subjectName, "POLITISCHE BILDUNG")) {
-                    $user = "amot";
-                } else if (str_contains($subjectName, "NATURWISSENSCHAFTEN")
-                    || str_contains($subjectName, "CHEMIE")) {
-                    $user = "kimc";
-                } else if (str_contains($subjectName, "MATHEMATIK")) {
-                    $user = "nieb";
-                } else if (str_contains($subjectName, "WIRTSCHAFT")) {
-                    $user = "hils";
-                } else if (str_contains($subjectName, "RELIGION")) {
-                    $user = "ramk";
-                } else if (str_contains($subjectName, "ELEKTROTECHNIK") ||
-                    str_contains($subjectName, "SYSTEMTECHNIK") ||
-                    str_contains($subjectName, "INFORMATIK")) {
-                    $user = "pusc";
-                } else if (str_contains($subjectName, "MASCHINENBAU") ||
-                    str_contains($subjectName, "FAHRZEUGTECHNIK")) {
-                    $user = "obea";
-                } else if (str_contains($subjectName, "MECHATRONIK")) {
-                    $user = "hint";
-                } else {
-                    $user = "N/A";
-                }
-                if ($user != "N/A") {
-                    $headOfSubject = $repoUser->findOneBy(["shortName" => $user]);
-                }
-                $existing = $repoSubject->findOneBy(["name" => $subjectName]);
-
-                if (!isset($existing)) {
-                    $subject = new Subject();
-                    $subject->setHeadOfSubject($headOfSubject);
-                    $subject->setName($subjectName);
-                    $subject->setShortName($shortName);
-                    $repoSubject->save($subject, true);
-                }
+                // check if subject already exists and if it has a head of subject
+                // if not then insert the new one
+                $isEntityExisting = null;
 
 
-                // insert Books
-                $existing = null;
-                $subject = $repoSubject->findOneBy(["name" => $subjectName]);
-                $publisher = $repoPublisher->findOneBy(["name" => $publisherName]);
-                $mainBook = $repoBook->findOneBy(["id" => $mainBook]);
+                $subjectName = $importService->checkSubject($subjectName);
 
-                $existing = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
+                if ($subjectName != null) {
+                    $result = $importService->getUser($subjectName);
+                    $headOfSubject = $repoUser->findOneBy(["shortName" => $result["user"]]);
+                    $isEntityExisting = $repoSubject->findOneBy(["name" => $result["shortname"]]);
 
-                if (!isset($existing)) {
-                    $book = new Book();
-                    $book->setSubject($subject);
-                    $book->setPublisher($publisher);
-                    $book->setMainBook($mainBook);
-                    $book->setBookNumber($bookNumber);
-                    $book->setTitle($title);
-                    $book->setShortTitle($shortTitle);
-                    $book->setListType($listType);
-                    $book->setSchoolForm($schoolForm);
-                    $book->setInfo($info);
-                    $book->setEbook($ebook);
-                    $book->setEbookPlus($ebookPlus);
-                    $repoBook->save($book, true);
-                }
+                    if (!isset($isEntityExisting) && isset($headOfSubject)) {
+
+                        $subject = new Subject();
+                        $subject->setHeadOfSubject($headOfSubject);
+                        $subject->setName($subjectName);
+                        $subject->setShortName($result["shortname"]);
+                        $repoSubject->save($subject, true);
+                    }
+
+                    // check if book already exists and has a subject and a publisher
+                    // if not then insert the new one
+                    $isEntityExisting = null;
+                    $subject = $repoSubject->findOneBy(["name" => $subjectName]);
+                    $publisher = $repoPublisher->findOneBy(["name" => $publisherName]);
+                    $mainBook = $repoBook->findOneBy(["id" => $mainBook]);
+                    $isEntityExisting = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
+
+                    // check if book already exists and has a subject and a publisher
+                    if (!isset($isEntityExisting) && isset($subject) && isset($publisher)) {
+                        $book = new Book();
+                        $book->setSubject($subject);
+                        $book->setPublisher($publisher);
+                        $book->setMainBook($mainBook);
+                        $book->setBookNumber($bookNumber);
+                        $book->setTitle($title);
+                        $book->setShortTitle($shortTitle);
+                        $book->setListType($listType);
+                        $book->setSchoolForm($schoolForm);
+                        $book->setInfo($info);
+                        $book->setEbook($ebook);
+                        $book->setEbookPlus($ebookPlus);
+                        $repoBook->save($book, true);
+                    }
 
 
-                // insert BookPrice
-                $existing = null;
-                $book = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
-                if (isset($book)) {
+                    // check if bookprice already exists and if it has a book
+                    // if not then insert the new one
+                    $isEntityExisting = null;
+                    $book = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
+                    if (isset($book)) {
 
-                    $existing = $repoBookPrice->findOneBy(["book" => $book]);
-                }
-                if (!isset($existing)) {
-                    $bookprice = new BookPrice();
-                    $bookprice->setBook($book);
-                    $bookprice->setYear(date('Y'));
-                    $bookprice->setPriceEbook(intval($bookpriceebook));
-                    $bookprice->setPriceEbookPlus(intval($bookpriceplus));
-                    $bookprice->setPriceInclusiveEbook(intval($bookpricenormal));
-                    $repoBookPrice->save($bookprice, true);
+                        $isEntityExisting = $repoBookPrice->findOneBy(["book" => $book]);
+                    }
+                    if (!isset($isEntityExisting) && isset($book)) {
+                        $bookprice = new BookPrice();
+                        $bookprice->setBook($book);
+                        $bookprice->setYear(date('Y'));
+                        $bookprice->setPriceEbook(intval($bookpriceebook));
+                        $bookprice->setPriceEbookPlus(intval($bookpriceplus));
+                        $bookprice->setPriceInclusiveEbook(intval($bookpricenormal));
+                        $repoBookPrice->save($bookprice, true);
+                    }
                 }
             }
 
+
         } else {
-            die("file not found 125");
+            die("File not found");
         }
 
-        return $this->render('read/index.html.twig', [
-            'controller_name' => 'ReadController',
-        ]);
-    }
-
-    public function deleteAllData(ObjectRepository $repo): Response
-    {
-        $myEntities = $repo->findAll();
-        foreach ($myEntities as $myEntity) {
-            $repo->remove($myEntity, true);
-        }
-
-        return $this->json(null, status: Response::HTTP_OK);
+       return new Response(null, Response::HTTP_OK);
     }
 }

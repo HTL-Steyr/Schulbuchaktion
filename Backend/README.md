@@ -5,7 +5,7 @@
 * Leeren `mysql` Ordner im Backend Ordner erstellen
 * In Ubuntu auf `Schulbuchaktion/Backend` wechseln
 ```shell
-cd Schulbuchaktion/Backend
+cd ~/Schulbuchaktion/Backend
 ```
 * docker Container erstellen
 ```shell
@@ -14,6 +14,11 @@ docker compose up --build -d
 ```shell
 docker exec -it php_symfony_schoolbooks /bin/bash
 ```
+>(Wenn ein Fehler wegen der Symfony/Runtime kommt dann diesen Befehl ausführen)
+>```shell
+>composer require symfony/runtime
+>```
+
 ```shell
 php bin/console doctrine:migrations:migrate
 ```
