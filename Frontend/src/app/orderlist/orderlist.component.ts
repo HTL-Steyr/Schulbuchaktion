@@ -36,5 +36,9 @@ export class OrderlistComponent {
     this.selectedItemKeys = [];
   }
 
+  clearSorting() {
+    this.dataGrid?.instance.clearSorting();
+  }
+
 }
 
