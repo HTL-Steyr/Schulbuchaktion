@@ -13,25 +13,25 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 class User implements PasswordAuthenticatedUserInterface {
-    #[Groups(['subject', 'department', 'schoolclass','user'])]
+    #[Groups(['subject', 'department', 'schoolclass','user', "orderlist"])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
     
-    #[Groups(['subject', 'department', 'schoolclass','user'])]
+    #[Groups(['subject', 'department', 'schoolclass','user', "orderlist"])]
     #[ORM\Column(length: 255)]
     private ?string $shortName = null;
     
-    #[Groups(['subject', 'department', 'schoolclass','user'])]
+    #[Groups(['subject', 'department', 'schoolclass','user', "orderlist"])]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
     
-    #[Groups(['subject', 'department', 'schoolclass','user'])]
+    #[Groups(['subject', 'department', 'schoolclass','user', "orderlist"])]
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
     
-    #[Groups(['subject', 'department', 'schoolclass','user'])]
+    #[Groups(['subject', 'department', 'schoolclass','user', "orderlist"])]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
@@ -43,17 +43,20 @@ class User implements PasswordAuthenticatedUserInterface {
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[Groups(['subject', 'department', 'schoolclass','user'])]
+    #[Groups(['subject', 'department', 'schoolclass','user', "orderlist"])]
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Role $role = null;
 
-    #[ORM\ManyToMany(targetEntity: Subject::class, mappedBy: 'headOfSubject')]
-    private Collection $subjects;
+    #[Groups(['department','schoolclass'])]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private Collection $departments;
+
 
     public function __construct()
     {
-        $this->subjects = new ArrayCollection();
+        $this->departments = new ArrayCollection();
     }
 
     public function getId(): ?int {
@@ -130,30 +133,25 @@ class User implements PasswordAuthenticatedUserInterface {
         return $this;
     }
 
+
+   
+    public function toString(): string {
+        return $this->getFirstName() . ' ' . $this->getLastName() . ' ' . $this->getId();
+    }
+
     /**
-     * @return Collection<int, Subject>
+     * @return Collection
      */
-    public function getSubjects(): Collection
+    public function getDepartments(): Collection
     {
-        return $this->subjects;
+        return $this->departments;
     }
 
-    public function addSubject(Subject $subject): self
+    /**
+     * @param Collection $departments
+     */
+    public function setDepartments(Collection $departments): void
     {
-        if (!$this->subjects->contains($subject)) {
-            $this->subjects->add($subject);
-            $subject->addHeadOfSubject($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSubject(Subject $subject): self
-    {
-        if ($this->subjects->removeElement($subject)) {
-            $subject->removeHeadOfSubject($this);
-        }
-
-        return $this;
+        $this->departments = $departments;
     }
 }

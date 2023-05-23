@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Datasource } from '../datasources/datasource';
+import { SchoolclassService } from '../service/schoolclass.service';
 
 @Component({
   selector: 'app-classes-overview',
@@ -7,9 +9,10 @@ import { Component } from '@angular/core';
 })
 export class ClassesOverviewComponent {
   title = 'TestProjectSchulbuchaktion';
-  public items: { field: string }[] = [
-    {field: '3AHITN'},
-    {field: '4AHTIN'},
-    {field: '5AHITN'}
-  ];
+  dataSource: Datasource<SchoolclassService>;
+
+  constructor(private subjectService: SchoolclassService) {
+    this.dataSource = new Datasource(subjectService);
+  }
+
 }

@@ -3,16 +3,25 @@ import {HttpClient} from "@angular/common/http";
 import {SchoolClass} from "../model/schoolclass";
 import {Observable} from "rxjs";
 import { FindAll } from './findAll';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SchoolclassService implements FindAll<SchoolClass>{
-  private readonly baseUrl = '../schoolclass';
-  constructor(private _http: HttpClient) { }
+  private readonly baseUrl = 'http://schulbuch.rathgeb.at/schoolclass';
+  constructor(private _http: HttpClient, private userService: UserService) { }
+
+  update(id: number, data: SchoolClass): Observable<SchoolClass> {
+    return this._http.put<SchoolClass>(`${this.baseUrl}/update/${id}`, data, {headers: this.userService.getAuthorizationHeader()});
+  }
+
+  public delete(key: any): Observable<SchoolClass> {
+    throw new Error('Method not implemented.');
+  }
 
   public findAll(): Observable<SchoolClass[]> {
-    return this._http.get<SchoolClass[]>(this.baseUrl);
+    return this._http.get<SchoolClass[]>(this.baseUrl, {headers: this.userService.getAuthorizationHeader()});
   }
 
   public findOneById(id: number): Observable<SchoolClass> {
