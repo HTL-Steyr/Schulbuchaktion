@@ -129,7 +129,7 @@ class MoneyListController extends AbstractController {
             $bookPrice->setYear($data->year);
             $bookPrice->setPriceInclusiveEbook($data->priceInclusiveEbook);
             $bookPrice->setPriceEbook($data->priceEbook);
-            $bookPrice->setPriceEbookPlus($data->priceEbookPlus);
+           // @Todo change this? $bookPrice->setPriceEbookPlus($data->priceEbookPlus);
             $bookPrice->setBook($registry->getRepository(Book::class)->find($data->book));
             $priceRepository->save($bookPrice, true);
 

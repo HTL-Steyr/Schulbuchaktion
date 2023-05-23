@@ -2,12 +2,13 @@
 <dx-data-grid [allowColumnResizing]="true" [allowColumnReordering]="true" [columnHidingEnabled]="true"
   [columnAutoWidth]="true" [dataSource]="dataSource" (onSelectionChanged)="selectionChanged($event)">
 
-  <dxi-column dataField="book.subject.name" caption="Fach" dataType="string">
-  </dxi-column>
-
+  <dxi-column dataField="book.subject.name" caption="Fach" dataType="string"></dxi-column>
   <dxi-column dataField="book.shortTitle" caption="Buchtitel" dataType="string"></dxi-column>
   <dxi-column dataField="ebook" dataType="boolean"></dxi-column>
+  <dxi-column dataField="ebookPlus" dataType="boolean"></dxi-column>
+  <dxi-column dataField="teacherCopy" dataType="boolean"></dxi-column>
   <dxi-column dataField="schoolClass.name" caption="Klasse" dataType="string"></dxi-column>
+  <dxi-column dataField="count" caption="Anzahl" dataType="number"></dxi-column>
 
   <dxo-search-panel [visible]="true"></dxo-search-panel>
   <dxo-paging [pageSize]="10"></dxo-paging>
