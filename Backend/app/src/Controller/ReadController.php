@@ -8,6 +8,7 @@ use App\Entity\Publisher;
 use App\Entity\Subject;
 use App\Entity\User;
 use App\Service\AuthService;
+use ContainerMmpMt0D\getConsole_ErrorListenerService;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectRepository;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -22,6 +23,18 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ReadController extends AbstractController
 {
+
+    /**
+     * @param Request $request
+     * @param ManagerRegistry $registry
+     * @param AuthService $authService
+     * @return Response
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
+     *
+     * @Description: Read XLSX File and insert Publisher, Subject, Book, BookPrice
+     *
+     */
     #[Route('/read/xlsx', name: 'app_read_xlsx')]
     public function readPublisher(Request $request, ManagerRegistry $registry, AuthService $authService): Response
     {
@@ -29,7 +42,6 @@ class ReadController extends AbstractController
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
-
         $repoSubject = $registry->getRepository(Subject::class);
         $repoUser = $registry->getRepository(User::class);
         $repoPublisher = $registry->getRepository(Publisher::class);
@@ -38,12 +50,12 @@ class ReadController extends AbstractController
 
 
         $file = $request->files->get("schoolBookList");
-        $destination = $this->getParameter('kernel.project_dir').'/public/uploads';
+        $destination = $this->getParameter('kernel.project_dir') . '/public/uploads';
         $file->move($destination, $file->getClientOriginalName());
         echo $file->isValid();
         if (file_exists($destination . "/" . $file->getClientOriginalName())) {
             $reader = IOFactory::createReader("Xlsx");
-            $spreadsheet = $reader->load($destination . "/" .$file->getClientOriginalName());
+            $spreadsheet = $reader->load($destination . "/" . $file->getClientOriginalName());
             $sheet = $spreadsheet->getSheet(0);
 
             // get Attributes from XLSX
@@ -76,8 +88,7 @@ class ReadController extends AbstractController
 
 
                 // insert Subjects
-                $existing =  null;
-                $user = "amot";
+                $existing = null;
                 $shortName = "N/A";
 
                 $headOfSubject = $repoUser->findOneBy(["shortName" => $user]);
@@ -90,6 +101,7 @@ class ReadController extends AbstractController
                     $subject->setShortName($shortName);
                     $repoSubject->save($subject, true);
                 }
+
 
                 // insert Books
                 $existing = null;
@@ -119,7 +131,7 @@ class ReadController extends AbstractController
                 // insert BookPrice
                 $existing = null;
                 $book = $repoBook->findOneBy(["bookNumber" => $bookNumber]);
-                if (isset($book)){
+                if (isset($book)) {
 
                     $existing = $repoBookPrice->findOneBy(["book" => $book]);
                 }
@@ -142,6 +154,7 @@ class ReadController extends AbstractController
             'controller_name' => 'ReadController',
         ]);
     }
+
     public function deleteAllData(ObjectRepository $repo): Response
     {
         $myEntities = $repo->findAll();
