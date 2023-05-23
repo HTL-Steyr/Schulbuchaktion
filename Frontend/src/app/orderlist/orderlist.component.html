@@ -1,7 +1,6 @@
 <h1>Bestellübersicht</h1>
 <dx-data-grid [allowColumnResizing]="true" [allowColumnReordering]="true" [columnHidingEnabled]="true"
   [columnAutoWidth]="true" [dataSource]="dataSource" (onSelectionChanged)="selectionChanged($event)">
-  <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
 
   <dxi-column dataField="book.subject.name" caption="Fach" dataType="string">
   </dxi-column>
@@ -17,11 +16,12 @@
   <dxo-selection mode="multiple"></dxo-selection>
 
   <dxo-toolbar>
+    <dxi-item name="columnChooserButton"></dxi-item>
     <dxi-item name="addRowButton" showText="always"></dxi-item>
     <dxi-item location="after">
       <dx-button (onClick)="deleteRecords()" [disabled]="!selectedItemKeys.length" icon="trash"
         text="Lösche ausgewählte Einträge"></dx-button>
     </dxi-item>
   </dxo-toolbar>
+  <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
 </dx-data-grid>
-
