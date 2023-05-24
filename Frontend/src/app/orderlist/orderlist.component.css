@@ -1,0 +1,6 @@
+::ng-deep .dx-edit-row {
+    box-shadow: 0  8px 8px -8px rgba(0,0,0,.75),
+        0 -8px 8px -8px rgba(0,0,0,.75);
+    position: relative;
+    z-index: 9000;
+}

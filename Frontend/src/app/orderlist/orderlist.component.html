@@ -9,6 +9,16 @@
   <dxi-column dataField="teacherCopy" dataType="boolean"></dxi-column>
   <dxi-column dataField="schoolClass.name" caption="Klasse" dataType="string"></dxi-column>
   <dxi-column [allowEditing]="false" dataField="count" caption="Anzahl" dataType="number"></dxi-column>
+  <dxi-column type="buttons">
+    <dxi-button
+      hint="clone"
+      icon="copy"
+      [onClick]="cloneIconClick"
+      [visible]="isCloneIconVisible"
+    ></dxi-button>
+    <dxi-button name="edit"></dxi-button>
+    <dxi-button name="delete"></dxi-button>
+  </dxi-column>
 
   <dxo-paging [pageSize]="10"></dxo-paging>
   <dxo-sorting mode="multiple"></dxo-sorting>

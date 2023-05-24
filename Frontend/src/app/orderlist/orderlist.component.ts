@@ -20,6 +20,7 @@ export class OrderlistComponent {
 
   constructor(private orderlstService: OrderlistService) {
     this.dataSource = new Datasource(orderlstService);
+    this.cloneIconClick = this.cloneIconClick.bind(this);
   }
 
   selectionChanged(data: any) {
@@ -38,6 +39,22 @@ export class OrderlistComponent {
 
   clearSorting() {
     this.dataGrid?.instance.clearSorting();
+  }
+
+  isCloneIconVisible(e: any) {
+    return !e.row.isEditing;
+  }
+
+  cloneIconClick(e: any) {
+    const clonedItem = Object.assign({}, e.row.data);
+
+    // need insert route for this operation, will work if implemented
+    e.component.getDataSource().store().insert(clonedItem);
+
+    e.component.getDataSource().reload();
+
+    e.component.refresh(true);
+    e.event.preventDefault();
   }
 
 }
