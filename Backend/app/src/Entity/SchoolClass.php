@@ -10,45 +10,45 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SchoolClassRepository::class)]
 class SchoolClass {
-    #[Groups(['department', 'schoolclass'])]
+    #[Groups(['department', 'schoolclass', "orderlist"])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['department', 'schoolclass'])]
+    #[Groups(['department', 'schoolclass', "orderlist"])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['department', 'schoolclass'])]
+    #[Groups(['department', 'schoolclass', "orderlist"])]
     #[ORM\Column]
     private ?int $grade = null;
 
-    #[Groups(['department', 'schoolclass'])]
+    #[Groups(['department', 'schoolclass', "orderlist"])]
     #[ORM\Column]
     private ?int $studentAmount = null;
 
-    #[Groups(['department', 'schoolclass'])]
+    #[Groups(['department', 'schoolclass', "orderlist"])]
     #[ORM\Column]
     private ?int $repAmount = null;
 
-    #[Groups(['department', 'schoolclass'])]
+    #[Groups(['department', 'schoolclass', "orderlist"])]
     #[ORM\Column]
     private ?int $usedBudget = null;
 
-    #[Groups(['department', 'schoolclass'])]
+    #[Groups(['department', 'schoolclass', "orderlist"])]
     #[ORM\Column]
     private ?int $budget = null;
 
-    #[Groups(['department', 'schoolclass'])]
+    #[Groups(['department', 'schoolclass', "orderlist"])]
     #[ORM\Column]
     private ?int $year = null;
 
-    #[Groups(['department', 'schoolclass'])]
+    #[Groups(['department', 'schoolclass', "orderlist"])]
     #[ORM\Column]
     private ?int $schoolForm = null;
 
-    #[Groups(['schoolclass'])]
+    #[Groups(['schoolclass', "orderlist"])]
     #[ORM\ManyToOne(inversedBy: 'schoolClasses')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Department $department = null;

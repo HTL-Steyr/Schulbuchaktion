@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -11,25 +13,25 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 class User implements PasswordAuthenticatedUserInterface {
-    #[Groups(['subject', 'department', 'schoolclass','user'])]
+    #[Groups(['subject', 'department', 'schoolclass','user', "orderlist"])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
     
-    #[Groups(['subject', 'department', 'schoolclass','user'])]
+    #[Groups(['subject', 'department', 'schoolclass','user', "orderlist"])]
     #[ORM\Column(length: 255)]
     private ?string $shortName = null;
     
-    #[Groups(['subject', 'department', 'schoolclass','user'])]
+    #[Groups(['subject', 'department', 'schoolclass','user', "orderlist"])]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
     
-    #[Groups(['subject', 'department', 'schoolclass','user'])]
+    #[Groups(['subject', 'department', 'schoolclass','user', "orderlist"])]
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
     
-    #[Groups(['subject', 'department', 'schoolclass','user'])]
+    #[Groups(['subject', 'department', 'schoolclass','user', "orderlist"])]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
@@ -41,10 +43,21 @@ class User implements PasswordAuthenticatedUserInterface {
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[Groups(['subject', 'department', 'schoolclass','user'])]
+    #[Groups(['subject', 'department', 'schoolclass','user', "orderlist"])]
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Role $role = null;
+
+    #[Groups(['department','schoolclass'])]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private Collection $departments;
+
+
+    public function __construct()
+    {
+        $this->departments = new ArrayCollection();
+    }
 
     public function getId(): ?int {
         return $this->id;
@@ -118,5 +131,27 @@ class User implements PasswordAuthenticatedUserInterface {
         $this->role = $role;
 
         return $this;
+    }
+
+
+   
+    public function toString(): string {
+        return $this->getFirstName() . ' ' . $this->getLastName() . ' ' . $this->getId();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getDepartments(): Collection
+    {
+        return $this->departments;
+    }
+
+    /**
+     * @param Collection $departments
+     */
+    public function setDepartments(Collection $departments): void
+    {
+        $this->departments = $departments;
     }
 }
