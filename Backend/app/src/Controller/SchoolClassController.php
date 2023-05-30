@@ -88,4 +88,29 @@ class SchoolClassController extends AbstractController {
         // If the school class is not found, return an HTTP_NOT_FOUND response
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
+
+    #[Route(
+        path: '/schoolclass/delete/{id}',
+        name: 'app_schoolclass_delete_by_id',
+        methods: ['POST']
+    )]
+    public function deleteSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
+        $user = $authService->authenticateByAuthorizationHeader($request);
+        if (!isset($user)) {
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        $context = (new ObjectNormalizerContextBuilder())
+            ->withGroups('schoolclass')
+            ->toArray();
+
+        $schoolClass = $registry->getRepository(SchoolClass::class)->find($id);
+
+        if (isset($schoolClass)) {
+            $registry->getManager()->remove($schoolClass);
+            $registry->getManager()->flush();
+            return $this->json($schoolClass, status: Response::HTTP_OK, context: $context);
+        }
+        return $this->json(null, status: Response::HTTP_NOT_FOUND);
+    }
 }
