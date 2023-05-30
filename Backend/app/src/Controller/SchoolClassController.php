@@ -92,7 +92,7 @@ class SchoolClassController extends AbstractController {
     #[Route(
         path: '/schoolclass/delete/{id}',
         name: 'app_schoolclass_delete_by_id',
-        methods: ['POST']
+        methods: ['GET']
     )]
     public function deleteSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
         $user = $authService->authenticateByAuthorizationHeader($request);
