@@ -8,13 +8,16 @@
 >
   <dxi-column dataField="year" caption="Jahr" dataType="number"></dxi-column>
   <dxi-column dataField="priceInclusiveEbook" caption="Preis inklusive Ebook" dataType="number"></dxi-column>
-  <dxi-column dataField="priceEbook" caption="Preis Ebook" dataType="number"></dxi-column>
-  <dxi-column dataField="priceEbookPlus" caption="Preis Ebook Plus" dataType="number"></dxi-column>
+  <dxi-column dataField="priceEbook" caption="Preis Ebook" width="100" dataType="number"></dxi-column>
+  <dxi-column dataField="priceEbookPlus" caption="Preis Ebook Plus" width="100" dataType="number"></dxi-column>
   <dxi-column dataField="book.shortTitle" caption="Titel" dataType="string"></dxi-column>
 
   <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxi-column [allowFiltering]="true"></dxi-column>
   <dxo-search-panel [visible]="true"></dxo-search-panel>
   <dxo-paging [pageSize]="10"></dxo-paging>
+
   <dxo-pager
     [showPageSizeSelector]="true"
     [allowedPageSizes]="[5, 10, 20, 50]"
