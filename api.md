@@ -374,11 +374,12 @@ Response Code: HTTP_OK: 200
 # /orderlist/update/{id}
 
 ## Methods
-POST
+PUT
 
 ## Request
 
-Authorization Header: Bearer Token
+Authorization Header: Bearer Token\
+(Only specify fields that should be updated)
 ```json
 {
     "count": Integer,
