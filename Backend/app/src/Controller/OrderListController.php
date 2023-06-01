@@ -188,4 +188,41 @@ class OrderListController extends AbstractController {
         // If the book order was not found or the user does not have the necessary roles, return a JSON response with null and HTTP status code 404 (NOT FOUND)
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
+    
+    #[Route(
+        path: "/orderlist/update/{id}",
+        name: "app_orderlist_update",
+        methods: ["PUT"]
+    )]
+    public function getOrderListById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
+        // Get the current user
+        $user = $authService->authenticateByAuthorizationHeader($request);
+        // Check if the user is logged in
+        if (!isset($user)) {
+            //Return HTTP UNAUTHORIZED if the user is not logged in or the token is invalid or expired or the user is not found
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        // Create a context object for the ObjectNormalizer that specifies the serialization groups to use
+        $context = (new ObjectNormalizerContextBuilder())
+            ->withGroups("orderlist")
+            ->toArray();
+
+        // Get the BookOrder entity with the given book id from the database
+        $orderList = $registry->getRepository(BookOrder::class)->find($id);
+        
+        if (isset($orderList)) {
+            // Update with PHP magic
+            $data = json_decode($request->getContent());
+            
+            foreach ($data as $key, $value) {
+                $function = "set" . ucwords($key);
+                $orderEntry->$function($value);
+            }            
+        
+            return $this->json($orderList, status: Response::HTTP_OK, context: $context);
+        }
+        // Return HTTP NOT FOUND if no departments are found
+        return $this->json(null, status: Response::HTTP_NOT_FOUND);
+    }
 }
