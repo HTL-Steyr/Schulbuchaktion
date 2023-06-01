@@ -3,9 +3,10 @@
     <div class="title">
       <span>Schulbuchaktion</span>
     </div>
+
     <a routerLink="/bestelluebersicht">Bestellungen</a>
     <a routerLink="/klassenuebersicht">Klassen</a>
-    <a routerLink="/gelduebersicht">Geld</a>
+    <a routerLink="/gelduebersicht" [class.disabled]=true>Geld</a>
     <a routerLink="/import">Import</a>
     <div class="logout">
       <span>{{userService.user.shortName}}</span>

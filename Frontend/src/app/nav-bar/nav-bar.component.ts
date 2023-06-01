@@ -15,8 +15,15 @@ export class NavBarComponent {
   isDisabledClass: boolean = true;
   constructor(public userService: UserService, private router:Router) {
 
+        console.log("da")
+
         if (userService.user?.role.id==1||userService.user?.role.id==2) {
           this.isDisabledMoney=false
+
+          console.log("rollen id"+ userService.user.role.id +"Money disabeld sould be false"+ this.isDisabledMoney)
+
+
+
        }
          if (userService.user?.role.id==1){
          this.isDisabledClass=false
