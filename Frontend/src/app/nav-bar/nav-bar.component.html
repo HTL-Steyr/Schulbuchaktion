@@ -5,8 +5,12 @@
     </div>
 
     <a routerLink="/bestelluebersicht">Bestellungen</a>
+    <div *ngIf=false>
     <a routerLink="/klassenuebersicht">Klassen</a>
-    <a routerLink="/gelduebersicht" [class.disabled]=true>Geld</a>
+    </div>
+    <div *ngIf=true>
+    <a routerLink="/gelduebersicht">Geld</a>
+    </div>
     <a routerLink="/import">Import</a>
     <div class="logout">
       <span>{{userService.user.shortName}}</span>
