@@ -217,9 +217,11 @@ class OrderListController extends AbstractController {
             
             foreach ($data as $key => $value) {
                 $function = "set" . ucwords($key);
-                $orderEntry->$function($value);
+                $orderList->$function($value);
             }            
         
+            $registry->getRepository(BookOrder::class)->save($orderList, true);
+            
             return $this->json($orderList, status: Response::HTTP_OK, context: $context);
         }
         // Return HTTP NOT FOUND if no departments are found
