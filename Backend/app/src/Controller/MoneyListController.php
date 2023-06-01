@@ -18,7 +18,8 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
  * Class MoneyListController
  * Retrieve a moneylist with the given id
  */
-class MoneyListController extends AbstractController {
+class MoneyListController extends AbstractController
+{
 
     /**
      * This method returns the moneylist with the given id.
@@ -35,7 +36,8 @@ class MoneyListController extends AbstractController {
         name: "app_moneylist_get",
         methods: ["GET"]
     )]
-    public function getMoneyListById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
+    public function getMoneyListById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response
+    {
         //Get the current user
         $user = $authService->authenticateByAuthorizationHeader($request);
         //Check if the user is logged in
@@ -63,13 +65,14 @@ class MoneyListController extends AbstractController {
         // Return a null JSON response with a NOT_FOUND status code if the BookPrice entity is not found
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
-    
+
     #[Route(
         path: "/moneylist",
         name: "app_moneylist_get_all",
         methods: ["GET"]
     )]
-    public function getMoneyLists(AuthService $authService, Request $request, ManagerRegistry $registry): Response {
+    public function getMoneyLists(AuthService $authService, Request $request, ManagerRegistry $registry): Response
+    {
         //Get the current user
         $user = $authService->authenticateByAuthorizationHeader($request);
         //Check if the user is logged in
@@ -100,7 +103,7 @@ class MoneyListController extends AbstractController {
     /**
      * Creates a moneylist in the database.
      * Considers roles of the user.
-     * 
+     *
      * @return Response
      */
     #[Route(
@@ -109,36 +112,51 @@ class MoneyListController extends AbstractController {
         methods: ["POST"]
     )]
     public function addMoneyList(
-        AuthService $authService,
-        Request $request,
-        ManagerRegistry $registry,
+        AuthService         $authService,
+        Request             $request,
+        ManagerRegistry     $registry,
         BookPriceRepository $priceRepository,
-    ): Response {
+    ): Response
+    {
+        // Authenticate the user based on the authorization header
         $user = $authService->authenticateByAuthorizationHeader($request);
+
+        // Check if user is not authenticated
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
-        
-        if ($user->getRole()->getName() == "Admin" || 
+
+        // Check if user has the required roles
+        if ($user->getRole()->getName() == "Admin" ||
             $user->getRole()->getName() == "Abteilungsvorstand" ||
             $user->getRole()->getName() == "Fachverantwortlicher"
         ) {
+            // Retrieve the data from the request body and decode it as JSON
             $data = json_decode($request->getContent());
-            
+
+            // Create a new BookPrice instance
             $bookPrice = new BookPrice();
+
+            // Set the properties of the BookPrice instance
             $bookPrice->setYear($data->year);
             $bookPrice->setPriceInclusiveEbook($data->priceInclusiveEbook);
             $bookPrice->setPriceEbook($data->priceEbook);
-           // @Todo change this? $bookPrice->setPriceEbookPlus($data->priceEbookPlus);
-            $bookPrice->setBook($registry->getRepository(Book::class)->find($data->book));
+            // @Todo change this? $bookPrice->setPriceEbookPlus($data->priceEbookPlus);
+
+            // Retrieve the Book entity from the repository based on the provided book ID
+            $book = $registry->getRepository(Book::class)->find($data->book);
+            $bookPrice->setBook($book);
+
+            // Save the BookPrice entity using the price repository
             $priceRepository->save($bookPrice, true);
 
             return new Response(null, Response::HTTP_OK);
         }
-        
+
+        // Return a JSON response with status HTTP_NOT_FOUND if the user doesn't have the required roles
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
-    
+
     /**
      * Deletes a moneylist in the database.
      * Considers roles of the user.
@@ -151,28 +169,38 @@ class MoneyListController extends AbstractController {
         methods: ["DELETE"]
     )]
     public function deleteMoneyList(
-        AuthService $authService,
-        Request $request,
-        int $id,
+        AuthService         $authService,
+        Request             $request,
+        int                 $id,
         BookPriceRepository $priceRepository
-    ): Response {
+    ): Response
+    {
+        // Authenticate the user based on the authorization header
         $user = $authService->authenticateByAuthorizationHeader($request);
+
+        // Check if user is not authenticated
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
 
+        // Check if user has the required roles
         if ($user->getRole()->getName() == "Admin" ||
             $user->getRole()->getName() == "Abteilungsvorstand" ||
             $user->getRole()->getName() == "Fachverantwortlicher"
         ) {
+            // Find the BookPrice entity with the provided ID
             $bookPrice = $priceRepository->find($id);
 
+            // Check if the BookPrice entity exists
             if (isset($bookPrice)) {
+                // Remove the BookPrice entity using the price repository
                 $priceRepository->remove($bookPrice, true);
+
                 return new Response(null, Response::HTTP_OK);
             }
         }
 
+        // Return a JSON response with status HTTP_NOT_FOUND if the user doesn't have the required roles or the BookPrice entity doesn't exist
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
 }
