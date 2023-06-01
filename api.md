@@ -22,6 +22,31 @@ POST
 }
 ```
 
+# /user/getme
+
+## Methods
+GET
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+```json
+{
+  "id": Integer,
+  "shortName": "String",
+  "firstName": "String",
+  "lastName": "String",
+  "email": "String",
+  "role": {
+    "id": Integer,
+    "name": "String"
+  }
+}
+```
+
 # /book
 
 ## Methods
@@ -398,6 +423,19 @@ Authorization Header: Bearer Token
 
 ```
 
+# /schoolclass/delete/{id}
+
+## Methods
+DELETE
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+Response Code: HTTP_OK: 200
+
 # /subject
 
 ## Methods
@@ -457,27 +495,4 @@ Authorization Header: Bearer Token
 }
 ```
 
-# /user/getme
 
-## Methods
-GET
-
-## Request
-
-Authorization Header: Bearer Token
-
-## Response
-
-```json
-{
-  "id": Integer,
-  "shortName": "String",
-  "firstName": "String",
-  "lastName": "String",
-  "email": "String",
-  "role": {
-    "id": Integer,
-    "name": "String"
-  }
-}
-```
