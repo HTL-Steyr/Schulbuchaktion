@@ -119,10 +119,10 @@ class OrderListController extends AbstractController {
             
             $bookOrder = new BookOrder();
             $bookOrder->setCount($data->count);
-            $bookOrder->setPrice($data->price);
             $bookOrder->setEbook($data->ebook);
             $bookOrder->setEbookPlus($data->ebookPlus);
             $bookOrder->setTeacherCopy($data->teacherCopy);
+            $bookOrder->setPrice($data->price);
             $bookOrder->setSchoolClass($registry->getRepository(SchoolClass::class)->find($data->schoolClass));
             $bookOrder->setBook($registry->getRepository(Book::class)->find($data->book));
             $orderRepository->save($bookOrder, true);
