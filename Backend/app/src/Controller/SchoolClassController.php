@@ -40,18 +40,18 @@ class SchoolClassController extends AbstractController
 
         //if ($user->getRole()->getName() == "Admin") {
 
-            // Build a context to normalize the data with
-            $context = (new ObjectNormalizerContextBuilder())
-                ->withGroups('schoolclass')
-                ->toArray();
+        // Build a context to normalize the data with
+        $context = (new ObjectNormalizerContextBuilder())
+            ->withGroups('schoolclass')
+            ->toArray();
 
-            // Find all school classes from the repository
-            $schoolClasses = $registry->getRepository(SchoolClass::class)->findAll();
+        // Find all school classes from the repository
+        $schoolClasses = $registry->getRepository(SchoolClass::class)->findAll();
 
-            // If there are any school classes, return them with an HTTP_OK response and the built context
-            if (isset($schoolClasses)) {
-                return $this->json($schoolClasses, status: Response::HTTP_OK, context: $context);
-            }
+        // If there are any school classes, return them with an HTTP_OK response and the built context
+        if (isset($schoolClasses)) {
+            return $this->json($schoolClasses, status: Response::HTTP_OK, context: $context);
+        }
         //}
 
         // If no school classes are found, return an HTTP_NOT_FOUND response
@@ -103,22 +103,34 @@ class SchoolClassController extends AbstractController
     )]
     public function deleteSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response
     {
+        // Authenticate the user using the AuthService and the authorization header from the request
         $user = $authService->authenticateByAuthorizationHeader($request);
+
+        // If the user is not authenticated, return an unauthorized response
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
 
+        // Create an object normalizer context, specifying the 'schoolclass' group
         $context = (new ObjectNormalizerContextBuilder())
             ->withGroups('schoolclass')
             ->toArray();
 
+        // Retrieve the SchoolClass entity from the ManagerRegistry based on the provided ID
         $schoolClass = $registry->getRepository(SchoolClass::class)->find($id);
 
+        // If the school class exists
         if (isset($schoolClass)) {
+            // Remove the school class from the entity manager
             $registry->getManager()->remove($schoolClass);
+            // Persist the changes to the database
             $registry->getManager()->flush();
+
+            // Return a JSON response with the deleted school class object and HTTP status code 200
             return $this->json($schoolClass, status: Response::HTTP_OK, context: $context);
         }
+
+        // If the school class was not found, return a JSON response with null and HTTP status code 404
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
 }
