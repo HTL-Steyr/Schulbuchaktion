@@ -134,6 +134,47 @@ class OrderListController extends AbstractController {
     }
 
     #[Route(
+        path: "/orderlist/update/{id}",
+        name: "app_orderlist_update",
+        requirements: ["id"=>"\d+"],
+        methods: ["PUT"]
+    )]
+    public function updateOrderList(
+        AuthService $authService,
+        Request $request,
+        ManagerRegistry $registry,
+        BookOrderRepository $orderRepository,
+        int $id
+    ): Response {
+        $user = $authService->authenticateByAuthorizationHeader($request);
+        if (!isset($user)) {
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        if ($user->getRole()->getName() == "Admin" ||
+            $user->getRole()->getName() == "Abteilungsvorstand" ||
+            $user->getRole()->getName() == "Fachverantwortlicher"
+        ) {
+            $data = json_decode($request->getContent());
+
+            $bookOrder =$orderRepository->find($id);
+            $bookOrder->setCount($data->count);
+            $bookOrder->setPrice($data->price);
+            $bookOrder->setEbook($data->ebook);
+            $bookOrder->setEbookPlus($data->ebookPlus);
+            $bookOrder->setTeacherCopy($data->teacherCopy);
+            $bookOrder->setSchoolClass($registry->getRepository(SchoolClass::class)->find($data->schoolClass));
+            $bookOrder->setBook($registry->getRepository(Book::class)->find($data->book));
+            $orderRepository->save($bookOrder, true);
+
+            return new Response(null, Response::HTTP_OK);
+        }
+
+        return $this->json(null, status: Response::HTTP_NOT_FOUND);
+    }
+
+
+    #[Route(
         path: "/orderlist/delete/{id}",
         name: "app_orderlist_delete",
         methods: ["DELETE"]
