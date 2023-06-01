@@ -12,29 +12,37 @@ import {Router} from "@angular/router";
 export class NavBarComponent {
 
   private currentUser: User | undefined;
-  isDisabledMoney: boolean = true;
-  isDisabledClass: boolean = true;
-  isDisabledImports: boolean = true;
+  isDisabledMoney: boolean = true
+  isDisabledClass: boolean = true
+  isDisabledImports: boolean = true
 
   // <a routerLink="/import" *ngIf="isDisabledClass">Import</a>
   constructor(public userService: UserService, private router: Router) {
 
+console.log("construct")
     if (userService.user?.role.id == 1 || userService.user?.role.id == 2) {
 
       this.isDisabledMoney = false
-    }
-    if (userService.user?.role.id == 1) {
+      this.isDisabledImports = false
       this.isDisabledClass = false
-    }
 
 
-    if (userService.user?.role.id == 3) {
-      this.isDisabledClass = false
+    } else if (userService.user?.role.id == 3) {
+      this.isDisabledClass = true
       this.isDisabledImports = true;
-      this.isDisabledMoney = false
+      this.isDisabledMoney = true
+
+    } else if (userService.user?.role.id == 4) {
+      this.isDisabledClass = true
+      this.isDisabledImports = true;
+      this.isDisabledMoney = true
     }
+  }
+
+  configureRights(userService: UserService, router: Router) {
 
   }
+
 
   logoutButtonClicked() {
     this.userService.logout();
