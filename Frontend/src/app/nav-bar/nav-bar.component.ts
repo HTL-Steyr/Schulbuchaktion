@@ -25,7 +25,7 @@ export class NavBarComponent {
      }
 
   logoutButtonClicked() {
-    this.userService.logout();
+    this.userService.ausloggen();
     this.router.navigate(['/login']);
   }
 

@@ -53,7 +53,7 @@ export class UserService {
     return headers.set("Authorization", `Bearer ${token}`)
   }
 
-  public logout() {
+  public ausloggen() {
     this.user = null;
     localStorage.removeItem(this.localStorageKey);
     this.router.navigate(["/login"]);

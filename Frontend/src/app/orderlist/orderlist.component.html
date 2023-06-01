@@ -19,8 +19,8 @@
   <dxo-toolbar>
     <dxi-item name="addRowButton" showText="always"></dxi-item>
     <dxi-item location="after">
-      <dx-button (onClick)="deleteRecords()" [disabled]="!selectedItemKeys.length" icon="trash"
-        text="Lösche ausgewählte Einträge"></dx-button>
+      <dx-button (onClick)="loescheEintrag()" [disabled]="!selectedItemKeys.length" icon="trash"
+                 text="Lösche ausgewählte Einträge"></dx-button>
     </dxi-item>
   </dxo-toolbar>
 </dx-data-grid>

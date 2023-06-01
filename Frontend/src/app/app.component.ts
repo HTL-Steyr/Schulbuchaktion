@@ -24,7 +24,7 @@ export class AppComponent {
               userService.user = user;
             }
           }, _ => {
-            userService.logout();
+            userService.ausloggen();
             router.navigate(['login']);
           });
         }

@@ -23,7 +23,7 @@ export class OrderlistComponent {
     this.selectedItemKeys = data.selectedRowKeys;
   }
 
-  deleteRecords() {
+  loescheEintrag() {
     this.selectedItemKeys.forEach((key: any) => {
       this.dataSource.store().remove(key);
     });
