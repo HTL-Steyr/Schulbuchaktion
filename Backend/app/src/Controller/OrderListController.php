@@ -45,7 +45,6 @@ class OrderListController extends AbstractController {
         $context = (new ObjectNormalizerContextBuilder())
             ->withGroups("orderlist")
             ->toArray();
-
         // Get the BookOrder entity with the given book id from the database
         $orderList = $registry->getRepository(BookOrder::class)->find($id);
 
