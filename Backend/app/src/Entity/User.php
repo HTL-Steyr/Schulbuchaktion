@@ -48,7 +48,6 @@ class User implements PasswordAuthenticatedUserInterface {
     #[ORM\JoinColumn(nullable: false)]
     private ?Role $role = null;
 
-    #[Groups(['schoolclass'])]
     #[ORM\OneToMany(mappedBy: 'headOfDepartment', targetEntity: Department::class)]
     #[ORM\JoinColumn(nullable: true)]
     private Collection $departments;
