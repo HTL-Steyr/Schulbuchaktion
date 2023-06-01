@@ -215,3 +215,33 @@ button:hover {
   color: #000000;
   border: solid 1px black;
 }
+
+
+
+::ng-deep .swal2-popup {
+  font-size: 1.0rem;
+}
+
+
+
+
+::ng-deep .swal2-styled.swal2-confirm {
+  font-family: Abel Regular, Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  color: #ffffff;
+  background-color: black;
+  padding: 10px 31px;
+  border: solid #000000 1px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  border-radius: 50px;
+  transition: 803ms;
+  transform: translateY(0);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+
+}
+
+
