@@ -3,10 +3,14 @@
     <div class="title">
       <span>Schulbuchaktion</span>
     </div>
-    <a routerLink="/bestelluebersicht">Bestellungen</a>
-    <a routerLink="/klassenuebersicht">Klassen</a>
-    <a routerLink="/gelduebersicht">Geld</a>
-    <a routerLink="/import">Import</a>
+    <a  routerLink="/bestelluebersicht">Bestellungen</a>
+    <a routerLink="/klassenuebersicht" *ngIf="isDisabledClass">Klassen</a>
+    <a routerLink="/gelduebersicht" *ngIf="isDisabledMoney">Geld</a>
+    <a routerLink="/import" *ngIf="isDisabledImports">Import</a>
+
+
+
+
     <div class="logout">
       <span>{{userService.user.shortName}}</span>
       <button (click)="userService.logout()">Logout</button>
