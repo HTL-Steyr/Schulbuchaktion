@@ -11,13 +11,25 @@ export class AppComponent {
   title = 'SchoolBookOrderSystem';
 
   constructor(private router: Router, public userService: UserService) {
-        router.events.subscribe((val) => {
-            if (!(val instanceof NavigationStart)) return;
+    router.events.subscribe((val) => {
+      if (!(val instanceof NavigationStart)) return;
 
-            if (!this.userService.user && val.url != '/login') {
-                this.router.navigate(['login']);
+      if (!this.userService.user && val.url != '/login') {
+        this.router.navigate(['login']);
+      } else {
+        if (userService.user?.token) {
+          userService.authorizeToken(userService.user.token).subscribe(user => {
+            if (userService.user?.token) {
+              user.token = userService.user?.token;
+              userService.user = user;
             }
+          }, _ => {
+            userService.logout();
+            router.navigate(['login']);
+          });
         }
+      }
+    }
     );
   }
 }
