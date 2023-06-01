@@ -194,7 +194,7 @@ class OrderListController extends AbstractController {
         name: "app_orderlist_update",
         methods: ["PUT"]
     )]
-    public function getOrderListById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
+    public function updateOrderList(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
         // Get the current user
         $user = $authService->authenticateByAuthorizationHeader($request);
         // Check if the user is logged in
