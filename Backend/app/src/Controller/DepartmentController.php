@@ -44,7 +44,6 @@ class DepartmentController extends AbstractController {
 
         //Check if departments are found
         if ($departments != null) {
-            dd($departments);
             //Return the departments
             return $this->json($departments, status: Response::HTTP_OK, context: $context);
         }
