@@ -106,30 +106,42 @@ class OrderListController extends AbstractController {
         ManagerRegistry $registry,
         BookOrderRepository $orderRepository,
     ): Response {
+        // Authenticate the user using the AuthService and the authorization header from the request
         $user = $authService->authenticateByAuthorizationHeader($request);
+
+        // If the user is not authenticated, return an unauthorized response
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
-        
-        if ($user->getRole()->getName() == "Admin" || 
+
+        // Check if the user has the necessary roles (Admin, Abteilungsvorstand, Fachverantwortlicher)
+        // to perform the write operation
+        if ($user->getRole()->getName() == "Admin" ||
             $user->getRole()->getName() == "Abteilungsvorstand" ||
             $user->getRole()->getName() == "Fachverantwortlicher"
         ) {
+            // Decode the JSON content from the request
             $data = json_decode($request->getContent());
-            
+
+            // Create a new BookOrder instance
             $bookOrder = new BookOrder();
+            // Set the properties of the BookOrder instance based on the data from the request
             $bookOrder->setCount($data->count);
+            $bookOrder->setPrice($data->price);
             $bookOrder->setEbook($data->ebook);
             $bookOrder->setEbookPlus($data->ebookPlus);
             $bookOrder->setTeacherCopy($data->teacherCopy);
-            $bookOrder->setPrice($data->price);
+            // Retrieve the SchoolClass and Book entities from the ManagerRegistry based on the provided IDs
             $bookOrder->setSchoolClass($registry->getRepository(SchoolClass::class)->find($data->schoolClass));
             $bookOrder->setBook($registry->getRepository(Book::class)->find($data->book));
+            // Save the book order to the repository
             $orderRepository->save($bookOrder, true);
 
+            // Return a response with HTTP status code 200 (OK)
             return new Response(null, Response::HTTP_OK);
         }
-        
+
+        // If the user does not have the necessary roles, return a JSON response with null and HTTP status code 404 (NOT FOUND)
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
 
@@ -139,29 +151,40 @@ class OrderListController extends AbstractController {
         methods: ["DELETE"]
     )]
     public function deleteOrderList(
-        AuthService $authService,
-        Request $request,
-        int $id,
+        AuthService         $authService,
+        Request             $request,
+        int                 $id,
         BookOrderRepository $bookOrderRepository
-    ): Response {
+    ): Response
+    {
+        // Authenticate the user using the AuthService and the authorization header from the request
         $user = $authService->authenticateByAuthorizationHeader($request);
+
+        // If the user is not authenticated, return an unauthorized response
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
-        
+
+        // Check if the user has the necessary roles (Admin, Abteilungsvorstand, Fachverantwortlicher)
+        // to perform the delete operation
         if ($user->getRole()->getName() == "Admin" ||
             $user->getRole()->getName() == "Abteilungsvorstand" ||
             $user->getRole()->getName() == "Fachverantwortlicher"
         ) {
+            // Find the BookOrder entity in the BookOrderRepository based on the provided ID
             $bookOrder = $bookOrderRepository->find($id);
 
+            // If the book order exists
             if (isset($bookOrder)) {
+                // Remove the book order from the repository
                 $bookOrderRepository->remove($bookOrder, true);
+
+                // Return a response with HTTP status code 200 (OK)
                 return new Response(null, Response::HTTP_OK);
             }
         }
-        
+
+        // If the book order was not found or the user does not have the necessary roles, return a JSON response with null and HTTP status code 404 (NOT FOUND)
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
 }
-

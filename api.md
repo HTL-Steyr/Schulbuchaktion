@@ -22,6 +22,31 @@ POST
 }
 ```
 
+# /user/getme
+
+## Methods
+GET
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+```json
+{
+  "id": Integer,
+  "shortName": "String",
+  "firstName": "String",
+  "lastName": "String",
+  "email": "String",
+  "role": {
+    "id": Integer,
+    "name": "String"
+  }
+}
+```
+
 # /book
 
 ## Methods
@@ -346,6 +371,30 @@ Authorization Header: Bearer Token
 
 Response Code: HTTP_OK: 200
 
+# /orderlist/update/{id}
+
+## Methods
+POST
+
+## Request
+
+Authorization Header: Bearer Token
+```json
+{
+    "count": Integer,
+    "price": Integer,
+    "ebook": Integer,
+    "ebookPlus": Integer,
+    "teacherCopy": Integer,
+    "schoolClass": Integer (schoolClass id),
+    "book": Integer (book id)
+}
+```
+
+## Response
+
+Response Code: HTTP_OK: 200
+
 # /read/xlsx
 
 ## Methods
@@ -397,6 +446,19 @@ Authorization Header: Bearer Token
 ```json
 
 ```
+
+# /schoolclass/delete/{id}
+
+## Methods
+DELETE
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+Response Code: HTTP_OK: 200
 
 # /subject
 
@@ -457,27 +519,4 @@ Authorization Header: Bearer Token
 }
 ```
 
-# /user/getme
 
-## Methods
-GET
-
-## Request
-
-Authorization Header: Bearer Token
-
-## Response
-
-```json
-{
-  "id": Integer,
-  "shortName": "String",
-  "firstName": "String",
-  "lastName": "String",
-  "email": "String",
-  "role": {
-    "id": Integer,
-    "name": "String"
-  }
-}
-```

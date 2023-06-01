@@ -46,6 +46,9 @@ class SchoolClassController extends AbstractController {
             if (isset($schoolClasses)) {
                 return $this->json($schoolClasses, status: Response::HTTP_OK, context: $context);
             }
+        } else{
+            //if the user is not an Admin, return an HTTP_UNAUTHORIZED response
+            return $this->json(null, status: Response::HTTP_UNAUTHORIZED);
         }
 
         // If no school classes are found, return an HTTP_NOT_FOUND response
@@ -95,22 +98,35 @@ class SchoolClassController extends AbstractController {
         methods: ['GET']
     )]
     public function deleteSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
+        // Authenticate the user using the AuthService and the authorization header from the request
         $user = $authService->authenticateByAuthorizationHeader($request);
+
+        // If the user is not authenticated, return an unauthorized response
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
 
+        // Create an object normalizer context, specifying the 'schoolclass' group
         $context = (new ObjectNormalizerContextBuilder())
             ->withGroups('schoolclass')
             ->toArray();
 
+        // Retrieve the SchoolClass entity from the ManagerRegistry based on the provided ID
         $schoolClass = $registry->getRepository(SchoolClass::class)->find($id);
 
+        // If the school class exists
         if (isset($schoolClass)) {
+            // Remove the school class from the entity manager
             $registry->getManager()->remove($schoolClass);
+            // Persist the changes to the database
             $registry->getManager()->flush();
+
+            // Return a JSON response with the deleted school class object and HTTP status code 200
             return $this->json($schoolClass, status: Response::HTTP_OK, context: $context);
         }
+
+        // If the school class was not found, return a JSON response with null and HTTP status code 404
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
+
 }
