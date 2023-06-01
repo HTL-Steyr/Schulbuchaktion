@@ -128,9 +128,11 @@ class OrderListController extends AbstractController {
             $orderRepository->save($bookOrder, true);
 
             return new Response(null, Response::HTTP_OK);
+        } else{
+            return $this->json(null, status: Response::HTTP_UNAUTHORIZED);
         }
         
-        return $this->json(null, status: Response::HTTP_NOT_FOUND);
+
     }
 
     #[Route(
