@@ -215,7 +215,7 @@ class OrderListController extends AbstractController {
             // Update with PHP magic
             $data = json_decode($request->getContent());
             
-            foreach ($data as $key, $value) {
+            foreach ($data as $key => $value) {
                 $function = "set" . ucwords($key);
                 $orderEntry->$function($value);
             }            
