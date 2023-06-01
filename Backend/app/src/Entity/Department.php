@@ -28,6 +28,7 @@ class Department {
     #[ORM\Column]
     private ?int $usedBudget = null;
 
+    #[Groups(['department', 'schoolclass'])]
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'departments')]
     private ?User $headOfDepartment = null;
 
