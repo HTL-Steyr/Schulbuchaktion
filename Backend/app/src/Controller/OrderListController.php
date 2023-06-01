@@ -127,10 +127,11 @@ class OrderListController extends AbstractController {
             $bookOrder = new BookOrder();
             // Set the properties of the BookOrder instance based on the data from the request
             $bookOrder->setCount($data->count);
-            $bookOrder->setPrice($data->price);
             $bookOrder->setEbook($data->ebook);
             $bookOrder->setEbookPlus($data->ebookPlus);
             $bookOrder->setTeacherCopy($data->teacherCopy);
+            $bookOrder->setPrice($data->price);
+
             // Retrieve the SchoolClass and Book entities from the ManagerRegistry based on the provided IDs
             $bookOrder->setSchoolClass($registry->getRepository(SchoolClass::class)->find($data->schoolClass));
             $bookOrder->setBook($registry->getRepository(Book::class)->find($data->book));
