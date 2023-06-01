@@ -371,6 +371,30 @@ Authorization Header: Bearer Token
 
 Response Code: HTTP_OK: 200
 
+# /orderlist/update/{id}
+
+## Methods
+POST
+
+## Request
+
+Authorization Header: Bearer Token
+```json
+{
+    "count": Integer,
+    "price": Integer,
+    "ebook": Integer,
+    "ebookPlus": Integer,
+    "teacherCopy": Integer,
+    "schoolClass": Integer (schoolClass id),
+    "book": Integer (book id)
+}
+```
+
+## Response
+
+Response Code: HTTP_OK: 200
+
 # /read/xlsx
 
 ## Methods
