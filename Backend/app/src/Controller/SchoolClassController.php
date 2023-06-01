@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Department;
 use App\Entity\SchoolClass;
 use App\Service\AuthService;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,7 +15,9 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 /*
  * This controller is either used to get all schoolclasses or a schoolclass by id
  */
-class SchoolClassController extends AbstractController {
+
+class SchoolClassController extends AbstractController
+{
     /**
      * @return Response -> all schoolclasses
      */
@@ -24,7 +27,8 @@ class SchoolClassController extends AbstractController {
         name: "app_schoolclass",
         methods: ["GET"]
     )]
-    public function getSchoolClasses(AuthService $authService, Request $request, ManagerRegistry $registry): Response {
+    public function getSchoolClasses(AuthService $authService, Request $request, ManagerRegistry $registry): Response
+    {
         //Get the current user
         $user = $authService->authenticateByAuthorizationHeader($request);
         //Check if the user is logged in
@@ -63,7 +67,8 @@ class SchoolClassController extends AbstractController {
         name: "app_schoolclass_get_by_id",
         methods: ["GET"]
     )]
-    public function getSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
+    public function getSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response
+    {
         //Get the current user
         $user = $authService->authenticateByAuthorizationHeader($request);
         //Check if the user is logged in
@@ -97,8 +102,8 @@ class SchoolClassController extends AbstractController {
         name: 'app_schoolclass_delete_by_id',
         methods: ['GET']
     )]
-    public function deleteSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
-        // Authenticate the user using the AuthService and the authorization header from the request
+    public function deleteSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response
+    {
         $user = $authService->authenticateByAuthorizationHeader($request);
 
         // If the user is not authenticated, return an unauthorized response
@@ -129,4 +134,41 @@ class SchoolClassController extends AbstractController {
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
 
+
+
+    #[Route(
+        path: '/schoolclass/write',
+        name: 'app_schoolclass_create',
+        methods: ['POST']
+    )]
+    public function createSchoolclass(AuthService $authService, Request $request, ManagerRegistry $registry): Response
+    {
+
+        $user = $authService->authenticateByAuthorizationHeader($request);
+        if (!isset($user)) {
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        }
+        if ($user->getRole()->getName() == "Admin" ||
+            $user->getRole()->getName() == "Abteilungsvorstand") {
+            $data = json_decode($request->getContent());
+            $schoolclass = new SchoolClass();
+            $schoolclass->setName($data->name);
+            $schoolclass->setYear($data->year);
+            $schoolclass->setGrade($data->grade);
+            $schoolclass->setDepartment($registry->getRepository(Department::class)->find($data->department));
+            $schoolclass->setStudentAmount($data->studentAmount);
+            $schoolclass->setRepAmount($data->repAmount);
+            $schoolclass->setSchoolForm($data->schoolForm);
+            $schoolclass->setBudget($data->budget);
+            $schoolclass->setUsedBudget($data->usedBudget);
+            $registry->getManager()->getRepository(SchoolClass::class)->save($schoolclass, true);
+
+            return $this->json(null, status: Response::HTTP_OK);
+        }
+       return $this->json(null, status: Response::HTTP_UNAUTHORIZED);
+    }
+
+
 }
+
+
