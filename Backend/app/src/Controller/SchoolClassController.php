@@ -14,9 +14,7 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 /*
  * This controller is either used to get all schoolclasses or a schoolclass by id
  */
-
-class SchoolClassController extends AbstractController
-{
+class SchoolClassController extends AbstractController {
     /**
      * @return Response -> all schoolclasses
      */
@@ -26,33 +24,29 @@ class SchoolClassController extends AbstractController
         name: "app_schoolclass",
         methods: ["GET"]
     )]
-    public function getSchoolClasses(AuthService $authService, Request $request, ManagerRegistry $registry): Response
-    {
+    public function getSchoolClasses(AuthService $authService, Request $request, ManagerRegistry $registry): Response {
         //Get the current user
-        /*
         $user = $authService->authenticateByAuthorizationHeader($request);
         //Check if the user is logged in
         if (!isset($user)) {
             //Return HTTP UNAUTHORIZED if the user is not logged in or the token is invalid or expired or the user is not found
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
-        */
 
-        //if ($user->getRole()->getName() == "Admin") {
+        if ($user->getRole()->getName() == "Admin") {
+            // Build a context to normalize the data with
+            $context = (new ObjectNormalizerContextBuilder())
+                ->withGroups('schoolclass')
+                ->toArray();
 
-        // Build a context to normalize the data with
-        $context = (new ObjectNormalizerContextBuilder())
-            ->withGroups('schoolclass')
-            ->toArray();
+            // Find all school classes from the repository
+            $schoolClasses = $registry->getRepository(SchoolClass::class)->findAll();
 
-        // Find all school classes from the repository
-        $schoolClasses = $registry->getRepository(SchoolClass::class)->findAll();
-
-        // If there are any school classes, return them with an HTTP_OK response and the built context
-        if (isset($schoolClasses)) {
-            return $this->json($schoolClasses, status: Response::HTTP_OK, context: $context);
+            // If there are any school classes, return them with an HTTP_OK response and the built context
+            if (isset($schoolClasses)) {
+                return $this->json($schoolClasses, status: Response::HTTP_OK, context: $context);
+            }
         }
-        //}
 
         // If no school classes are found, return an HTTP_NOT_FOUND response
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
@@ -66,8 +60,7 @@ class SchoolClassController extends AbstractController
         name: "app_schoolclass_get_by_id",
         methods: ["GET"]
     )]
-    public function getSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response
-    {
+    public function getSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
         //Get the current user
         $user = $authService->authenticateByAuthorizationHeader($request);
         //Check if the user is logged in
@@ -101,36 +94,23 @@ class SchoolClassController extends AbstractController
         name: 'app_schoolclass_delete_by_id',
         methods: ['GET']
     )]
-    public function deleteSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response
-    {
-        // Authenticate the user using the AuthService and the authorization header from the request
+    public function deleteSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
         $user = $authService->authenticateByAuthorizationHeader($request);
-
-        // If the user is not authenticated, return an unauthorized response
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
 
-        // Create an object normalizer context, specifying the 'schoolclass' group
         $context = (new ObjectNormalizerContextBuilder())
             ->withGroups('schoolclass')
             ->toArray();
 
-        // Retrieve the SchoolClass entity from the ManagerRegistry based on the provided ID
         $schoolClass = $registry->getRepository(SchoolClass::class)->find($id);
 
-        // If the school class exists
         if (isset($schoolClass)) {
-            // Remove the school class from the entity manager
             $registry->getManager()->remove($schoolClass);
-            // Persist the changes to the database
             $registry->getManager()->flush();
-
-            // Return a JSON response with the deleted school class object and HTTP status code 200
             return $this->json($schoolClass, status: Response::HTTP_OK, context: $context);
         }
-
-        // If the school class was not found, return a JSON response with null and HTTP status code 404
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
 }
