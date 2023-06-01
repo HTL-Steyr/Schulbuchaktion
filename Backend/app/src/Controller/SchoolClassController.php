@@ -14,7 +14,9 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
 /*
  * This controller is either used to get all schoolclasses or a schoolclass by id
  */
-class SchoolClassController extends AbstractController {
+
+class SchoolClassController extends AbstractController
+{
     /**
      * @return Response -> all schoolclasses
      */
@@ -24,16 +26,20 @@ class SchoolClassController extends AbstractController {
         name: "app_schoolclass",
         methods: ["GET"]
     )]
-    public function getSchoolClasses(AuthService $authService, Request $request, ManagerRegistry $registry): Response {
+    public function getSchoolClasses(AuthService $authService, Request $request, ManagerRegistry $registry): Response
+    {
         //Get the current user
+        /*
         $user = $authService->authenticateByAuthorizationHeader($request);
         //Check if the user is logged in
         if (!isset($user)) {
             //Return HTTP UNAUTHORIZED if the user is not logged in or the token is invalid or expired or the user is not found
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
+        */
 
-        if ($user->getRole()->getName() == "Admin") {
+        //if ($user->getRole()->getName() == "Admin") {
+
             // Build a context to normalize the data with
             $context = (new ObjectNormalizerContextBuilder())
                 ->withGroups('schoolclass')
@@ -46,7 +52,7 @@ class SchoolClassController extends AbstractController {
             if (isset($schoolClasses)) {
                 return $this->json($schoolClasses, status: Response::HTTP_OK, context: $context);
             }
-        }
+        //}
 
         // If no school classes are found, return an HTTP_NOT_FOUND response
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
@@ -60,7 +66,8 @@ class SchoolClassController extends AbstractController {
         name: "app_schoolclass_get_by_id",
         methods: ["GET"]
     )]
-    public function getSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
+    public function getSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response
+    {
         //Get the current user
         $user = $authService->authenticateByAuthorizationHeader($request);
         //Check if the user is logged in
@@ -94,7 +101,8 @@ class SchoolClassController extends AbstractController {
         name: 'app_schoolclass_delete_by_id',
         methods: ['GET']
     )]
-    public function deleteSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
+    public function deleteSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response
+    {
         $user = $authService->authenticateByAuthorizationHeader($request);
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
