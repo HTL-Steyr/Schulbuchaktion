@@ -49,7 +49,7 @@ class User implements PasswordAuthenticatedUserInterface {
     private ?Role $role = null;
 
     #[Groups(['department','schoolclass'])]
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: User::class)]
+    #[ORM\OneToMany(mappedBy: 'headOfDepartment', targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: true)]
     private Collection $departments;
 
