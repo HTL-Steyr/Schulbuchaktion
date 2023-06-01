@@ -216,6 +216,11 @@ class OrderListController extends AbstractController {
             $data = json_decode($request->getContent());
             
             foreach ($data as $key => $value) {
+                if ($key === "book") {
+                    $value = $registry->getRepository(Book::class)->find($value);
+                } elseif ($key === "schoolClass") {
+                    $value = $registry->getRepository(SchoolClass::class)->find($value);
+                }
                 $function = "set" . ucwords($key);
                 $orderList->$function($value);
             }            
