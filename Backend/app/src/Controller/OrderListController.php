@@ -127,7 +127,6 @@ class OrderListController extends AbstractController {
             $bookOrder = new BookOrder();
             // Set the properties of the BookOrder instance based on the data from the request
             $bookOrder->setCount($data->count);
-            $bookOrder->setPrice($data->price);
             $bookOrder->setEbook($data->ebook);
             $bookOrder->setEbookPlus($data->ebookPlus);
             $bookOrder->setTeacherCopy($data->teacherCopy);
