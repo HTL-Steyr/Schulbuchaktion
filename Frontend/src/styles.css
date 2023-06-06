@@ -509,3 +509,82 @@ input {
 .css-input:focus {
   outline: none;
 }
+
+.dx-toolbar {
+  width: 100%;
+  background-color: #417bed;
+  color: #333;
+  padding: 0;
+  overflow: visible;
+}
+
+.dx-datagrid-group-panel .dx-group-panel-message {
+  color: white;
+  /*make it bold*/
+  font-weight: bold;
+}
+
+.dx-datagrid .dx-datagrid-header-panel .dx-group-panel-item, .dx-datagrid .dx-datagrid-header-panel .dx-header-filter{
+  color: white;
+  /*make it bold*/
+  font-weight: bold;
+}
+
+.dx-datagrid-group-panel .dx-sort{
+  color: white;
+  /*make it bold*/
+  font-weight: bold;
+}
+
+.dx-checkbox-checked .dx-checkbox-icon::before{
+  background-color: #417bed;
+}
+
+
+
+
+
+.dx-checkbox-checked .dx-checkbox-icon {
+  font: 16px/1em DXIcons;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+}
+
+
+.dx-datagrid {
+  font-family: Abel Regular, Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  color: white;
+  border-color: white;
+  background-color: black;
+  border-style: solid;
+  box-shadow: black;
+  text-shadow: black;
+}
+.dx-widget{
+  color: white;
+}
+
+.dx-datagrid-headers {
+  color: #417bed;
+
+}
+.dx-button-mode-contained {
+  background-color: #417bed;
+
+}
+.dx-button-mode-contained:hover {
+  background-color: black;
+
+}
+
+
+.dx-editor-cell .dx-texteditor, .dx-editor-cell .dx-texteditor .dx-texteditor-input{
+  background-color: black;
+
+}
+
+.dx-texteditor-input {
+  color: white;
+}
