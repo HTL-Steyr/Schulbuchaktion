@@ -115,7 +115,21 @@ class OrderListController extends AbstractController {
             $user->getRole()->getName() == "Fachverantwortlicher"
         ) {
             $data = json_decode($request->getContent());
-            
+
+
+            $allBooks = $registry->getRepository(Book::class)->findAll();
+            // foreach
+            foreach ($allBooks as $book){
+                $bookOrder = new BookOrder();
+                $bookOrder->setCount(0);
+                $bookOrder->setPrice(0);
+                $bookOrder->setEbook(0);
+                $bookOrder->setEbookPlus(0);
+                $bookOrder->setTeacherCopy(0);
+                $bookOrder->setYear(0);
+                $bookOrder->setBook($book);
+                $orderRepository->save($bookOrder, true);
+            }
             $bookOrder = new BookOrder();
             $bookOrder->setCount($data->count);
             $bookOrder->setPrice($data->price);
@@ -123,6 +137,7 @@ class OrderListController extends AbstractController {
             $bookOrder->setEbookPlus($data->ebookPlus);
             $bookOrder->setTeacherCopy($data->teacherCopy);
             $bookOrder->setSchoolClass($registry->getRepository(SchoolClass::class)->find($data->schoolClass));
+            $bookOrder->setYear($data->year);
             $bookOrder->setBook($registry->getRepository(Book::class)->find($data->book));
             $orderRepository->save($bookOrder, true);
 

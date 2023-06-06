@@ -42,6 +42,7 @@ class BookOrder {
     #[ORM\Column]
     private ?bool $teacherCopy = null;
 
+    #[Groups(['orderlist'])]
     #[ORM\Column]
     private ?int $year = null;
 
