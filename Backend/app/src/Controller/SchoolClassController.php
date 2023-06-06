@@ -140,7 +140,7 @@ class SchoolClassController extends AbstractController
             $schoolclass->setName($data->name);
             $schoolclass->setYear($data->year);
             $schoolclass->setGrade($data->grade);
-            $schoolclass->setDepartment($registry->getRepository(Department::class)->find($data->department));
+            $schoolclass->setDepartment($registry->getRepository(Department::class)->findOneBy(["id" => $data->department]));
             $schoolclass->setStudentAmount($data->studentAmount);
             $schoolclass->setRepAmount($data->repAmount);
             $schoolclass->setSchoolForm($data->schoolForm);
