@@ -3,13 +3,21 @@
     <div class="title">
       <span>Schulbuchaktion</span>
     </div>
-    <a  routerLink="/bestelluebersicht">Bestellungen</a>
-    <a routerLink="/klassenuebersicht" *ngIf="isDisabledClass">Klassen</a>
-    <a routerLink="/gelduebersicht"  *ngIf="isDisabledMoney">Geld</a>
-    <a routerLink="/import" *ngIf="isDisabledImports">Import</a>
+    <!--
+        <a  routerLink="/bestelluebersicht">Bestellungen</a>
+        <a routerLink="/klassenuebersicht" *ngIf="isDisabledClass">Klassen</a>
+        <a routerLink="/gelduebersicht"  *ngIf="isDisabledMoney">Geld</a>
+        <a routerLink="/import" *ngIf="isDisabledImports">Import</a>
+    -->
 
 
-
+    <div *ngFor="let item of navItems">
+      <div *ngIf="item.name | showMenuItem: userService.user.role.id.toString()">
+        <a routerLink="{{item.path}}" class="nav-menu-item">
+          {{item.text}}
+        </a>
+      </div>
+    </div>
 
     <div class="logout">
       <span>{{userService.user.shortName}}</span>
