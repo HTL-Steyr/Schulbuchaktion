@@ -20,6 +20,10 @@ class BookPrice {
 
     #[Groups(['subject', 'bookPrice', "orderlist"])]
     #[ORM\Column]
+    private ?int $totalPrice = null;
+
+    #[Groups(['subject', 'bookPrice', "orderlist"])]
+    #[ORM\Column]
     private ?int $priceInclusiveEbook = null;
 
     #[Groups(['subject', 'bookPrice', "orderlist"])]
@@ -49,12 +53,12 @@ class BookPrice {
         return $this;
     }
 
-    public function getPriceInclusiveEbook(): ?int {
-        return $this->priceInclusiveEbook;
+    public function getTotalPrice(): ?int {
+        return $this->totalPrice;
     }
 
-    public function setPriceInclusiveEbook(int $priceInclusiveEbook): self {
-        $this->priceInclusiveEbook = $priceInclusiveEbook;
+    public function setTotalPrice(int $totalPrice): self {
+        $this->totalPrice = $totalPrice;
 
         return $this;
     }

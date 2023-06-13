@@ -139,7 +139,7 @@ class MoneyListController extends AbstractController
 
             // Set the properties of the BookPrice instance
             $bookPrice->setYear($data->year);
-            $bookPrice->setPriceInclusiveEbook($data->priceInclusiveEbook);
+            $bookPrice->setTotalPrice($data->priceInclusiveEbook);
             $bookPrice->setPriceEbook($data->priceEbook);
             // @Todo change this? $bookPrice->setPriceEbookPlus($data->priceEbookPlus);
 

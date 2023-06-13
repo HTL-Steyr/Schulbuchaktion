@@ -85,9 +85,9 @@ class ReadController extends AbstractController
                 $vnr = $sheet->getCell("J" . strval($i))->getValue();
                 $publisherName = $sheet->getCell("K" . strval($i))->getValue();
                 $mainBook = $sheet->getCell("L" . strval($i))->getValue();
-                $bookpriceebook = $sheet->getCell("M" . strval($i))->getValue();
-                $bookpricenormal = $sheet->getCell("N" . strval($i))->getValue();
-                $bookpriceplus = $sheet->getCell("O" . strval($i))->getValue();
+                $totalPrice = $sheet->getCell("M" . strval($i))->getValue();
+                $bookpriceNormal = $sheet->getCell("N" . strval($i))->getValue();
+                $bookpricEbookPlus = $sheet->getCell("O" . strval($i))->getValue();
                 $ebook = $sheet->getCell("P" . strval($i))->getValue();
                 $ebookPlus = $sheet->getCell("Q" . strval($i))->getValue();
 
@@ -161,9 +161,9 @@ class ReadController extends AbstractController
                         $bookprice = new BookPrice();
                         $bookprice->setBook($book);
                         $bookprice->setYear(date('Y'));
-                        $bookprice->setPriceEbook(intval($bookpriceebook));
-                        $bookprice->setPriceBase(intval($bookpriceplus));
-                        $bookprice->setPriceInclusiveEbook(intval($bookpricenormal));
+                        $bookprice->setPriceEbook(intval($bookpricEbookPlus*100));
+                        $bookprice->setPriceBase(intval($bookpriceNormal*100));
+                        $bookprice->setTotalPrice(intval($totalPrice*100));
                         $repoBookPrice->save($bookprice, true);
                     }
                 }
