@@ -115,6 +115,7 @@ class SchoolClassController extends AbstractController
             $user->getRole()->getName() == "Fachverantwortlicher"
         ) {
 
+
             $data = json_decode($request->getContent(), true);
 
             $schoolClass = $registry->getRepository(SchoolClass::class)->find($id);
@@ -145,7 +146,7 @@ class SchoolClassController extends AbstractController
             if ($data->schoolForm != null) {
                 $schoolClass->setSchoolForm($data->schoolForm);
             }
-    
+
             $registry->getManager()->persist($schoolClass);
             $registry->getManager()->flush();
 
