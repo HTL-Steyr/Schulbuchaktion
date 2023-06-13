@@ -29,7 +29,7 @@ class DepartmentController extends AbstractController {
         //Get the current user
         $user = $authService->authenticateByAuthorizationHeader($request);
         //Check if the user is logged in
-        if (!isset($user)) {
+        if ($user == null) {
             //Return HTTP UNAUTHORIZED if the user is not logged in or the token is invalid or expired or the user is not found
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
@@ -43,7 +43,7 @@ class DepartmentController extends AbstractController {
         $departments = $registry->getRepository(Department::class)->findAll();
 
         //Check if departments are found
-        if (isset($departments)) {
+        if ($departments != null) {
             //Return the departments
             return $this->json($departments, status: Response::HTTP_OK, context: $context);
         }

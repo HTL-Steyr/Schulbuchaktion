@@ -162,7 +162,7 @@ class ReadController extends AbstractController
                         $bookprice->setBook($book);
                         $bookprice->setYear(date('Y'));
                         $bookprice->setPriceEbook(intval($bookpriceebook));
-                        $bookprice->setPriceEbookPlus(intval($bookpriceplus));
+                        $bookprice->setPriceBase(intval($bookpriceplus));
                         $bookprice->setPriceInclusiveEbook(intval($bookpricenormal));
                         $repoBookPrice->save($bookprice, true);
                     }

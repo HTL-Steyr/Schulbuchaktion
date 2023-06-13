@@ -23,21 +23,28 @@ class RoleRepository extends ServiceEntityRepository
 
     public function save(Role $entity, bool $flush = false): void
     {
+        // Persist the provided entity to the entity manager
         $this->getEntityManager()->persist($entity);
 
+        // Check if flush is set to true
         if ($flush) {
+            // Flush the changes to the database
             $this->getEntityManager()->flush();
         }
     }
 
     public function remove(Role $entity, bool $flush = false): void
     {
+        // Remove the provided entity from the entity manager
         $this->getEntityManager()->remove($entity);
 
+        // Check if flush is set to true
         if ($flush) {
+            // Flush the changes to the database
             $this->getEntityManager()->flush();
         }
     }
+
 
 //    /**
 //     * @return Role[] Returns an array of Role objects

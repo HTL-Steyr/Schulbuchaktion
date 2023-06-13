@@ -4,11 +4,11 @@ create definer = symfony@`%` trigger t_create_book_order
     for each row
 BEGIN
     DECLARE priceEbookBook INTEGER DEFAULT 0;
-    DECLARE priceBook INTEGER;
-    DECLARE totalPrice INTEGER;
-    DECLARE departmentId INTEGER;
-    DECLARE usedBudgetSchoolclass INTEGER;
-    DECLARE usedBudgetDepartment INTEGER;
+    DECLARE priceBook INTEGER DEFAULT 0;
+    DECLARE totalPrice INTEGER DEFAULT 0;
+    DECLARE departmentId INTEGER DEFAULT 0;
+    DECLARE usedBudgetSchoolclass INTEGER DEFAULT 0;
+    DECLARE usedBudgetDepartment INTEGER DEFAULT 0;
 
     SELECT department_id FROM school_class WHERE school_class.id = NEW.school_class_id INTO departmentId;
 
