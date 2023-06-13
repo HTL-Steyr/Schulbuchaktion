@@ -197,7 +197,7 @@ class MoneyListController extends AbstractController
 
         foreach ($listOrders as $order) {
             $list[$order->getId()] = [];
-            $list[$order->getId()]['SumOfUsedMoney'] = $sumOfUsedMoney += $order->getPrice();
+            $list[$order->getId()]['SumOfUsedMoney'] += $order->getPrice();
             $list[$order->getId()]['Schoolclass'] = $order->getSchoolclass();
             $list[$order->getId()]['Department'] = $order->getDepartment();
             $list[$order->getId()]['Available'] = $availableBudget = $order->getSchoolclass()->getBudget();
@@ -206,7 +206,7 @@ class MoneyListController extends AbstractController
                 if ($price->getBook() == $order->getBook()) {
                     $list[$order->getId()]['Year'] = $price->getYear();
                 }
-                $list[$order->getId()]['Percentage'] = round(($sumOfUsedMoney / $availableBudget) * 100, 2);
+                $list[$order->getId()]['Percentage'] = round(($list[$order->getId()]['SumOfUsedMoney'] / $availableBudget) * 100, 2);
             }
 
         }
