@@ -19,7 +19,8 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
  * Class MoneyListController
  * Retrieve a moneylist with the given id
  */
-class MoneyListController extends AbstractController {
+class MoneyListController extends AbstractController
+{
 
     /**
      * This method returns the moneylist with the given id.
@@ -36,7 +37,8 @@ class MoneyListController extends AbstractController {
         name: "app_moneylist_get",
         methods: ["GET"]
     )]
-    public function getMoneyListById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
+    public function getMoneyListById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response
+    {
         //Get the current user
         $user = $authService->authenticateByAuthorizationHeader($request);
         //Check if the user is logged in
@@ -70,7 +72,8 @@ class MoneyListController extends AbstractController {
         name: "app_moneylist_get_all",
         methods: ["GET"]
     )]
-    public function getMoneyLists(AuthService $authService, Request $request, ManagerRegistry $registry): Response {
+    public function getMoneyLists(AuthService $authService, Request $request, ManagerRegistry $registry): Response
+    {
         //Get the current user
         $user = $authService->authenticateByAuthorizationHeader($request);
         //Check if the user is logged in
@@ -110,11 +113,12 @@ class MoneyListController extends AbstractController {
         methods: ["POST"]
     )]
     public function addMoneyList(
-        AuthService $authService,
-        Request $request,
-        ManagerRegistry $registry,
+        AuthService         $authService,
+        Request             $request,
+        ManagerRegistry     $registry,
         BookPriceRepository $priceRepository,
-    ): Response {
+    ): Response
+    {
         $user = $authService->authenticateByAuthorizationHeader($request);
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
@@ -152,11 +156,12 @@ class MoneyListController extends AbstractController {
         methods: ["DELETE"]
     )]
     public function deleteMoneyList(
-        AuthService $authService,
-        Request $request,
-        int $id,
+        AuthService         $authService,
+        Request             $request,
+        int                 $id,
         BookPriceRepository $priceRepository
-    ): Response {
+    ): Response
+    {
         $user = $authService->authenticateByAuthorizationHeader($request);
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
@@ -191,17 +196,17 @@ class MoneyListController extends AbstractController {
         $list = [];
 
         foreach ($listOrders as $order) {
-            $list[$order->id] = [];
-            $list[$order->id]['SumOfUsedMoney'] = $sumOfUsedMoney += $order->getPrice();
-            $list[$order->id]['Schoolclass'] = $order->getSchoolclass();
-            $list[$order->id]['Department'] = $order->getDepartment();
-            $list[$order->id]['Available'] = $availableBudget = $order->getSchoolclass()->getBudget();
+            $list[$order->getId()] = [];
+            $list[$order->getId()]['SumOfUsedMoney'] = $sumOfUsedMoney += $order->getPrice();
+            $list[$order->getId()]['Schoolclass'] = $order->getSchoolclass();
+            $list[$order->getId()]['Department'] = $order->getDepartment();
+            $list[$order->getId()]['Available'] = $availableBudget = $order->getSchoolclass()->getBudget();
 
             foreach ($listPrice as $price) {
                 if ($price->getBook() == $order->getBook()) {
-                    $list[$order->id]['Year']  = $price->getYear();
+                    $list[$order->getId()]['Year'] = $price->getYear();
                 }
-                $list[$order->id]['Percentage'] = round(($sumOfUsedMoney / $availableBudget) * 100, 2);
+                $list[$order->getId()]['Percentage'] = round(($sumOfUsedMoney / $availableBudget) * 100, 2);
             }
 
         }
