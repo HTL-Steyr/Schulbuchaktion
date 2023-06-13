@@ -82,6 +82,16 @@ class BookPrice {
 
         return $this;
     }
+    
+   public function getPriceInclusiveEbook(): ?int {
+        return $this->priceInclusiveEbook;
+    }
+
+    public function setPriceInclusiveEbook(int $priceInclusiveEbook): self {
+        $this->priceInclusiveEbook = $priceInclusiveEbook;
+
+        return $this;
+    }
 
     public function getBook(): ?Book
     {
