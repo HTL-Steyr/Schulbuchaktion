@@ -197,6 +197,9 @@ class MoneyListController extends AbstractController
 
         foreach ($listOrders as $order) {
             $list[$order->getId()] = [];
+            if (!isset($list[$order->getId()]['SumOfUsedMoney'])) {
+                $list[$order->getId()]['SumOfUsedMoney'] = 0;
+            }
             $list[$order->getId()]['SumOfUsedMoney'] += $order->getPrice();
             $list[$order->getId()]['Schoolclass'] = $order->getSchoolclass();
             $list[$order->getId()]['Department'] = $order->getDepartment();
