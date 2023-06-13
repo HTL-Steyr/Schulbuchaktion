@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Entity\BookOrder;
 use App\Entity\BookPrice;
 use App\Repository\BookPriceRepository;
 use App\Service\AuthService;
@@ -63,7 +64,7 @@ class MoneyListController extends AbstractController {
         // Return a null JSON response with a NOT_FOUND status code if the BookPrice entity is not found
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
-    
+
     #[Route(
         path: "/moneylist",
         name: "app_moneylist_get_all",
@@ -100,7 +101,7 @@ class MoneyListController extends AbstractController {
     /**
      * Creates a moneylist in the database.
      * Considers roles of the user.
-     * 
+     *
      * @return Response
      */
     #[Route(
@@ -118,13 +119,13 @@ class MoneyListController extends AbstractController {
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
-        
-        if ($user->getRole()->getName() == "Admin" || 
+
+        if ($user->getRole()->getName() == "Admin" ||
             $user->getRole()->getName() == "Abteilungsvorstand" ||
             $user->getRole()->getName() == "Fachverantwortlicher"
         ) {
             $data = json_decode($request->getContent());
-            
+
             $bookPrice = new BookPrice();
             $bookPrice->setYear($data->year);
             $bookPrice->setPriceInclusiveEbook($data->priceInclusiveEbook);
@@ -135,10 +136,10 @@ class MoneyListController extends AbstractController {
 
             return new Response(null, Response::HTTP_OK);
         }
-        
+
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
-    
+
     /**
      * Deletes a moneylist in the database.
      * Considers roles of the user.
@@ -175,4 +176,39 @@ class MoneyListController extends AbstractController {
 
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
+
+    #[Route(
+        path: '/moneyoverview',
+        name: 'app_money_overview',
+        methods: ['GET']
+    )]
+    public function getMoneyOverview(Request $request, ManagerRegistry $registry): Response
+    {
+
+        $listOrders = $registry->getRepository(BookOrder::class)->findAll();
+        $listPrice = $registry->getRepository(BookPrice::class)->findAll();
+
+        $list = [];
+
+        foreach ($listOrders as $order) {
+            $list[$order->id] = [];
+            $list[$order->id]['SumOfUsedMoney'] = $sumOfUsedMoney += $order->getPrice();
+            $list[$order->id]['Schoolclass'] = $order->getSchoolclass();
+            $list[$order->id]['Department'] = $order->getDepartment();
+            $list[$order->id]['Available'] = $availableBudget = $order->getSchoolclass()->getBudget();
+
+            foreach ($listPrice as $price) {
+                if ($price->getBook() == $order->getBook()) {
+                    $list[$order->id]['Year']  = $price->getYear();
+                }
+                $list[$order->id]['Percentage'] = round(($sumOfUsedMoney / $availableBudget) * 100, 2);
+            }
+
+        }
+
+
+        // Return a JSON response with the money overview data
+        return $this->json($list, status: Response::HTTP_OK);
+    }
+
 }
