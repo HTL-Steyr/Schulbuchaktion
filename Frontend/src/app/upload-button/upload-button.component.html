@@ -10,7 +10,7 @@
   </tr>
   </thead>
   <tbody #container>
-  <tr *ngFor="let row of data">
+  <tr align="center" *ngFor="let row of data">
     <td *ngFor="let val of headData; let i =index">
       {{row[i] || ' '}}
     </td>

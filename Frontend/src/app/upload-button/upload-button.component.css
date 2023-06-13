@@ -1,3 +1,7 @@
 p {
   font-family: Lato, serif;
 }
+table {
+  background-color: white;
+  font-size: smaller;
+}
