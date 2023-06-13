@@ -47,6 +47,45 @@ Authorization Header: Bearer Token
 }
 ```
 
+# /user/getall
+
+## Methods
+GET
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+```json
+[
+  {
+    "id": Integer,
+    "shortName": "String",
+    "firstName": "String",
+    "lastName": "String",
+    "email": "String",
+    "role": {
+      "id": Integer,
+      "name": "String"
+    }
+  },
+  {
+    "id": Integer,
+    "shortName": "String",
+    "firstName": "String",
+    "lastName": "String",
+    "email": "String",
+    "role": {
+      "id": Integer,
+      "name": "String"
+    }
+  },
+  ...
+]
+```
+
 # /book
 
 ## Methods

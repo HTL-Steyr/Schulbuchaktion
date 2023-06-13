@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Entity\BookOrder;
 use App\Entity\BookPrice;
 use App\Repository\BookPriceRepository;
 use App\Service\AuthService;
@@ -118,42 +119,28 @@ class MoneyListController extends AbstractController
         BookPriceRepository $priceRepository,
     ): Response
     {
-        // Authenticate the user based on the authorization header
         $user = $authService->authenticateByAuthorizationHeader($request);
-
-        // Check if user is not authenticated
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
 
-        // Check if user has the required roles
         if ($user->getRole()->getName() == "Admin" ||
             $user->getRole()->getName() == "Abteilungsvorstand" ||
             $user->getRole()->getName() == "Fachverantwortlicher"
         ) {
-            // Retrieve the data from the request body and decode it as JSON
             $data = json_decode($request->getContent());
 
-            // Create a new BookPrice instance
             $bookPrice = new BookPrice();
-
-            // Set the properties of the BookPrice instance
             $bookPrice->setYear($data->year);
             $bookPrice->setTotalPrice($data->priceInclusiveEbook);
             $bookPrice->setPriceEbook($data->priceEbook);
-            // @Todo change this? $bookPrice->setPriceEbookPlus($data->priceEbookPlus);
-
-            // Retrieve the Book entity from the repository based on the provided book ID
-            $book = $registry->getRepository(Book::class)->find($data->book);
-            $bookPrice->setBook($book);
-
-            // Save the BookPrice entity using the price repository
+            $bookPrice->setPriceEbookPlus($data->priceEbookPlus);
+            $bookPrice->setBook($registry->getRepository(Book::class)->find($data->book));
             $priceRepository->save($bookPrice, true);
 
             return new Response(null, Response::HTTP_OK);
         }
 
-        // Return a JSON response with status HTTP_NOT_FOUND if the user doesn't have the required roles
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
 
@@ -175,32 +162,68 @@ class MoneyListController extends AbstractController
         BookPriceRepository $priceRepository
     ): Response
     {
-        // Authenticate the user based on the authorization header
         $user = $authService->authenticateByAuthorizationHeader($request);
-
-        // Check if user is not authenticated
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
 
-        // Check if user has the required roles
         if ($user->getRole()->getName() == "Admin" ||
             $user->getRole()->getName() == "Abteilungsvorstand" ||
             $user->getRole()->getName() == "Fachverantwortlicher"
         ) {
-            // Find the BookPrice entity with the provided ID
             $bookPrice = $priceRepository->find($id);
 
-            // Check if the BookPrice entity exists
             if (isset($bookPrice)) {
-                // Remove the BookPrice entity using the price repository
                 $priceRepository->remove($bookPrice, true);
-
                 return new Response(null, Response::HTTP_OK);
             }
         }
 
-        // Return a JSON response with status HTTP_NOT_FOUND if the user doesn't have the required roles or the BookPrice entity doesn't exist
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
+
+    #[Route(
+        path: '/moneyoverview',
+        name: 'app_money_overview',
+        methods: ['GET']
+    )]
+    public function getMoneyOverview(AuthService $authService, Request $request, ManagerRegistry $registry): Response
+    {
+
+        $user = $authService->authenticateByAuthorizationHeader($request);
+        if (!isset($user)) {
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        $listOrders = $registry->getRepository(BookOrder::class)->findAll();
+        $listPrice = $registry->getRepository(BookPrice::class)->findAll();
+
+        $list = [];
+
+        foreach ($listOrders as $order) {
+            $list[$order->getId()] = [];
+            if (!isset($list[$order->getId()]['SumOfUsedMoney'])) {
+                $list[$order->getId()]['SumOfUsedMoney'] = 0;
+            }
+            $list[$order->getId()]['SumOfUsedMoney'] += $order->getPrice();
+            $list[$order->getId()]['Schoolclass'] = $order->getSchoolclass();
+            $list[$order->getId()]['Department'] = $order->getSchoolclass()->getDepartment();
+            $list[$order->getId()]['Available'] = $availableBudget = $order->getSchoolclass()->getBudget();
+
+            foreach ($listPrice as $price) {
+                if ($price->getBook() == $order->getBook()) {
+                    $list[$order->getId()]['Year'] = $price->getYear();
+                }
+                $list[$order->getId()]['Percentage'] = round(($list[$order->getId()]['SumOfUsedMoney'] / $availableBudget) * 100, 2);
+            }
+
+        }
+        $context = (new ObjectNormalizerContextBuilder())
+            ->withGroups("department")
+            ->toArray();
+
+        // Return a JSON response with the money overview data
+        return $this->json($list, status: Response::HTTP_OK,);
+    }
+
 }
