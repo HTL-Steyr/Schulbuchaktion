@@ -177,6 +177,38 @@ class MoneyListController extends AbstractController {
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
 
+    #[Route(
+        path: '/moneyoverview',
+        name: 'app_money_overview',
+        methods: ['GET']
+    )]
+    public function getMoneyOverview(Request $request, ManagerRegistry $registry): Response
+    {
 
+        $listOrders = $registry->getRepository(BookOrder::class)->findAll();
+        $listPrice = $registry->getRepository(BookPrice::class)->findAll();
+
+        $list = [];
+
+        foreach ($listOrders as $order) {
+            $list[$order->id] = [];
+            $list[$order->id]['SumOfUsedMoney'] = $sumOfUsedMoney += $order->getPrice();
+            $list[$order->id]['Schoolclass'] = $order->getSchoolclass();
+            $list[$order->id]['Department'] = $order->getDepartment();
+            $list[$order->id]['Available'] = $availableBudget = $order->getSchoolclass()->getBudget();
+
+            foreach ($listPrice as $price) {
+                if ($price->getBook() == $order->getBook()) {
+                    $list[$order->id]['Year']  = $price->getYear();
+                }
+                $list[$order->id]['Percentage'] = round(($sumOfUsedMoney / $availableBudget) * 100, 2);
+            }
+
+        }
+
+
+        // Return a JSON response with the money overview data
+        return $this->json($list, status: Response::HTTP_OK);
+    }
 
 }
