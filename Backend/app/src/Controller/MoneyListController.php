@@ -187,8 +187,13 @@ class MoneyListController extends AbstractController
         name: 'app_money_overview',
         methods: ['GET']
     )]
-    public function getMoneyOverview(Request $request, ManagerRegistry $registry): Response
+    public function getMoneyOverview(AuthService $authService, Request $request, ManagerRegistry $registry): Response
     {
+
+        $user = $authService->authenticateByAuthorizationHeader($request);
+        if (!isset($user)) {
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        }
 
         $listOrders = $registry->getRepository(BookOrder::class)->findAll();
         $listPrice = $registry->getRepository(BookPrice::class)->findAll();
@@ -213,10 +218,12 @@ class MoneyListController extends AbstractController
             }
 
         }
-
+        $context = (new ObjectNormalizerContextBuilder())
+            ->withGroups("schoolclass")
+            ->toArray();
 
         // Return a JSON response with the money overview data
-        return $this->json($list, status: Response::HTTP_OK);
+        return $this->json($list, status: Response::HTTP_OK,);
     }
 
 }
