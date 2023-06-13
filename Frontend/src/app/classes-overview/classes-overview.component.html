@@ -1,30 +1,51 @@
 <h1>Klassen & SchuelerInnen:</h1>
 
-<div class="dropdown">
-  <button class="dropbtn">Dropdown</button>
-  <div class="dropdown-content">
-    <a href="#">3AHITN</a>
-    <a href="#">4AHTIN</a>
-    <a href="#">5AHITN</a>
-  </div>
-</div>
+<dx-data-grid
+  [dataSource]="dataSource"
+  [allowColumnResizing]="true"
+  [allowColumnReordering]="true"
+  [columnHidingEnabled]="true"
+  [columnAutoWidth]="true"
+  (onSelectionChanged)="selectionChanged($event)"
+>
+  <dxi-column [allowEditing]="false" dataField="grade" caption="JG" dataType="number"></dxi-column>
+  <dxi-column [allowEditing]="false" dataField="name" caption="Name" dataType="string"></dxi-column>
+  <dxi-column dataField="studentAmount" caption="Schueler" dataType="number"></dxi-column>
+  <dxi-column dataField="repAmount" caption="Repetent" dataType="number"></dxi-column>
+  <dxi-column dataField="budget" caption="Budget" dataType="number"></dxi-column>
+  <dxi-column [allowEditing]="false" dataField="usedBudget" caption="Verwendetes Budget" dataType="number"></dxi-column>
+  <dxi-column type="buttons">
 
-<p>
+    <dxi-button name="edit"></dxi-button>
+    <dxi-button name="delete"></dxi-button>
+  </dxi-column>
 
-</p>
-<ng-container matColumnDef="score">
-  <th mat-header-cell *matHeaderCellDef> Score </th>
-  <td mat-cell> Test </td>
-</ng-container>
-
-<dx-data-grid [allowColumnResizing]="true" [allowColumnReordering]="true">
-  <dxo-editing mode="row" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="false">
-  </dxo-editing>
-
-  <dxi-column dataField="JG" dataType="number" [width]="100"></dxi-column>
-  <dxi-column dataField="HITN" dataType="string" [width]="100"></dxi-column>
-  <dxi-column dataField="SuS ඞ" dataType="string" [width]="100"></dxi-column>
-  <dxi-column dataField="HEL" dataType="number" [width]="100"></dxi-column>
-  <dxi-column dataField="HME" dataType="boolean" [width]="100"></dxi-column>
-  <dxi-column dataField="SuS ඞ" dataType="string" [width]="100"></dxi-column>
+  <dxo-search-panel [visible]="true"></dxo-search-panel>
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-sorting mode="multiple"></dxo-sorting>
+  <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20, 50]" [showInfo]="true"></dxo-pager>
+  <dxo-editing mode="row"[useIcons]="true" [allowUpdating]="true" [allowAdding]="true" [allowDeleting]="true"></dxo-editing>
+  <dxo-selection mode="multiple"></dxo-selection>
+  <dxo-toolbar>
+    <dxi-item name="columnChooserButton"></dxi-item>
+    <dxi-item>
+      <dx-button (onClick)="clearSorting()" text="Sortierung aufheben"></dx-button>
+    </dxi-item>
+    <dxi-item name="addRowButton" showText="always"></dxi-item>
+    <dxi-item location="after">
+      <dx-button (onClick)="deleteRecords()" [disabled]="!selectedItemKeys.length" icon="trash"
+                 text="Lösche ausgewählte Einträge"></dx-button>
+    </dxi-item>
+  </dxo-toolbar>
+  <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+  <dxo-search-panel [visible]="true"></dxo-search-panel>
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[5, 10, 20, 50]"
+    [showInfo]="true"
+  ></dxo-pager>
+  <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+  <dxo-group-panel [visible]="true"></dxo-group-panel>
+  <dxo-grouping #expand [autoExpandAll]="false"></dxo-grouping>
 </dx-data-grid>

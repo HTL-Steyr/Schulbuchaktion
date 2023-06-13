@@ -1,18 +1,19 @@
-<img class="wave" src="../../assets/login/wave.png">
+<img class="wave" src="../../assets/login/wave.png" xmlns="http://www.w3.org/1999/html">
 <div class="container">
   <div class="img">
     <img src="../../assets/login/books.svg">
   </div>
   <div class="login-content">
-    <div class="form">
+    <div class="form" (keyup.enter)="login()">
       <img src="../../assets/login/htlLogo.svg">
-      <h2 class="title">Welcome</h2>
+      <h1 class="title">Welcome</h1>
       <div class="input-div one">
         <div class="i">
           <i class="fas fa-user"></i>
         </div>
+
         <div class="div">
-            <input [(ngModel)]="username"  type="text" class="input" placeholder="Username">
+          <input [(ngModel)]="email" type="text" class="input" placeholder="Email">
         </div>
       </div>
       <div class="input-div pass">
@@ -23,7 +24,9 @@
           <input [(ngModel)]="password" type="password" class="input" placeholder="Password">
         </div>
       </div>
-      <input type="submit" class="btn" value="Login" (click)="login()">
+      <div class="div" align="center">
+        <button (click)="login()" >Login</button>
+      </div>
     </div>
   </div>
 </div>

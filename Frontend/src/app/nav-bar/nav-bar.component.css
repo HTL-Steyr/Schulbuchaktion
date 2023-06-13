@@ -37,8 +37,34 @@
 
 .bar a:hover {
   text-align: left;
-  background-color: #ddd;
-  color: black;
+  background-color: #417bed;
+  text-decoration: underline;
   border-radius: 10px;
+
+}
+.bar a:focus {
+  color: #417bed; /* gewünschte Textfarbe */
+  text-decoration: underline; /* Unterstrich hinzufügen */
+  font-weight: bold;
+  text-decoration-thickness: 2px; /* gewünschte Dicke des Unterstrichs */
+  text-underline-offset: 6px; /* Abstand des Unterstrichs vom Text */
 }
 
+.bar a:focus:hover{
+  color: white;
+}
+
+a.active span {
+  color: #9fbcdc;
+  border-bottom: 4px solid #9fbcdc;
+}
+.logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout span {
+  color: white;
+  margin-right: 10px;
+}

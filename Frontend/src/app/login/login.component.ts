@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { UserService } from '../service/user.service';
+import {Component} from '@angular/core';
+import {Router} from '@angular/router';
+import {UserService} from '../service/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -8,29 +9,37 @@ import { UserService } from '../service/user.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-    username: string = "";
-    password: string = "";
+  email: string = '';
+  password: string = '';
 
-    constructor(private router: Router, private userService: UserService) {
+  constructor(private router: Router, private userService: UserService) {
+    if (userService.loggedIn) {
+      this.router.navigate(['/bestelluebersicht']);
     }
+  }
 
-    login() {
-        if (this.username == "admin" && this.password == "admin") {
-            this.userService.user = {
-                id: 1,
-                shortName: "admin",
-                password: "admin",
-                role: {
-                    id: 1,
-                    name: "admin",
-                    users: []
-                },
-                token: "admin",
-                firstName: "admin",
-                lastName: "admin",
-                email: "",
-            }
-            this.router.navigate(['/bestelluebersicht']);
-        }
+  showAlert() {
+    Swal.fire({
+      title: 'Login fehlgeschlagen!',
+      text: 'Benutzer oder Passwort falsch.',
+      icon: "error",
+      customClass: {
+        container: 'my-alert'
+      }
+    });
+  }
+
+  async login() {
+    try {
+      const user = await this.userService.login(this.email, this.password);
+      if (user) {
+        this.userService.user = user;
+        await this.router.navigate(['/bestelluebersicht']);
+      } else {
+
+      }
+    } catch (e) {
+      this.showAlert();
     }
+  }
 }

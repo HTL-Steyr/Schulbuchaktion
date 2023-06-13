@@ -1,11 +1,20 @@
 <div *ngIf="userService.user" class="wrapper">
   <div class="bar">
     <div class="title">
+      <img src="../../assets/login/htlLogo.svg" width="70" height="50">
+
       <span>Schulbuchaktion</span>
+
     </div>
+
     <a routerLink="/bestelluebersicht">Bestellungen</a>
     <a routerLink="/klassenuebersicht">Klassen</a>
     <a routerLink="/gelduebersicht">Geld</a>
     <a routerLink="/import">Import</a>
+    <div class="logout">
+      <span>{{userService.user.shortName}}</span>
+      <button (click)="userService.logout()">Logout</button>
+    </div>
   </div>
+
 </div>
