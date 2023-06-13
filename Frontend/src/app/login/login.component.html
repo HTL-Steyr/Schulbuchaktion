@@ -4,7 +4,7 @@
     <img src="../../assets/login/books.svg">
   </div>
   <div class="login-content">
-    <div class="form">
+    <div class="form" (keyup.enter)="login()">
       <img src="../../assets/login/htlLogo.svg">
       <h1 class="title">Welcome</h1>
       <div class="input-div one">
@@ -25,8 +25,7 @@
         </div>
       </div>
       <div class="div" align="center">
-        <button (click)="login()">Login</button>
-
+        <button (click)="login()" >Login</button>
       </div>
     </div>
   </div>
