@@ -1,32 +1,36 @@
 <?php
 
-namespace app\src\Entity;
+namespace App\Entity;
 
-use app\src\Repository\SubjectRepository;
+use App\Repository\SubjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SubjectRepository::class)]
-class Subject
-{
+class Subject {
+    #[Groups(['subject', "orderlist", "book"])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['subject', "orderlist", "book"])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Groups(['subject', "orderlist", "book"])]
     #[ORM\Column(length: 255)]
     private ?string $shortName = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $headOfSubject = null;
-
-    #[ORM\OneToMany(mappedBy: 'subjectId', targetEntity: Book::class)]
+    #[ORM\OneToMany(mappedBy: 'subject', targetEntity: Book::class)]
     private Collection $books;
+
+    #[Groups(['subject', "orderlist"])]
+    #[ORM\OneToOne(mappedBy: 'id', targetEntity: User::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $headOfSubject;
 
     public function __construct()
     {
@@ -62,17 +66,6 @@ class Subject
         return $this;
     }
 
-    public function getHeadOfSubject(): ?User
-    {
-        return $this->headOfSubject;
-    }
-
-    public function setHeadOfSubject(User $headOfSubject): self
-    {
-        $this->headOfSubject = $headOfSubject;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Book>
@@ -86,7 +79,7 @@ class Subject
     {
         if (!$this->books->contains($book)) {
             $this->books->add($book);
-            $book->setSubjectId($this);
+            $book->setSubject($this);
         }
 
         return $this;
@@ -96,11 +89,28 @@ class Subject
     {
         if ($this->books->removeElement($book)) {
             // set the owning side to null (unless already changed)
-            if ($book->getSubjectId() === $this) {
-                $book->setSubjectId(null);
+            if ($book->getSubject() === $this) {
+                $book->setSubject(null);
             }
         }
 
         return $this;
+    }
+
+
+    /**
+     * @return User
+     */
+    public function getHeadOfSubject(): User
+    {
+        return $this->headOfSubject;
+    }
+
+    /**
+     * @param User $headOfSubject
+     */
+    public function setHeadOfSubject(User $headOfSubject): void
+    {
+        $this->headOfSubject = $headOfSubject;
     }
 }

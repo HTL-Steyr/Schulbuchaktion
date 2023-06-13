@@ -1,1 +1,23 @@
-<button accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"   (click)="click() ">XLSX-Import</button>
+<input type="file" (change)="onFileChange($event)" />
+
+<!-- class = sjs-table, ExcelTable2007 -->
+<table id="TheTable" class="ExcelTable2007">
+  <thead #header>
+  <tr>
+    <th *ngFor="let headValue of headData">
+      {{headValue}}
+    </th>
+  </tr>
+  </thead>
+  <tbody #container>
+  <tr align="center" *ngFor="let row of data">
+    <td *ngFor="let val of headData; let i =index">
+      {{row[i] || ' '}}
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<!-- <div id="htmlout"></div> -->
+
+<button (click)="export()">Export!</button>
