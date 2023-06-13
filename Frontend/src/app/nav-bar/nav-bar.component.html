@@ -1,16 +1,24 @@
 <div *ngIf="userService.user" class="wrapper">
   <div class="bar">
     <div class="title">
-      <img src="../../assets/login/htlLogo.svg" width="70" height="50">
-
       <span>Schulbuchaktion</span>
+    </div>
+    <!--
+        <a  routerLink="/bestelluebersicht">Bestellungen</a>
+        <a routerLink="/klassenuebersicht" *ngIf="isDisabledClass">Klassen</a>
+        <a routerLink="/gelduebersicht"  *ngIf="isDisabledMoney">Geld</a>
+        <a routerLink="/import" *ngIf="isDisabledImports">Import</a>
+    -->
 
+
+    <div *ngFor="let item of navItems">
+      <div *ngIf="item.name | showMenuItem: userService.user.role.id.toString()">
+        <a routerLink="{{item.path}}" class="nav-menu-item">
+          {{item.text}}
+        </a>
+      </div>
     </div>
 
-    <a routerLink="/bestelluebersicht">Bestellungen</a>
-    <a routerLink="/klassenuebersicht">Klassen</a>
-    <a routerLink="/gelduebersicht">Geld</a>
-    <a routerLink="/import">Import</a>
     <div class="logout">
       <span>{{userService.user.shortName}}</span>
       <button (click)="userService.logout()">Logout</button>

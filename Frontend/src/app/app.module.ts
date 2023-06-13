@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { ShowMenuItemPipe } from './nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,9 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
     XlsImportComponent,
     LoginErrorAlertComponent,
     LoginComponent,
-    NavBarComponent
+    NavBarComponent,
+    ShowMenuItemPipe
+
   ],
   imports: [
     BrowserModule,

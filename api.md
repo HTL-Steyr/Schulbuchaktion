@@ -1,113 +1,522 @@
 # API
 
-- SCRUM -> first make a simple version, then implement the harder featuResponse
-  - filters late
-  - API for Creating/Updating adn the moneylist will be defined later
+# /user/login
 
-## POST /user/login
-Request body
+## Methods
+POST
+
+## Request
+
 ```json
 {
-  "username": "string",
-  "password": "string"
-}
-```
-Response body
-```json
-{
-  "token": "string"
+  "email": "String",
+  "password": "String"
 }
 ```
 
-**Überall ab hier:**
-Request headers
+## Response
+
 ```json
 {
-  "Authorization": "Bearer XXX"
+  "token": "String"
 }
 ```
 
-## GET /user/getme
-Response body
+# /user/getme
+
+## Methods
+GET
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
 ```json
 {
-  // User object matching authorization header
+  "id": Integer,
+  "shortName": "String",
+  "firstName": "String",
+  "lastName": "String",
+  "email": "String",
+  "role": {
+    "id": Integer,
+    "name": "String"
+  }
 }
 ```
 
-## GET /orderlist
-Request query parameters
+# /book
+
+## Methods
+GET
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+```json
+[
+    {
+        "id": Integer,
+        "bookNumber": Integer,
+        "title": "String",
+        "shortTitle": "String",
+        "listType": Integer,
+        "schoolForm": Integer,
+        "info": "String",
+        "ebook": Bool,
+        "ebookPlus": Bool,
+        "subject": {
+            "id": Integer,
+            "name": "String",
+            "shortName": "String"
+        },
+        "publisher": {
+            "id": Integer,
+            "publisherNumber": Integer,
+            "name": "String"
+        },
+        "schoolGrades": []
+    },
+    {
+    
+    }
+]
+```
+
+# /department
+
+## Methods
+GET
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+```json
+[
+    {
+        "id": Integer,
+        "name": "String",
+        "budget": Integer,
+        "usedBudget": Integer,
+        "headOfDepartment": {
+            "id": Integer,
+            "shortName": "String",
+            "firstName": "String",
+            "lastName": "String",
+            "email": "String",
+            "role": []
+        },
+        "schoolClasses": [
+            {
+                "id": Integer,
+                "name": "String",
+                "grade": Integer,
+                "studentAmount": Integer,
+                "repAmount": Integer,
+                "usedBudget": Integer,
+                "budget": Integer,
+                "year": Integer,
+                "schoolForm": Integer
+            },
+            {
+            
+            }
+        ]
+    },
+    {
+    
+    }
+]
+```
+
+# /department/{id}
+
+## Methods
+GET
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
 ```json
 {
-  "schoolyear": "string" // default current
+    "id": Integer,
+    "name": "String",
+    "budget": Integer,
+    "usedBudget": Integer,
+    "headOfDepartment": {
+        "id": Integer,
+        "shortName": "String",
+        "firstName": "String",
+        "lastName": "String",
+        "email": "String",
+        "role": []
+    },
+    "schoolClasses": [
+        {
+            "id": Integer,
+            "name": "String",
+            "grade": Integer,
+            "studentAmount": Integer,
+            "repAmount": Integer,
+            "usedBudget": Integer,
+            "budget": Integer,
+            "year": Integer,
+            "schoolForm": Integer
+        },
+        {
+            "id": Integer,
+            "name": "String",
+            "grade": Integer,
+            "studentAmount": Integer,
+            "repAmount": Integer,
+            "usedBudget": Integer,
+            "budget": Integer,
+            "year": Integer,
+            "schoolForm": Integer
+        }
+    ]
 }
 ```
-Response body
+
+## Response
+
+Response Code: HTTP_OK: 200
+
+# /moneylist
+
+## Methods
+GET
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
 ```json
-{
-  "schoolyear": "string",
-  "row": [
-      {
-          "rowId": "int",
-          "book": {
-              // Book object
-          },
-          "orderedFor": [
-              {
-                  // SchoolClass Object
-              }
-          ]
+[
+  {
+      "id": Integer,
+      "year": Integer,
+      "priceInclusiveEbook": Integer,
+      "priceEbook": Integer,
+      "priceEbookPlus": Integer,
+      "book": {
+            "title": "String",
+            "shortTitle": "String"
       }
-  ]
-}
-```
-
-## GET /subjects/:?id
-Response body
-```json
-[
+  },
   {
-      // Subject object
+  
   }
 ]
 ```
 
-## GET /departments/:?id
-Response body
-```json
-[
-  {
-      // Department object
-  }
-]
-```
+# /moneylist/{id}
 
-## GET /schoolclass/:?id
-Response body
-```json
-[
-  {
-      // SchoolClass object
-  }
-]
-```
+## Methods
+GET
 
-## ? /xls/orderlist
-Request
-```json
-// orderlist.xls
-```
+## Request
 
-## ? /xls/prices
-Request
-```json
-// prices.xls
-```
+Authorization Header: Bearer Token
 
-## GET /moneylist
-Response body
+## Response
+
 ```json
 {
-  // TBD
+    "id": Integer,
+    "year": Integer,
+    "priceInclusiveEbook": Integer,
+    "priceEbook": Integer,
+    "priceEbookPlus": Integer,
+    "book": {
+            "title": "String",
+            "shortTitle": "String"
+    }
 }
 ```
+
+# /moneylist/delete/{id}
+
+## Methods
+DELETE
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+Response Code: HTTP_OK: 200
+
+# /moneylist/write
+
+## Methods
+POST
+
+## Request
+
+Authorization Header: Bearer Token
+```json
+{
+    "year": Integer,
+    "priceInclusiveEbook": Integer,
+    "priceEbook": Integer,
+    "priceEbookPlus": Integer,
+    "book": Integer (book id)
+}
+```
+
+## Response
+
+Response Code: HTTP_OK: 200
+
+# /orderlist
+
+## Methods
+GET
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+```json
+[
+  {
+      "id": Integer,
+      "count": Integer,
+      "ebook": Bool,
+      "ebookPlus": Bool,
+      "schoolClass": [],
+      "book": [],
+      "teacherCopy": Bool
+  },
+  {
+  
+  }
+]
+```
+
+# /orderlist/{id}
+
+## Methods
+GET
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+```json
+{
+    "id": Integer,
+    "count": Integer,
+    "ebook": Bool,
+    "ebookPlus": Bool,
+    "schoolClass": [],
+    "book": [],
+    "teacherCopy": Bool
+}
+```
+
+# /orderlist/delete/{id}
+
+## Methods
+DELETE
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+Response Code: HTTP_OK: 200
+
+# /orderlist/write
+
+## Methods
+POST
+
+## Request
+
+Authorization Header: Bearer Token
+```json
+{
+    "count": Integer,
+    "price": Integer,
+    "ebook": Integer,
+    "ebookPlus": Integer,
+    "teacherCopy": Integer,
+    "schoolClass": Integer (schoolClass id),
+    "book": Integer (book id)
+}
+```
+
+## Response
+
+Response Code: HTTP_OK: 200
+
+# /orderlist/update/{id}
+
+## Methods
+POST
+
+## Request
+
+Authorization Header: Bearer Token
+```json
+{
+    "count": Integer,
+    "price": Integer,
+    "ebook": Integer,
+    "ebookPlus": Integer,
+    "teacherCopy": Integer,
+    "schoolClass": Integer (schoolClass id),
+    "book": Integer (book id)
+}
+```
+
+## Response
+
+Response Code: HTTP_OK: 200
+
+# /read/xlsx
+
+## Methods
+POST
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Request
+
+As `form-data`:\
+`key`: schoolBookList
+`value`: official xlsx file from [schulbuchaktion.at](https://www.schulbuchaktion.at/schulbuchlisten.html)
+
+## Response
+
+Response Code: HTTP_OK: 200
+
+
+<!-- FIXME: This route is broken -->
+# /schoolclass
+
+## Methods
+GET
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+```json
+
+```
+
+<!-- FIXME: This route is broken -->
+# /schoolclass/{id}
+
+## Methods
+GET
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+```json
+
+```
+
+# /schoolclass/delete/{id}
+
+## Methods
+DELETE
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+Response Code: HTTP_OK: 200
+
+# /subject
+
+## Methods
+GET
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+```json
+[
+  {
+    "id": Integer,
+    "name": "String",
+    "shortName": "String",
+    "headOfSubject": {
+      "id": Integer,
+      "shortName": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "email": "String",
+      "role": []
+    }
+  },
+  {
+
+  }
+]
+```
+
+# /subject/{id}
+
+## Methods
+GET
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+```json
+{
+  "id": Integer,
+  "name": "String",
+  "shortName": "String",
+  "headOfSubject": {
+    "id": Integer,
+    "shortName": "String",
+    "firstName": "String",
+    "lastName": "String",
+    "email": "String",
+    "role": []
+  }
+}
+```
+
+
