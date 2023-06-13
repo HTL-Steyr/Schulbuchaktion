@@ -562,9 +562,7 @@ input {
   box-shadow: black;
   text-shadow: black;
 }
-.dx-widget{
-  color: white;
-}
+
 
 .dx-datagrid-headers {
   color: #417bed;
@@ -575,8 +573,13 @@ input {
 
 }
 .dx-button-mode-contained:hover {
-  background-color: black;
+  background-color: white;
 
+}
+
+
+.div.dx-page{
+  color: black;
 }
 
 
