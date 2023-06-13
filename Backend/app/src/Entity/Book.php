@@ -1,194 +1,189 @@
 <?php
 
-namespace app\src\Entity;
+namespace App\Entity;
 
-use app\src\Repository\BookRepository;
+use App\Repository\BookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
-class Book
-{
+class Book {
+    #[Groups(['orderlist', "book"])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['orderlist', "book"])]
     #[ORM\Column]
     private ?int $bookNumber = null;
 
+    #[Groups(['orderlist', "bookPrice", "book"])]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[Groups(['orderlist', "bookPrice", "book"])]
     #[ORM\Column(length: 255)]
     private ?string $shortTitle = null;
 
+    #[Groups(['orderlist', "book"])]
     #[ORM\Column]
     private ?int $listType = null;
 
+    #[Groups(['orderlist', "book"])]
     #[ORM\Column]
     private ?int $schoolForm = null;
 
+    #[Groups(['orderlist', "book"])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $info = null;
 
+    #[Groups(['orderlist', "book"])]
     #[ORM\Column]
     private ?bool $ebook = null;
 
+    #[Groups(['orderlist', "book"])]
     #[ORM\Column]
     private ?bool $ebookPlus = null;
 
+    #[Groups(['orderlist', "book"])]
     #[ORM\ManyToOne(inversedBy: 'books')]
-    private ?Subject $subjectId = null;
+    private ?Subject $subject = null;
 
+    #[Groups(['orderlist', "book"])]
     #[ORM\ManyToOne(inversedBy: 'books')]
-    private ?Publisher $publisherId = null;
+    private ?Publisher $publisher = null;
 
-    #[ORM\OneToMany(mappedBy: 'bookId', targetEntity: BookOrder::class)]
+    #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookOrder::class)]
     private Collection $bookOrders;
 
-    #[ORM\OneToMany(mappedBy: 'bookId', targetEntity: SchoolGrade::class)]
+    #[Groups(['orderlist', "book"])]
+    #[ORM\OneToMany(mappedBy: 'book', targetEntity: SchoolGrade::class)]
     private Collection $schoolGrades;
 
-    #[ORM\OneToMany(mappedBy: 'bookId', targetEntity: BookPrice::class)]
+    #[Groups(['orderlist'])]
+    #[ORM\OneToMany(mappedBy: 'book', targetEntity: BookPrice::class)]
     private Collection $bookPrices;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'childBooks')]
-    private ?self $mainBookId = null;
+    private ?self $mainBook = null;
 
-    #[ORM\OneToMany(mappedBy: 'mainBookId', targetEntity: self::class)]
+    #[ORM\OneToMany(mappedBy: 'mainBook', targetEntity: self::class)]
     private Collection $childBooks;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->bookOrders = new ArrayCollection();
         $this->schoolGrades = new ArrayCollection();
         $this->bookPrices = new ArrayCollection();
         $this->childBooks = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getBookNumber(): ?int
-    {
+    public function getBookNumber(): ?int {
         return $this->bookNumber;
     }
 
-    public function setBookNumber(int $bookNumber): self
-    {
+    public function setBookNumber(int $bookNumber): self {
         $this->bookNumber = $bookNumber;
 
         return $this;
     }
 
-    public function getTitle(): ?string
-    {
+    public function getTitle(): ?string {
         return $this->title;
     }
 
-    public function setTitle(string $title): self
-    {
+    public function setTitle(string $title): self {
         $this->title = $title;
 
         return $this;
     }
 
-    public function getShortTitle(): ?string
-    {
+    public function getShortTitle(): ?string {
         return $this->shortTitle;
     }
 
-    public function setShortTitle(string $shortTitle): self
-    {
+    public function setShortTitle(string $shortTitle): self {
         $this->shortTitle = $shortTitle;
 
         return $this;
     }
 
-    public function getListType(): ?int
-    {
+    public function getListType(): ?int {
         return $this->listType;
     }
 
-    public function setListType(int $listType): self
-    {
+    public function setListType(int $listType): self {
         $this->listType = $listType;
 
         return $this;
     }
 
-    public function getSchoolForm(): ?int
-    {
+    public function getSchoolForm(): ?int {
         return $this->schoolForm;
     }
 
-    public function setSchoolForm(int $schoolForm): self
-    {
+    public function setSchoolForm(int $schoolForm): self {
         $this->schoolForm = $schoolForm;
 
         return $this;
     }
 
-    public function getInfo(): ?string
-    {
+    public function getInfo(): ?string {
         return $this->info;
     }
 
-    public function setInfo(?string $info): self
-    {
+    public function setInfo(?string $info): self {
         $this->info = $info;
 
         return $this;
     }
 
-    public function isEbook(): ?bool
-    {
+    public function isEbook(): ?bool {
         return $this->ebook;
     }
 
-    public function setEbook(bool $ebook): self
-    {
+    public function setEbook(bool $ebook): self {
         $this->ebook = $ebook;
 
         return $this;
     }
 
-    public function isEbookPlus(): ?bool
-    {
+    public function isEbookPlus(): ?bool {
         return $this->ebookPlus;
     }
 
-    public function setEbookPlus(bool $ebookPlus): self
-    {
+    public function setEbookPlus(bool $ebookPlus): self {
         $this->ebookPlus = $ebookPlus;
 
         return $this;
     }
 
-    public function getSubjectId(): ?Subject
+    public function getSubject(): ?Subject
     {
-        return $this->subjectId;
+        return $this->subject;
     }
 
-    public function setSubjectId(?Subject $subjectId): self
+    public function setSubject(?Subject $subject): self
     {
-        $this->subjectId = $subjectId;
+        $this->subject = $subject;
 
         return $this;
     }
 
-    public function getPublisherId(): ?Publisher
+    public function getPublisher(): ?Publisher
     {
-        return $this->publisherId;
+        return $this->publisher;
     }
 
-    public function setPublisherId(?Publisher $publisherId): self
+    public function setPublisher(?Publisher $publisher): self
     {
-        $this->publisherId = $publisherId;
+        $this->publisher = $publisher;
 
         return $this;
     }
@@ -196,27 +191,24 @@ class Book
     /**
      * @return Collection<int, BookOrder>
      */
-    public function getBookOrders(): Collection
-    {
+    public function getBookOrders(): Collection {
         return $this->bookOrders;
     }
 
-    public function addBookOrder(BookOrder $bookOrder): self
-    {
+    public function addBookOrder(BookOrder $bookOrder): self {
         if (!$this->bookOrders->contains($bookOrder)) {
             $this->bookOrders->add($bookOrder);
-            $bookOrder->setBookId($this);
+            $bookOrder->setBook($this);
         }
 
         return $this;
     }
 
-    public function removeBookOrder(BookOrder $bookOrder): self
-    {
+    public function removeBookOrder(BookOrder $bookOrder): self {
         if ($this->bookOrders->removeElement($bookOrder)) {
             // set the owning side to null (unless already changed)
-            if ($bookOrder->getBookId() === $this) {
-                $bookOrder->setBookId(null);
+            if ($bookOrder->getBook() === $this) {
+                $bookOrder->setBook(null);
             }
         }
 
@@ -226,27 +218,24 @@ class Book
     /**
      * @return Collection<int, SchoolGrade>
      */
-    public function getSchoolGrades(): Collection
-    {
+    public function getSchoolGrades(): Collection {
         return $this->schoolGrades;
     }
 
-    public function addSchoolGrade(SchoolGrade $schoolGrade): self
-    {
+    public function addSchoolGrade(SchoolGrade $schoolGrade): self {
         if (!$this->schoolGrades->contains($schoolGrade)) {
             $this->schoolGrades->add($schoolGrade);
-            $schoolGrade->setBookId($this);
+            $schoolGrade->setBook($this);
         }
 
         return $this;
     }
 
-    public function removeSchoolGrade(SchoolGrade $schoolGrade): self
-    {
+    public function removeSchoolGrade(SchoolGrade $schoolGrade): self {
         if ($this->schoolGrades->removeElement($schoolGrade)) {
             // set the owning side to null (unless already changed)
-            if ($schoolGrade->getBookId() === $this) {
-                $schoolGrade->setBookId(null);
+            if ($schoolGrade->getBook() === $this) {
+                $schoolGrade->setBook(null);
             }
         }
 
@@ -256,41 +245,38 @@ class Book
     /**
      * @return Collection<int, BookPrice>
      */
-    public function getBookPrices(): Collection
-    {
+    public function getBookPrices(): Collection {
         return $this->bookPrices;
     }
 
-    public function addBookPrice(BookPrice $bookPrice): self
-    {
+    public function addBookPrice(BookPrice $bookPrice): self {
         if (!$this->bookPrices->contains($bookPrice)) {
             $this->bookPrices->add($bookPrice);
-            $bookPrice->setBookId($this);
+            $bookPrice->setBook($this);
         }
 
         return $this;
     }
 
-    public function removeBookPrice(BookPrice $bookPrice): self
-    {
+    public function removeBookPrice(BookPrice $bookPrice): self {
         if ($this->bookPrices->removeElement($bookPrice)) {
             // set the owning side to null (unless already changed)
-            if ($bookPrice->getBookId() === $this) {
-                $bookPrice->setBookId(null);
+            if ($bookPrice->getBook() === $this) {
+                $bookPrice->setBook(null);
             }
         }
 
         return $this;
     }
 
-    public function getMainBookId(): ?self
+    public function getMainBook(): ?self
     {
-        return $this->mainBookId;
+        return $this->mainBook;
     }
 
-    public function setMainBookId(?self $mainBookId): self
+    public function setMainBook(?self $mainBook): self
     {
-        $this->mainBookId = $mainBookId;
+        $this->mainBook = $mainBook;
 
         return $this;
     }
@@ -298,27 +284,24 @@ class Book
     /**
      * @return Collection<int, self>
      */
-    public function getChildBooks(): Collection
-    {
+    public function getChildBooks(): Collection {
         return $this->childBooks;
     }
 
-    public function addChildBook(self $childBook): self
-    {
+    public function addChildBook(self $childBook): self {
         if (!$this->childBooks->contains($childBook)) {
             $this->childBooks->add($childBook);
-            $childBook->setMainBookId($this);
+            $childBook->setMainBook($this);
         }
 
         return $this;
     }
 
-    public function removeChildBook(self $childBook): self
-    {
+    public function removeChildBook(self $childBook): self {
         if ($this->childBooks->removeElement($childBook)) {
             // set the owning side to null (unless already changed)
-            if ($childBook->getMainBookId() === $this) {
-                $childBook->setMainBookId(null);
+            if ($childBook->getMainBook() === $this) {
+                $childBook->setMainBook(null);
             }
         }
 

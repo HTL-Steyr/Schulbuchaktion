@@ -1,36 +1,36 @@
 <?php
 
-namespace app\src\Service;
+namespace App\Service;
 
-use app\src\Entity\User;
+use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 
-class AuthService
-{
+class AuthService {
     private ManagerRegistry $registry;
 
-    public function __construct( ManagerRegistry $registry){
-        $this->registry=$registry;
+    public function __construct(ManagerRegistry $registry) {
+        $this->registry = $registry;
     }
-    public function authenticateByAuthorizationHeader(Request $request) :?User{
 
+    /**
+     * Authenticates a user by bearer token.
+     */
+    public function authenticateByAuthorizationHeader(Request $request): ?User {
+        // Extract the bearer token from the authorization header
+        $bearerToken = $request->headers->get("Authorization");
+        $bearerToken = explode(" ", $bearerToken)[1];   // Remove leading "Bearer " text
 
-        $bearer = $request->headers->get("Authorization");
-        $bearer = str_replace("Bearer ", "", $bearer);
-
-        $user = $this->registry->getRepository(User::class)->findOneBy(["token" => $bearer]);
+        // Find the user with the given bearer token
+        $user = $this->registry->getRepository(User::class)->findOneBy(["token" => $bearerToken]);
 
         if (isset($user)) {
-            if (time() < $user->getTimestamp()) {
-                $user->setTimestamp(time()+60*10);
-                $this->registry->getRepository(User::class)->save($user,true);
-                return $user;
-            }
+            // Successfully logged in, update the user in the database
+            $this->registry->getRepository(User::class)->save($user, true);
 
+            return $user;
         }
+
         return null;
-
     }
-
 }

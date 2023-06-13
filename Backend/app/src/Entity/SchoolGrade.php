@@ -1,49 +1,48 @@
 <?php
 
-namespace app\src\Entity;
+namespace App\Entity;
 
-use app\src\Repository\SchoolGradeRepository;
+use App\Repository\SchoolGradeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SchoolGradeRepository::class)]
-class SchoolGrade
-{
+class SchoolGrade {
+    #[Groups(['subject', "orderlist", "book"])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['subject', "orderlist", "book"])]
     #[ORM\Column]
     private ?int $grade = null;
 
     #[ORM\ManyToOne(inversedBy: 'schoolGrades')]
-    private ?Book $bookId = null;
+    private ?Book $book = null;
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getGrade(): ?int
-    {
+    public function getGrade(): ?int {
         return $this->grade;
     }
 
-    public function setGrade(int $grade): self
-    {
+    public function setGrade(int $grade): self {
         $this->grade = $grade;
 
         return $this;
     }
 
-    public function getBookId(): ?Book
+    public function getBook(): ?Book
     {
-        return $this->bookId;
+        return $this->book;
     }
 
-    public function setBookId(?Book $bookId): self
+    public function setBook(?Book $book): self
     {
-        $this->bookId = $bookId;
+        $this->book = $book;
 
         return $this;
     }
