@@ -219,7 +219,7 @@ class MoneyListController extends AbstractController
 
         }
         $context = (new ObjectNormalizerContextBuilder())
-            ->withGroups("schoolclass")
+            ->withGroups("department")
             ->toArray();
 
         // Return a JSON response with the money overview data
