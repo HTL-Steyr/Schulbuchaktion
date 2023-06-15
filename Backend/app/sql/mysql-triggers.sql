@@ -12,11 +12,11 @@ BEGIN
 
     SELECT department_id FROM school_class WHERE school_class.id = NEW.school_class_id INTO departmentId;
 
-    SELECT bookprice.priceBase
+    SELECT bookprice.price_base
     FROM book_price
     WHERE book_price.book_id =
           NEW.book_id
-    INTO price_base;
+    INTO priceBase;
 
     IF (NEW.ebook)
     THEN
