@@ -33,7 +33,10 @@
   text-decoration: none;
   padding: 14px 16px;
   font-size: 17px;
+  display: flex;
+  justify-content: center;
 }
+
 
 .bar a:hover {
   text-align: left;
