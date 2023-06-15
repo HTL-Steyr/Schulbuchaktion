@@ -42,6 +42,10 @@ class BookOrder {
     #[ORM\Column]
     private ?bool $teacherCopy = null;
 
+    #[Groups(['orderlist'])]
+    #[ORM\Column]
+    private ?int $year = null;
+
     public function getId(): ?int {
         return $this->id;
     }
@@ -125,6 +129,18 @@ class BookOrder {
     public function setPrice(?int $price): void
     {
         $this->price = $price;
+    }
+
+    public function getYear(): ?int
+    {
+        return $this->year;
+    }
+
+    public function setYear(int $year): self
+    {
+        $this->year = $year;
+
+        return $this;
     }
 
 }
