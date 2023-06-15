@@ -17,7 +17,7 @@ export class SchoolclassService implements FindAll<SchoolClass>{
   }
 
   public delete(key: any): Observable<SchoolClass> {
-    throw new Error('Method not implemented.');
+    return this._http.delete<SchoolClass>(`${this.baseUrl}/delete/${key}`, {headers: this.userService.getAuthorizationHeader()});
   }
 
   public findAll(): Observable<SchoolClass[]> {
