@@ -58,10 +58,10 @@ class ReadController extends AbstractController
         $repoPublisher = $registry->getRepository(Publisher::class);
         $repoBook = $registry->getRepository(Book::class);
         $repoBookPrice = $registry->getRepository(BookPrice::class);
+        echo $request;
 
         // Get the uploaded file from the request object and move it to the uploads directory
         $file = $request->files->get("schoolBookList");
-        echo $file->getClientOriginalName() + "Testfile";
 
         $destination = $this->getParameter('kernel.project_dir') . '/public/uploads';
         $file->move($destination, $file->getClientOriginalName());
