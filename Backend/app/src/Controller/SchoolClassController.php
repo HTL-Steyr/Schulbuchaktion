@@ -101,7 +101,7 @@ class SchoolClassController extends AbstractController
     #[Route(
         path: "/schoolclass/update/{id}",
         name: "app_schoolclass_update_by_id",
-        methods: ["POST"]
+        methods: ["PUT"]
     )]
     public function updateSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response
     {
