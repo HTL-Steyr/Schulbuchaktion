@@ -64,7 +64,8 @@ class ReadController extends AbstractController
         $file = $request->files->get("schoolBookList");
 
         $destination = $this->getParameter('kernel.project_dir') . '/public/uploads';
-        $file->move($destination, $file->getClientOriginalName());
+        $filename = $file->getClientOriginalName();
+        $file->move($destination, $filename);
         echo $file->isValid();
 
         // Check if the file has been uploaded successfully
