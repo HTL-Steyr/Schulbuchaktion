@@ -148,7 +148,7 @@ class SchoolClassController extends AbstractController
             }
 
             $registry->getRepository(SchoolClass::class)->save($schoolClass, true);
-            return $this->json(null, status: Response::HTTP_OK);
+            return $this->json($schoolClass, status: Response::HTTP_OK, context: $context);
 
             //before committing add / update comments
         }
@@ -160,7 +160,7 @@ class SchoolClassController extends AbstractController
     #[Route(
         path: '/schoolclass/delete/{id}',
         name: 'app_schoolclass_delete_by_id',
-        methods: ['DELETE']
+        methods: ['GET']
     )]
     public function deleteSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response
     {
