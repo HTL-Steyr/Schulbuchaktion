@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\BookOrder;
 use App\Entity\Department;
 use App\Entity\SchoolClass;
 use App\Service\AuthService;
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
 
 /*
- * This controller is either used to get all schoolclasses or a schoolclass by id
+ * This controller is either used to get all schoolclasses, a schoolclass by id or update a schoolclass
  */
 
 class SchoolClassController extends AbstractController
@@ -113,6 +114,10 @@ class SchoolClassController extends AbstractController
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
 
+        $context = (new ObjectNormalizerContextBuilder())
+            ->withGroups("schoolclass")
+            ->toArray();
+
         // Authenticate the user using the Authorization header
         if ($user->getRole()->getName() == "Admin" ||
             $user->getRole()->getName() == "Abteilungsvorstand" ||
@@ -120,40 +125,29 @@ class SchoolClassController extends AbstractController
         ) {
 
 
-            $data = json_decode($request->getContent(), true);
 
             $schoolClass = $registry->getRepository(SchoolClass::class)->find($id);
-            if ($data->name != null) {
-                $schoolClass->setName($data->name);
-            }
-            if ($data->department != null) {
-                $schoolClass->setDepartment($data->department);
-            }
-            if ($data->grade != null) {
-                $schoolClass->setGrade($data->grade);
-            }
-            if ($data->studentAmount != null) {
-                $schoolClass->setStudentAmount($data->studentAmount);
-            }
-            if ($data->repAmount != null) {
-                $schoolClass->setRepAmount($data->repAmount);
-            }
-            if ($data->usedBudget != null) {
-                $schoolClass->setUsedBudget($data->usedBudget);
-            }
-            if ($data->budget != null) {
-                $schoolClass->setBudget($data->budget);
-            }
-            if ($data->year != null) {
-                $schoolClass->setYear($data->year);
-            }
-            if ($data->schoolForm != null) {
-                $schoolClass->setSchoolForm($data->schoolForm);
+
+            // If the school class is found, update it and return an HTTP_OK response
+            if (isset($schoolClass)){
+                $data = json_decode($request->getContent(), true);
+
+                // Update the school class with the given data
+                foreach ($data as $key => $value) {
+                    if ($key === "department") {
+                        $value = $registry->getRepository(Department::class)->find($value);
+                    } elseif ($key === "bookOrders") {
+                        $value = $registry->getRepository(BookOrder::class)->find($value);
+                    }
+
+                    // Create a function name from the key
+                    $function = "set" . ucwords($key);
+                    $schoolClass->$function($value);
+
+                }
             }
 
-            $registry->getManager()->persist($schoolClass);
-            $registry->getManager()->flush();
-
+            $registry->getRepository(SchoolClass::class)->save($schoolClass, true);
             return $this->json(null, status: Response::HTTP_OK);
 
             //before committing add / update comments
@@ -166,7 +160,7 @@ class SchoolClassController extends AbstractController
     #[Route(
         path: '/schoolclass/delete/{id}',
         name: 'app_schoolclass_delete_by_id',
-        methods: ['GET']
+        methods: ['DELETE']
     )]
     public function deleteSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response
     {
