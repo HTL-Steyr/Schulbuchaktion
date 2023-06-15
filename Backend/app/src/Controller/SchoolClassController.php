@@ -97,6 +97,72 @@ class SchoolClassController extends AbstractController
         return $this->json(null, status: Response::HTTP_NOT_FOUND);
     }
 
+
+    #[Route(
+        path: "/schoolclass/update/{id}",
+        name: "app_schoolclass_update_by_id",
+        methods: ["PUT"]
+    )]
+    public function updateSchoolClassById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response
+    {
+        //Get the current user
+        $user = $authService->authenticateByAuthorizationHeader($request);
+        //Check if the user is logged in
+        if (!isset($user)) {
+            //Return HTTP UNAUTHORIZED if the user is not logged in or the token is invalid or expired or the user is not found
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        }
+
+        // Authenticate the user using the Authorization header
+        if ($user->getRole()->getName() == "Admin" ||
+            $user->getRole()->getName() == "Abteilungsvorstand" ||
+            $user->getRole()->getName() == "Fachverantwortlicher"
+        ) {
+
+
+            $data = json_decode($request->getContent(), true);
+
+            $schoolClass = $registry->getRepository(SchoolClass::class)->find($id);
+            if ($data->name != null) {
+                $schoolClass->setName($data->name);
+            }
+            if ($data->department != null) {
+                $schoolClass->setDepartment($data->department);
+            }
+            if ($data->grade != null) {
+                $schoolClass->setGrade($data->grade);
+            }
+            if ($data->studentAmount != null) {
+                $schoolClass->setStudentAmount($data->studentAmount);
+            }
+            if ($data->repAmount != null) {
+                $schoolClass->setRepAmount($data->repAmount);
+            }
+            if ($data->usedBudget != null) {
+                $schoolClass->setUsedBudget($data->usedBudget);
+            }
+            if ($data->budget != null) {
+                $schoolClass->setBudget($data->budget);
+            }
+            if ($data->year != null) {
+                $schoolClass->setYear($data->year);
+            }
+            if ($data->schoolForm != null) {
+                $schoolClass->setSchoolForm($data->schoolForm);
+            }
+
+            $registry->getManager()->persist($schoolClass);
+            $registry->getManager()->flush();
+
+            return $this->json(null, status: Response::HTTP_OK);
+
+            //before committing add / update comments
+        }
+
+        // If the school class is not found, return an HTTP_NOT_FOUND response
+        return $this->json(null, status: Response::HTTP_NOT_FOUND);
+    }
+
     #[Route(
         path: '/schoolclass/delete/{id}',
         name: 'app_schoolclass_delete_by_id',
