@@ -11,10 +11,15 @@ export class Datasource<T extends FindAll<any>> extends DataSource {
                   return firstValueFrom(this.service.findAll());
                 },
                 remove: async (key: any) => {
+                    if ("id" in key) {
+                    return firstValueFrom(this.service.delete(key.id));
+                    }
                     return firstValueFrom(this.service.delete(key));
                 },
-                update: (id: number, data: T) => {
-                  console.log(id);
+                update: (id: any, data: T) => {
+                  if ("id" in id) {
+                    return firstValueFrom(this.service.update(id.id, data));
+                  }
 
                   return firstValueFrom(this.service.update(id, data));
                 },
