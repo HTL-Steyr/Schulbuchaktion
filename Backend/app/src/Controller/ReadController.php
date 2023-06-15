@@ -58,7 +58,6 @@ class ReadController extends AbstractController
         $repoPublisher = $registry->getRepository(Publisher::class);
         $repoBook = $registry->getRepository(Book::class);
         $repoBookPrice = $registry->getRepository(BookPrice::class);
-        echo  $request->files->get("schoolBookList");
 
         // Get the uploaded file from the request object and move it to the uploads directory
         $file = $request->files->get("schoolBookList");
@@ -115,6 +114,7 @@ class ReadController extends AbstractController
                 if ($subjectName != null) {
                     $result = $importService->getUser($subjectName);
                     $headOfSubject = $repoUser->findOneBy(["shortName" => $result["user"]]);
+                    echo $result["shortname"];
                     $isEntityExisting = $repoSubject->findOneBy(["shortName" => $result["shortname"]]);
 
                     if (!isset($isEntityExisting) && isset($headOfSubject)) {
