@@ -61,7 +61,7 @@ class ReadController extends AbstractController
 
         // Get the uploaded file from the request object and move it to the uploads directory
         $file = $request->files->get("schoolBookList");
-        echo $file;
+        echo $file->getClientOriginalName() + "Testfile";
 
         $destination = $this->getParameter('kernel.project_dir') . '/public/uploads';
         $file->move($destination, $file->getClientOriginalName());
