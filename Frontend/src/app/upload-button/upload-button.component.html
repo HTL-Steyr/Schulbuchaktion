@@ -4,13 +4,13 @@
 <table id="TheTable" class="ExcelTable2007">
   <thead #header>
   <tr>
-    <th *ngFor="let headValue of headData">
+    <th *ngFor="let headValue of headData" class="header">
       {{headValue}}
     </th>
   </tr>
   </thead>
   <tbody #container>
-  <tr align="center" *ngFor="let row of data">
+  <tr align="center" *ngFor="let row of data" class="table">
     <td *ngFor="let val of headData; let i =index">
       {{row[i] || ' '}}
     </td>

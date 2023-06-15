@@ -1,7 +1,11 @@
-p {
+.p {
   font-family: Lato, serif;
 }
-table {
+.table {
+  border-left: 6px solid blue;
   background-color: white;
-  font-size: smaller;
+}
+
+.header {
+  background-color: #6f7983;
 }
