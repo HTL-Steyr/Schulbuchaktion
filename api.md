@@ -3,6 +3,7 @@
 # /user/login
 
 ## Methods
+
 POST
 
 ## Request
@@ -22,7 +23,47 @@ POST
 }
 ```
 
-<!-- FIXME: This route does not work the same -->
+# /book
+
+## Methods
+
+GET
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+```json
+[
+  {
+    "id": Integer,
+    "bookNumber": Integer,
+    "title": "String",
+    "shortTitle": "String",
+    "listType": Integer,
+    "schoolForm": Integer,
+    "info": "String",
+    "ebook": Bool,
+    "ebookPlus": Bool,
+    "subject": {
+      "id": Integer,
+      "name": "String",
+      "shortName": "String"
+    },
+    "publisher": {
+      "id": Integer,
+      "publisherNumber": Integer,
+      "name": "String"
+    },
+    "schoolGrades": []
+  },
+  {
+  }
+]
+```
+
 # /department
 
 ## Methods
@@ -35,13 +76,45 @@ Authorization Header: Bearer Token
 ## Response
 
 ```json
-
+[
+  {
+    "id": Integer,
+    "name": "String",
+    "budget": Integer,
+    "usedBudget": Integer,
+    "headOfDepartment": {
+      "id": Integer,
+      "shortName": "String",
+      "firstName": "String",
+      "lastName": "String",
+      "email": "String",
+      "role": []
+    },
+    "schoolClasses": [
+      {
+        "id": Integer,
+        "name": "String",
+        "grade": Integer,
+        "studentAmount": Integer,
+        "repAmount": Integer,
+        "usedBudget": Integer,
+        "budget": Integer,
+        "year": Integer,
+        "schoolForm": Integer
+      },
+      {
+      }
+    ]
+  },
+  {
+  }
+]
 ```
 
-<!-- FIXME: This route does not work the same -->
 # /department/{id}
 
 ## Methods
+
 GET
 
 ## Request
@@ -51,8 +124,49 @@ Authorization Header: Bearer Token
 ## Response
 
 ```json
-
+{
+  "id": Integer,
+  "name": "String",
+  "budget": Integer,
+  "usedBudget": Integer,
+  "headOfDepartment": {
+    "id": Integer,
+    "shortName": "String",
+    "firstName": "String",
+    "lastName": "String",
+    "email": "String",
+    "role": []
+  },
+  "schoolClasses": [
+    {
+      "id": Integer,
+      "name": "String",
+      "grade": Integer,
+      "studentAmount": Integer,
+      "repAmount": Integer,
+      "usedBudget": Integer,
+      "budget": Integer,
+      "year": Integer,
+      "schoolForm": Integer
+    },
+    {
+      "id": Integer,
+      "name": "String",
+      "grade": Integer,
+      "studentAmount": Integer,
+      "repAmount": Integer,
+      "usedBudget": Integer,
+      "budget": Integer,
+      "year": Integer,
+      "schoolForm": Integer
+    }
+  ]
+}
 ```
+
+## Response
+
+Response Code: HTTP_OK: 200
 
 # /moneylist
 
@@ -68,15 +182,15 @@ Authorization Header: Bearer Token
 ```json
 [
   {
-      "id": Integer,
-      "year": Integer,
-      "priceInclusiveEbook": Integer,
-      "priceEbook": Integer,
-      "priceEbookPlus": Integer,
-      "book": {
-            "title": "String",
-            "shortTitle": "String"
-      }
+    "id": Integer,
+    "year": Integer,
+    "priceInclusiveEbook": Integer,
+    "priceEbook": Integer,
+    "priceEbookPlus": Integer,
+    "book": {
+      "title": "String",
+      "shortTitle": "String"
+    }
   },
   {
   
@@ -97,17 +211,52 @@ Authorization Header: Bearer Token
 
 ```json
 {
-    "id": Integer,
-    "year": Integer,
-    "priceInclusiveEbook": Integer,
-    "priceEbook": Integer,
-    "priceEbookPlus": Integer,
-    "book": {
-            "title": "String",
-            "shortTitle": "String"
-    }
+  "id": Integer,
+  "year": Integer,
+  "priceInclusiveEbook": Integer,
+  "priceEbook": Integer,
+  "priceEbookPlus": Integer,
+  "book": {
+    "title": "String",
+    "shortTitle": "String"
+  }
 }
 ```
+
+# /moneylist/delete/{id}
+
+## Methods
+DELETE
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+Response Code: HTTP_OK: 200
+
+# /moneylist/write
+
+## Methods
+POST
+
+## Request
+
+Authorization Header: Bearer Token
+```json
+{
+  "year": Integer,
+  "priceInclusiveEbook": Integer,
+  "priceEbook": Integer,
+  "priceEbookPlus": Integer,
+  "book": Integer (book id)
+}
+```
+
+## Response
+
+Response Code: HTTP_OK: 200
 
 # /orderlist
 
@@ -123,16 +272,15 @@ Authorization Header: Bearer Token
 ```json
 [
   {
-      "id": Integer,
-      "count": Integer,
-      "ebook": Bool,
-      "ebookPlus": Bool,
-      "schoolClass": [],
-      "book": [],
-      "teacherCopy": Bool
+    "id": Integer,
+    "count": Integer,
+    "ebook": Bool,
+    "ebookPlus": Bool,
+    "schoolClass": [],
+    "book": [],
+    "teacherCopy": Bool
   },
   {
-  
   }
 ]
 ```
@@ -140,6 +288,7 @@ Authorization Header: Bearer Token
 # /orderlist/{id}
 
 ## Methods
+
 GET
 
 ## Request
@@ -150,19 +299,84 @@ Authorization Header: Bearer Token
 
 ```json
 {
-    "id": Integer,
-    "count": Integer,
-    "ebook": Bool,
-    "ebookPlus": Bool,
-    "schoolClass": [],
-    "book": [],
-    "teacherCopy": Bool
+  "id": Integer,
+  "count": Integer,
+  "ebook": Bool,
+  "ebookPlus": Bool,
+  "schoolClass": [],
+  "book": [],
+  "teacherCopy": Bool
 }
 ```
+
+# /orderlist/delete/{id}
+
+## Methods
+DELETE
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+Response Code: HTTP_OK: 200
+
+# /orderlist/write
+
+## Methods
+POST
+
+## Request
+
+Authorization Header: Bearer Token
+```json
+{
+  "count": Integer,
+  "price": Integer,
+  "ebook": Integer,
+  "ebookPlus": Integer,
+  "teacherCopy": Integer,
+  "schoolClass": Integer (schoolClass id),
+  "book": Integer
+  (book
+  id)
+}
+```
+
+## Response
+
+Response Code: HTTP_OK: 200
+
+# /orderlist/update/{id}
+
+## Methods
+PUT
+
+## Request
+
+Authorization Header: Bearer Token\
+(Only specify fields that should be updated)
+```json
+{
+    "count": Integer,
+    "price": Integer,
+    "ebook": Integer,
+    "ebookPlus": Integer,
+    "teacherCopy": Integer,
+    "schoolClass": Integer (schoolClass id),
+    "book": Integer (book id)
+}
+```
+
+## Response
+
+Response Code: HTTP_OK: 200
 
 # /read/xlsx
 
 ## Methods
+
 POST
 
 ## Request
@@ -177,13 +391,15 @@ As `form-data`:\
 
 ## Response
 
-Just a response code.
+Response Code: HTTP_OK: 200
 
 
-<!-- FIXME: This route currently has no data in it -->
+<!-- FIXME: This route is broken -->
+
 # /schoolclass
 
 ## Methods
+
 GET
 
 ## Request
@@ -196,10 +412,12 @@ Authorization Header: Bearer Token
 
 ```
 
-<!-- FIXME: This route currently has no data in it -->
+<!-- FIXME: This route is broken -->
+
 # /schoolclass/{id}
 
 ## Methods
+
 GET
 
 ## Request
@@ -211,10 +429,52 @@ Authorization Header: Bearer Token
 ```json
 
 ```
+
+# /schoolclass/write
+
+## Methods
+
+POST
+
+## Request
+
+Authorization Header: Bearer Token
+
+```json
+{
+  "name": String,
+  "year": Integer,
+  "grade": Integer,
+  "department": Integer (Department id),
+  "studentAmount": Integer,
+  "repAmount": Integer,
+  "schoolForm": Integer,
+  "budget": Integer,
+  "usedBudget": Integer
+}
+```
+
+## Response
+
+Response Code: HTTP_OK: 200
+
+# /schoolclass/delete/{id}
+
+## Methods
+DELETE
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+Response Code: HTTP_OK: 200
 
 # /subject
 
 ## Methods
+
 GET
 
 ## Request
@@ -239,7 +499,6 @@ Authorization Header: Bearer Token
     }
   },
   {
-
   }
 ]
 ```
@@ -247,6 +506,7 @@ Authorization Header: Bearer Token
 # /subject/{id}
 
 ## Methods
+
 GET
 
 ## Request
@@ -274,24 +534,10 @@ Authorization Header: Bearer Token
 # /user/getme
 
 ## Methods
+
 GET
 
 ## Request
 
 Authorization Header: Bearer Token
 
-## Response
-
-```json
-{
-  "id": Integer,
-  "shortName": "String",
-  "firstName": "String",
-  "lastName": "String",
-  "email": "String",
-  "role": {
-    "id": Integer,
-    "name": "String"
-  }
-}
-```

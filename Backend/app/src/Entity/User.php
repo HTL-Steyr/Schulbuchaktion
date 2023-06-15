@@ -48,8 +48,14 @@ class User implements PasswordAuthenticatedUserInterface {
     #[ORM\JoinColumn(nullable: false)]
     private ?Role $role = null;
 
+    #[ORM\OneToMany(mappedBy: 'headOfDepartment', targetEntity: Department::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private Collection $departments;
+
+
     public function __construct()
     {
+        $this->departments = new ArrayCollection();
     }
 
     public function getId(): ?int {
@@ -130,5 +136,21 @@ class User implements PasswordAuthenticatedUserInterface {
    
     public function toString(): string {
         return $this->getFirstName() . ' ' . $this->getLastName() . ' ' . $this->getId();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getDepartments(): Collection
+    {
+        return $this->departments;
+    }
+
+    /**
+     * @param Collection $departments
+     */
+    public function setDepartments(Collection $departments): void
+    {
+        $this->departments = $departments;
     }
 }

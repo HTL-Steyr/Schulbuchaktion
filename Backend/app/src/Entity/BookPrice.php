@@ -20,6 +20,10 @@ class BookPrice {
 
     #[Groups(['subject', 'bookPrice', "orderlist"])]
     #[ORM\Column]
+    private ?int $totalPrice = null;
+
+    #[Groups(['subject', 'bookPrice', "orderlist"])]
+    #[ORM\Column]
     private ?int $priceInclusiveEbook = null;
 
     #[Groups(['subject', 'bookPrice', "orderlist"])]
@@ -28,7 +32,7 @@ class BookPrice {
 
     #[Groups(['subject', 'bookPrice', "orderlist"])]
     #[ORM\Column(nullable: true)]
-    private ?int $priceEbookPlus = null;
+    private ?int $priceBase = null;
 
     #[Groups(["bookPrice"])]
     #[ORM\ManyToOne(inversedBy: 'bookPrices')]
@@ -49,12 +53,12 @@ class BookPrice {
         return $this;
     }
 
-    public function getPriceInclusiveEbook(): ?int {
-        return $this->priceInclusiveEbook;
+    public function getTotalPrice(): ?int {
+        return $this->totalPrice;
     }
 
-    public function setPriceInclusiveEbook(int $priceInclusiveEbook): self {
-        $this->priceInclusiveEbook = $priceInclusiveEbook;
+    public function setTotalPrice(int $totalPrice): self {
+        $this->totalPrice = $totalPrice;
 
         return $this;
     }
@@ -69,12 +73,22 @@ class BookPrice {
         return $this;
     }
 
-    public function getPriceEbookPlus(): ?int {
-        return $this->priceEbookPlus;
+    public function getPriceBase(): ?int {
+        return $this->priceBase;
     }
 
-    public function setPriceEbookPlus(?int $priceEbookPlus): self {
-        $this->priceEbookPlus = $priceEbookPlus;
+    public function setPriceBase(?int $priceBase): self {
+        $this->priceBase = $priceBase;
+
+        return $this;
+    }
+    
+   public function getPriceInclusiveEbook(): ?int {
+        return $this->priceInclusiveEbook;
+    }
+
+    public function setPriceInclusiveEbook(int $priceInclusiveEbook): self {
+        $this->priceInclusiveEbook = $priceInclusiveEbook;
 
         return $this;
     }

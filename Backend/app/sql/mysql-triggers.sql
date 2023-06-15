@@ -3,41 +3,31 @@ create definer = symfony@`%` trigger t_create_book_order
     on book_order
     for each row
 BEGIN
-    DECLARE priceEbookBook INTEGER DEFAULT 0;
-    DECLARE priceBook INTEGER;
-    DECLARE totalPrice INTEGER;
-    DECLARE departmentId INTEGER;
-    DECLARE usedBudgetSchoolclass INTEGER;
-    DECLARE usedBudgetDepartment INTEGER;
+    DECLARE priceEbook INTEGER DEFAULT 0;
+    DECLARE priceBase INTEGER DEFAULT 0;
+    DECLARE totalPrice INTEGER DEFAULT 0;
+    DECLARE departmentId INTEGER DEFAULT 0;
+    DECLARE usedBudgetSchoolclass INTEGER DEFAULT 0;
+    DECLARE usedBudgetDepartment INTEGER DEFAULT 0;
 
     SELECT department_id FROM school_class WHERE school_class.id = NEW.school_class_id INTO departmentId;
 
-    SELECT price_inclusive_ebook - book_price.price_ebook
+    SELECT bookprice.price_base
     FROM book_price
     WHERE book_price.book_id =
           NEW.book_id
-    INTO priceBook;
+    INTO priceBase;
 
-    IF (NEW.ebook_plus)
+    IF (NEW.ebook)
     THEN
-        SELECT price_ebook_plus + (price_inclusive_ebook - book_price.price_ebook)
+        SELECT price_ebook
         FROM book_price
         WHERE book_price.book_id =
               NEW.book_id
-        INTO priceEbookBook;
-    ELSE
-        IF (NEW.ebook)
-        THEN
-            SELECT price_ebook
-            FROM book_price
-            WHERE book_price.book_id =
-                  NEW.book_id
-            INTO priceEbookBook;
-        END IF;
+        INTO priceEbook;
     END IF;
 
-    SET
-        totalPrice = (priceBook + priceEbookBook) * NEW.count;
+    SET totalPrice = (priceBase + priceEbook) * NEW.count;
 
     SET NEW.price = totalPrice;
 
@@ -58,7 +48,6 @@ BEGIN
     UPDATE department
     SET department.used_budget=(totalPrice + usedBudgetDepartment)
     WHERE department.id = departmentId;
-
 
 END;
 

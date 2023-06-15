@@ -19,7 +19,8 @@ use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuild
  * Class MoneyListController
  * Retrieve a moneylist with the given id
  */
-class MoneyListController extends AbstractController {
+class MoneyListController extends AbstractController
+{
 
     /**
      * This method returns the moneylist with the given id.
@@ -36,7 +37,8 @@ class MoneyListController extends AbstractController {
         name: "app_moneylist_get",
         methods: ["GET"]
     )]
-    public function getMoneyListById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response {
+    public function getMoneyListById(AuthService $authService, Request $request, ManagerRegistry $registry, int $id): Response
+    {
         //Get the current user
         $user = $authService->authenticateByAuthorizationHeader($request);
         //Check if the user is logged in
@@ -70,7 +72,8 @@ class MoneyListController extends AbstractController {
         name: "app_moneylist_get_all",
         methods: ["GET"]
     )]
-    public function getMoneyLists(AuthService $authService, Request $request, ManagerRegistry $registry): Response {
+    public function getMoneyLists(AuthService $authService, Request $request, ManagerRegistry $registry): Response
+    {
         //Get the current user
         $user = $authService->authenticateByAuthorizationHeader($request);
         //Check if the user is logged in
@@ -110,11 +113,12 @@ class MoneyListController extends AbstractController {
         methods: ["POST"]
     )]
     public function addMoneyList(
-        AuthService $authService,
-        Request $request,
-        ManagerRegistry $registry,
+        AuthService         $authService,
+        Request             $request,
+        ManagerRegistry     $registry,
         BookPriceRepository $priceRepository,
-    ): Response {
+    ): Response
+    {
         $user = $authService->authenticateByAuthorizationHeader($request);
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
@@ -128,7 +132,7 @@ class MoneyListController extends AbstractController {
 
             $bookPrice = new BookPrice();
             $bookPrice->setYear($data->year);
-            $bookPrice->setPriceInclusiveEbook($data->priceInclusiveEbook);
+            $bookPrice->setTotalPrice($data->priceInclusiveEbook);
             $bookPrice->setPriceEbook($data->priceEbook);
             $bookPrice->setPriceEbookPlus($data->priceEbookPlus);
             $bookPrice->setBook($registry->getRepository(Book::class)->find($data->book));
@@ -152,11 +156,12 @@ class MoneyListController extends AbstractController {
         methods: ["DELETE"]
     )]
     public function deleteMoneyList(
-        AuthService $authService,
-        Request $request,
-        int $id,
+        AuthService         $authService,
+        Request             $request,
+        int                 $id,
         BookPriceRepository $priceRepository
-    ): Response {
+    ): Response
+    {
         $user = $authService->authenticateByAuthorizationHeader($request);
         if (!isset($user)) {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
@@ -182,8 +187,13 @@ class MoneyListController extends AbstractController {
         name: 'app_money_overview',
         methods: ['GET']
     )]
-    public function getMoneyOverview(Request $request, ManagerRegistry $registry): Response
+    public function getMoneyOverview(AuthService $authService, Request $request, ManagerRegistry $registry): Response
     {
+
+        $user = $authService->authenticateByAuthorizationHeader($request);
+        if (!isset($user)) {
+            return new Response(null, Response::HTTP_UNAUTHORIZED);
+        }
 
         $listOrders = $registry->getRepository(BookOrder::class)->findAll();
         $listPrice = $registry->getRepository(BookPrice::class)->findAll();
@@ -191,24 +201,29 @@ class MoneyListController extends AbstractController {
         $list = [];
 
         foreach ($listOrders as $order) {
-            $list[$order->id] = [];
-            $list[$order->id]['SumOfUsedMoney'] = $sumOfUsedMoney += $order->getPrice();
-            $list[$order->id]['Schoolclass'] = $order->getSchoolclass();
-            $list[$order->id]['Department'] = $order->getDepartment();
-            $list[$order->id]['Available'] = $availableBudget = $order->getSchoolclass()->getBudget();
+            $list[$order->getId()] = [];
+            if (!isset($list[$order->getId()]['SumOfUsedMoney'])) {
+                $list[$order->getId()]['SumOfUsedMoney'] = 0;
+            }
+            $list[$order->getId()]['SumOfUsedMoney'] += $order->getPrice();
+            $list[$order->getId()]['Schoolclass'] = $order->getSchoolclass();
+            $list[$order->getId()]['Department'] = $order->getSchoolclass()->getDepartment();
+            $list[$order->getId()]['Available'] = $availableBudget = $order->getSchoolclass()->getBudget();
 
             foreach ($listPrice as $price) {
                 if ($price->getBook() == $order->getBook()) {
-                    $list[$order->id]['Year']  = $price->getYear();
+                    $list[$order->getId()]['Year'] = $price->getYear();
                 }
-                $list[$order->id]['Percentage'] = round(($sumOfUsedMoney / $availableBudget) * 100, 2);
+                $list[$order->getId()]['Percentage'] = round(($list[$order->getId()]['SumOfUsedMoney'] / $availableBudget) * 100, 2);
             }
 
         }
-
+        $context = (new ObjectNormalizerContextBuilder())
+            ->withGroups("department")
+            ->toArray();
 
         // Return a JSON response with the money overview data
-        return $this->json($list, status: Response::HTTP_OK);
+        return $this->json($list, status: Response::HTTP_OK,);
     }
 
 }

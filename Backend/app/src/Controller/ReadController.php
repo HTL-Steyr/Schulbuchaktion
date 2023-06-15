@@ -58,9 +58,11 @@ class ReadController extends AbstractController
         $repoPublisher = $registry->getRepository(Publisher::class);
         $repoBook = $registry->getRepository(Book::class);
         $repoBookPrice = $registry->getRepository(BookPrice::class);
+        echo $request;
 
         // Get the uploaded file from the request object and move it to the uploads directory
         $file = $request->files->get("schoolBookList");
+
         $destination = $this->getParameter('kernel.project_dir') . '/public/uploads';
         $file->move($destination, $file->getClientOriginalName());
         echo $file->isValid();
@@ -85,9 +87,9 @@ class ReadController extends AbstractController
                 $vnr = $sheet->getCell("J" . strval($i))->getValue();
                 $publisherName = $sheet->getCell("K" . strval($i))->getValue();
                 $mainBook = $sheet->getCell("L" . strval($i))->getValue();
-                $bookpriceebook = $sheet->getCell("M" . strval($i))->getValue();
-                $bookpricenormal = $sheet->getCell("N" . strval($i))->getValue();
-                $bookpriceplus = $sheet->getCell("O" . strval($i))->getValue();
+                $totalPrice = $sheet->getCell("M" . strval($i))->getValue();
+                $bookpriceNormal = $sheet->getCell("N" . strval($i))->getValue();
+                $bookpricEbookPlus = $sheet->getCell("O" . strval($i))->getValue();
                 $ebook = $sheet->getCell("P" . strval($i))->getValue();
                 $ebookPlus = $sheet->getCell("Q" . strval($i))->getValue();
 
@@ -161,9 +163,9 @@ class ReadController extends AbstractController
                         $bookprice = new BookPrice();
                         $bookprice->setBook($book);
                         $bookprice->setYear(date('Y'));
-                        $bookprice->setPriceEbook(intval($bookpriceebook));
-                        $bookprice->setPriceEbookPlus(intval($bookpriceplus));
-                        $bookprice->setPriceInclusiveEbook(intval($bookpricenormal));
+                        $bookprice->setPriceEbook(intval($bookpricEbookPlus*100));
+                        $bookprice->setPriceBase(intval($bookpriceNormal*100));
+                        $bookprice->setTotalPrice(intval($totalPrice*100));
                         $repoBookPrice->save($bookprice, true);
                     }
                 }
