@@ -166,6 +166,7 @@ class ReadController extends AbstractController
                         $bookprice->setPriceEbook(intval($bookpricEbookPlus)*100);
                         $bookprice->setPriceBase(intval($bookpriceNormal)*100);
                         $bookprice->setTotalPrice(intval($totalPrice)*100);
+                        $bookprice->setPriceInclusiveEbook(0);
                         $repoBookPrice->save($bookprice, true);
                     }
                 }
