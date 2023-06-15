@@ -524,24 +524,21 @@ input {
   font-weight: bold;
 }
 
-.dx-datagrid .dx-datagrid-header-panel .dx-group-panel-item, .dx-datagrid .dx-datagrid-header-panel .dx-header-filter{
+.dx-datagrid .dx-datagrid-header-panel .dx-group-panel-item, .dx-datagrid .dx-datagrid-header-panel .dx-header-filter {
   color: white;
   /*make it bold*/
   font-weight: bold;
 }
 
-.dx-datagrid-group-panel .dx-sort{
+.dx-datagrid-group-panel .dx-sort {
   color: white;
   /*make it bold*/
   font-weight: bold;
 }
 
-.dx-checkbox-checked .dx-checkbox-icon::before{
+.dx-checkbox-checked .dx-checkbox-icon::before {
   background-color: #417bed;
 }
-
-
-
 
 
 .dx-checkbox-checked .dx-checkbox-icon {
@@ -568,22 +565,24 @@ input {
   color: #417bed;
 
 }
+
 .dx-button-mode-contained {
   background-color: #417bed;
 
 }
+
 .dx-button-mode-contained:hover {
   background-color: white;
 
 }
 
 
-.div.dx-page{
+.div.dx-page {
   color: black;
 }
 
 
-.dx-editor-cell .dx-texteditor, .dx-editor-cell .dx-texteditor .dx-texteditor-input{
+.dx-editor-cell .dx-texteditor, .dx-editor-cell .dx-texteditor .dx-texteditor-input {
   background-color: black;
 
 }
@@ -593,7 +592,12 @@ input {
 }
 
 
-.dx-pager{
+.dx-pager {
   background-color: #417bed;
 
+}
+
+.dx-datagrid{
+
+  border: none;
 }
