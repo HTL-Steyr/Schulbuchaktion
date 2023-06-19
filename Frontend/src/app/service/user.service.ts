@@ -30,6 +30,17 @@ export class UserService {
     private _http: HttpClient, private router: Router,
   ) { }
 
+  public delete(id: number): Observable<UserService> {
+    throw new Error('Method not implemented.');
+  }
+
+  public findAll(): Observable<UserService[]> {
+    return this._http.get<UserService[]>(this.baseUrl + "/getall", {headers: this.getAuthorizationHeader()});
+  }
+
+  public update(id: number, data: UserService): Observable<UserService> {
+    throw new Error('Method not implemented.');
+  }
   public async login(email: string, password: string): Promise<User> {
     const payload = {
       email: email,

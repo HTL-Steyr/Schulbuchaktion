@@ -6,6 +6,7 @@ import { ClassesOverviewComponent } from "./classes-overview/classes-overview.co
 import { LoginComponent } from "./login/login.component";
 import { XlsImportComponent } from './xls-import/xls-import.component';
 import { LoginErrorAlertComponent } from "./login-error-alert/login-error-alert.component";
+import { ManageUsersComponent } from './manage-users/manage-users.component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -16,6 +17,7 @@ const routes: Routes = [
     { path: 'gelduebersicht', component: MoneyViewComponent },
     { path: 'loginerror', component: LoginErrorAlertComponent },
     { path: 'navbar', component: NavBarComponent },
+    { path: 'manageusers', component: ManageUsersComponent},
     { path: '**', component: NotFoundComponent },
 ]
 
