@@ -15,6 +15,7 @@ import { MoneyViewComponent } from './money-view/money-view.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ShowMenuItemPipe } from './nav-bar/nav-bar.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { ManageUsersComponent } from './manage-users/manage-users.component';
 
@@ -30,6 +31,7 @@ import { ManageUsersComponent } from './manage-users/manage-users.component';
     LoginErrorAlertComponent,
     LoginComponent,
     NavBarComponent,
+    ShowMenuItemPipe,
     ManageUsersComponent,
   ],
   imports: [
