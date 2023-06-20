@@ -201,6 +201,13 @@ class MoneyListController extends AbstractController
         $list = [];
 
         foreach ($listOrders as $order) {
+            // ignore entry if book has not been ordered by anyone
+            if (!isset($order->getSchoolclass()->getId()) &&
+                !isset($order->getSchoolclass()->getDepartment()->getId()
+            ) {
+                continue;
+            }
+            
             $list[$order->getId()] = [];
             if (!isset($list[$order->getId()]['SumOfUsedMoney'])) {
                 $list[$order->getId()]['SumOfUsedMoney'] = 0;
