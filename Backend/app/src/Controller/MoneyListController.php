@@ -214,9 +214,9 @@ class MoneyListController extends AbstractController
                 if ($price->getBook() == $order->getBook()) {
                     $list[$order->getId()]['Year'] = $price->getYear();
                 }
-                $list[$order->getId()]['Percentage'] = round(($list[$order->getId()]['SumOfUsedMoney'] / $availableBudget) * 100, 2);
             }
 
+            $list[$order->getId()]['Percentage'] = round(($list[$order->getId()]['SumOfUsedMoney'] / $availableBudget) * 100, 2);
         }
         $context = (new ObjectNormalizerContextBuilder())
             ->withGroups("department")
