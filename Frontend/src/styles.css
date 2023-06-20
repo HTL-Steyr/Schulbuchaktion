@@ -94,10 +94,10 @@ button:hover {
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 2.35rem;
   text-align: center;
   font-family: Abel Regular, Arial, Helvetica, sans-serif;
-  color: white !important;
+  color: black !important;
 }
 
 .normal {
@@ -109,7 +109,7 @@ h1 {
   font-weight: 300;
   text-transform: uppercase;
   font-size: 20px;
-  letter-spacing: 0em;
+  letter-spacing: 0;
   line-height: 1.6em;
   font-family: Abel Regular, Arial, Helvetica, sans-serif;
   color: black !important;
@@ -600,4 +600,8 @@ input {
 .dx-datagrid{
 
   border: none;
+}
+
+.dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > td, .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > tr > td, .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > td, .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > tr > td {
+  background-color: #9fa3ab;
 }
