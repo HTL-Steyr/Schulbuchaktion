@@ -1,9 +1,10 @@
 <h1>Manage Users</h1>
 <dx-data-grid [allowColumnResizing]="true" [allowColumnReordering]="true" [columnHidingEnabled]="true" [dataSource]="dataSource" (onSelectionChanged)="selectionChanged($event)">
-  <dxi-column [allowEditing]="false" dataField="id" caption="ID" dataType="number"></dxi-column>
+  <dxi-column [allowEditing]="false" dataField="id" width="40px" caption="ID" dataType="number"></dxi-column>
+
   <dxi-column [allowEditing]="false" dataField="firstName" caption="Vorname" dataType="string"></dxi-column>
   <dxi-column [allowEditing]="false" dataField="lastName" caption="Nachname" dataType="string"></dxi-column>
-  <dxi-column [allowEditing]="false" dataField="shortName" caption="Kürzel" dataType="string"></dxi-column>
+  <dxi-column [allowEditing]="false" dataField="shortName" width="50px"  caption="Kürzel" dataType="string"></dxi-column>
   <dxi-column [allowEditing]="false" dataField="email" caption="Email" dataType="string"></dxi-column>
   <dxi-column [allowEditing]="true" dataField="role.name" caption="Rolle" dataType="string"></dxi-column>
   <dxi-column type="buttons">
