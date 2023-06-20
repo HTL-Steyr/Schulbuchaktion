@@ -206,17 +206,17 @@ class MoneyListController extends AbstractController
                 $list[$order->getId()]['SumOfUsedMoney'] = 0;
             }
             $list[$order->getId()]['SumOfUsedMoney'] += $order->getPrice();
-            $list[$order->getId()]['Schoolclass'] = $order->getSchoolclass();
-            $list[$order->getId()]['Department'] = $order->getSchoolclass()->getDepartment();
+            $list[$order->getId()]['SchoolclassId'] = $order->getSchoolclass()->getId();
+            $list[$order->getId()]['DepartmentId'] = $order->getSchoolclass()->getDepartment()->getId();
             $list[$order->getId()]['Available'] = $availableBudget = $order->getSchoolclass()->getBudget();
 
             foreach ($listPrice as $price) {
                 if ($price->getBook() == $order->getBook()) {
                     $list[$order->getId()]['Year'] = $price->getYear();
                 }
-                $list[$order->getId()]['Percentage'] = round(($list[$order->getId()]['SumOfUsedMoney'] / $availableBudget) * 100, 2);
             }
 
+            $list[$order->getId()]['Percentage'] = round(($list[$order->getId()]['SumOfUsedMoney'] / $availableBudget) * 100, 2);
         }
         $context = (new ObjectNormalizerContextBuilder())
             ->withGroups("department")
