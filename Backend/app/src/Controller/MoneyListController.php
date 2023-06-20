@@ -206,8 +206,8 @@ class MoneyListController extends AbstractController
                 $list[$order->getId()]['SumOfUsedMoney'] = 0;
             }
             $list[$order->getId()]['SumOfUsedMoney'] += $order->getPrice();
-            $list[$order->getId()]['Schoolclass'] = $order->getSchoolclass();
-            $list[$order->getId()]['Department'] = $order->getSchoolclass()->getDepartment();
+            $list[$order->getId()]['SchoolclassId'] = $order->getSchoolclass()->getId();
+            $list[$order->getId()]['DepartmentId'] = $order->getSchoolclass()->getDepartment()->getId();
             $list[$order->getId()]['Available'] = $availableBudget = $order->getSchoolclass()->getBudget();
 
             foreach ($listPrice as $price) {
