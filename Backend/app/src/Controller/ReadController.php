@@ -114,7 +114,6 @@ class ReadController extends AbstractController
                 if ($subjectName != null) {
                     $result = $importService->getUser($subjectName);
                     $headOfSubject = $repoUser->findOneBy(["shortName" => $result["user"]]);
-                    echo $result["shortname"];
                     $isEntityExisting = $repoSubject->findOneBy(["shortName" => $result["shortname"]]);
 
                     if (!isset($isEntityExisting) && isset($headOfSubject)) {
@@ -164,9 +163,10 @@ class ReadController extends AbstractController
                         $bookprice = new BookPrice();
                         $bookprice->setBook($book);
                         $bookprice->setYear(date('Y'));
-                        $bookprice->setPriceEbook(intval($bookpricEbookPlus*100));
-                        $bookprice->setPriceBase(intval($bookpriceNormal*100));
-                        $bookprice->setTotalPrice(intval($totalPrice*100));
+                        $bookprice->setPriceEbook(intval($bookpricEbookPlus)*100);
+                        $bookprice->setPriceBase(intval($bookpriceNormal)*100);
+                        $bookprice->setTotalPrice(intval($totalPrice)*100);
+                        $bookprice->setPriceInclusiveEbook(0);
                         $repoBookPrice->save($bookprice, true);
                     }
                 }
