@@ -1,0 +1,35 @@
+<h1>Manage Users</h1>
+<dx-data-grid [allowColumnResizing]="true" [allowColumnReordering]="true" [columnHidingEnabled]="true" [dataSource]="dataSource" (onSelectionChanged)="selectionChanged($event)">
+  <dxi-column [allowEditing]="false" dataField="id" width="40px" caption="ID" dataType="number"></dxi-column>
+
+  <dxi-column [allowEditing]="false" dataField="firstName" caption="Vorname" dataType="string"></dxi-column>
+  <dxi-column [allowEditing]="false" dataField="lastName" caption="Nachname" dataType="string"></dxi-column>
+  <dxi-column [allowEditing]="false" dataField="shortName" width="50px"  caption="Kürzel" dataType="string"></dxi-column>
+  <dxi-column [allowEditing]="false" dataField="email" caption="Email" dataType="string"></dxi-column>
+  <dxi-column [allowEditing]="true" dataField="role.name" caption="Rolle" dataType="string"></dxi-column>
+  <dxi-column type="buttons">
+    <dxi-button name="edit"></dxi-button>
+    <dxi-button name="delete"></dxi-button>
+  </dxi-column>
+
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-sorting mode="multiple"></dxo-sorting>
+  <dxo-filter-row [visible]="true"></dxo-filter-row>
+  <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20, 50]" [showInfo]="true"></dxo-pager>
+  <dxo-editing mode="row" [useIcons]="true" [allowUpdating]="true" [allowAdding]="true" [allowDeleting]="true"></dxo-editing>
+  <dxo-selection mode="multiple"></dxo-selection>
+
+  <dxo-toolbar>
+    <dxi-item name="columnChooserButton"></dxi-item>
+    <dxi-item>
+      <dx-button (onClick)="clearSorting()" text="Sortierung aufheben"></dx-button>
+    </dxi-item>
+    <dxi-item name="addRowButton" showText="always"></dxi-item>
+    <dxi-item location="after">
+      <dx-button (onClick)="deleteRecords()" [disabled]="!selectedItemKeys.length" icon="trash"
+                 text="Lösche ausgewählte Einträge"></dx-button>
+    </dxi-item>
+  </dxo-toolbar>
+  <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+
+</dx-data-grid>

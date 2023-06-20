@@ -4,13 +4,6 @@
       <img src="assets/login/htlLogo.svg" alt="Logo" width="50" height="50">
       <span>Schulbuchaktion</span>
     </div>
-    <!--
-        <a  routerLink="/bestelluebersicht">Bestellungen</a>
-        <a routerLink="/klassenuebersicht" *ngIf="isDisabledClass">Klassen</a>
-        <a routerLink="/gelduebersicht"  *ngIf="isDisabledMoney">Geld</a>
-        <a routerLink="/import" *ngIf="isDisabledImports">Import</a>
-    -->
-
 
     <div *ngFor="let item of navItems">
       <div *ngIf="item.name | showMenuItem: userService.user.role.id.toString()">
@@ -20,6 +13,11 @@
       </div>
     </div>
 
+    <!--<a routerLink="/bestelluebersicht">Bestellungen</a>
+    <a routerLink="/klassenuebersicht">Klassen</a>
+    <a routerLink="/gelduebersicht">Geld</a>
+    <a routerLink="/import">Import</a>
+    <a routerLink="/manageusers">User</a>-->
     <div class="logout">
       <span>{{userService.user.shortName}}</span>
       <button (click)="userService.logout()">Logout</button>

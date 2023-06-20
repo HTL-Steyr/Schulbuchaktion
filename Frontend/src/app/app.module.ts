@@ -15,8 +15,9 @@ import { MoneyViewComponent } from './money-view/money-view.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { ShowMenuItemPipe } from './nav-bar/nav-bar.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { ManageUsersComponent } from './manage-users/manage-users.component';
 
 @NgModule({
   declarations: [
@@ -30,8 +31,8 @@ import { ShowMenuItemPipe } from './nav-bar/nav-bar.component';
     LoginErrorAlertComponent,
     LoginComponent,
     NavBarComponent,
-    ShowMenuItemPipe
-
+    ShowMenuItemPipe,
+    ManageUsersComponent,
   ],
   imports: [
     BrowserModule,

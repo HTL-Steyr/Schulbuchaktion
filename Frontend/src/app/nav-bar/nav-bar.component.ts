@@ -17,6 +17,8 @@ export class ShowMenuItemPipe implements PipeTransform {
       return role === '1';
     } else if (menuItemName === 'Gelduebersicht') {
       return role === '1' || role === '2';
+    } else if (menuItemName === 'Users') {
+      return role === '1';
     }
     return true;
   }
@@ -58,6 +60,13 @@ export class NavBarComponent {
       text: 'Gelduebersicht',
       icon: '',
       role: '4'
+    },
+    {
+      name: 'Users',
+      path: '/manageusers',
+      text: 'Users',
+      icon: '',
+      role: '1'
     },
     {
       name: 'Import',

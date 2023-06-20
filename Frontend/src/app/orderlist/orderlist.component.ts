@@ -17,7 +17,6 @@ export class OrderlistComponent {
 
   dataSource: Datasource<OrderlistService>;
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid?: DxDataGridComponent;
-
   constructor(private orderlstService: OrderlistService) {
     this.dataSource = new Datasource(orderlstService);
     this.cloneIconClick = this.cloneIconClick.bind(this);
@@ -56,6 +55,9 @@ export class OrderlistComponent {
     e.component.refresh(true);
     e.event.preventDefault();
   }
+
+
+
 
 }
 
