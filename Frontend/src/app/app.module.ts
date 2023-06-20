@@ -17,6 +17,7 @@ import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { ShowMenuItemPipe } from './nav-bar/nav-bar.component';
+import { ShowItemPipe } from './orderlist/orderlist.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ShowMenuItemPipe } from './nav-bar/nav-bar.component';
     LoginErrorAlertComponent,
     LoginComponent,
     NavBarComponent,
-    ShowMenuItemPipe
+    ShowMenuItemPipe,
+    ShowItemPipe
 
   ],
   imports: [

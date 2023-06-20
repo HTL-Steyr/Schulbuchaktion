@@ -1,4 +1,5 @@
 <h1>Bestellübersicht</h1>
+
 <dx-data-grid [allowColumnResizing]="true" [allowColumnReordering]="true" [columnHidingEnabled]="true"
   [columnAutoWidth]="true" [dataSource]="dataSource" (onSelectionChanged)="selectionChanged($event)">
 
@@ -16,9 +17,23 @@
       [onClick]="cloneIconClick"
       [visible]="isCloneIconVisible"
     ></dxi-button>
-    <dxi-button name="edit"></dxi-button>
+
+        <div *ngFor="let item of orderlistItems">
+          <div *ngIf="item.name | showItem: userService.user.role.id.toString()">
+            <dxi-button>
+              {{ item.name }}
+            </dxi-button>
+          </div>
+        </div>
+
+    <!--dxi-button name="edit"></dxi-button>
     <dxi-button name="delete"></dxi-button>
+    -->
   </dxi-column>
+
+
+
+
 
   <dxo-paging [pageSize]="10"></dxo-paging>
   <dxo-sorting mode="multiple"></dxo-sorting>
@@ -40,3 +55,5 @@
   </dxo-toolbar>
   <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
 </dx-data-grid>
+
+

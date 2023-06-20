@@ -1,11 +1,26 @@
-import { Component, ViewChild } from '@angular/core';
+import {Component, Pipe, PipeTransform, ViewChild} from '@angular/core';
 import { DxDataGridComponent } from 'devextreme-angular';
 import dxDataGrid from 'devextreme/ui/data_grid';
 import { Datasource } from '../datasources/datasource';
 import { OrderlistService } from '../service/orderlist.service';
 import { SubjectService } from '../service/subject.service';
+import {UserService} from "../service/user.service";
+import {Router} from "@angular/router";
+import {Pipe, PipeTransform} from '@angular/core';
+
+@Pipe({name: 'showItem',})
 
 
+export class ShowItemPipe implements PipeTransform {
+  transform(actionName: string, role: string): boolean {
+     if (actionName === 'edit') {
+       return role === '1';
+     }else if (actionName === 'delete'){
+       return role ==='1';
+     }
+    return true;
+  }
+}
 @Component({
   selector: 'app-orderlist',
   templateUrl: './orderlist.component.html',
@@ -18,10 +33,16 @@ export class OrderlistComponent {
   dataSource: Datasource<OrderlistService>;
   @ViewChild(DxDataGridComponent, { static: false }) dataGrid?: DxDataGridComponent;
 
-  constructor(private orderlstService: OrderlistService) {
+
+  constructor(private orderlstService: OrderlistService, public userService: UserService) {
     this.dataSource = new Datasource(orderlstService);
     this.cloneIconClick = this.cloneIconClick.bind(this);
+    this.userService = userService;
   }
+
+
+
+
 
   selectionChanged(data: any) {
     this.selectedItemKeys = data.selectedRowKeys;
@@ -56,6 +77,18 @@ export class OrderlistComponent {
     e.component.refresh(true);
     e.event.preventDefault();
   }
+
+  orderlistItems = [
+    {
+      name: 'edit',
+      role: '1'
+    },
+    {
+      name:'delete',
+      role: '1'
+
+    }
+  ]
 
 }
 
