@@ -116,7 +116,7 @@ class ReadController extends AbstractController
                     $headOfSubject = $repoUser->findOneBy(["shortName" => $result["user"]]);
                     $isEntityExisting = $repoSubject->findOneBy(["shortName" => $result["shortname"]]);
 
-                    if (!isset($isEntityExisting) && isset($headOfSubject)) {
+                    if (!isset($isEntityExisting) && isset($haedOfSubject)) {
 
                         $subject = new Subject();
                         $subject->setHeadOfSubject($headOfSubject);
