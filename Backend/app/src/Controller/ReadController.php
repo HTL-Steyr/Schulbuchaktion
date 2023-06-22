@@ -116,10 +116,11 @@ class ReadController extends AbstractController
                     $headOfSubject = $repoUser->findOneBy(["shortName" => $result["user"]]);
                     echo $headOfSubject->getShortName() . "\n";
                     $isEntityExisting = $repoSubject->findOneBy(["shortName" => $result["shortname"]]);
-                    echo $isEntityExisting->getName() . " \n";
-
+                    if (isset($isEntityExisting)) {
+                        echo $isEntityExisting->getName() . " \n";
+                    }
                     if (!isset($isEntityExisting) && isset($haedOfSubject)) {
-                        echo "inserting subject \n";
+                        echo $subjectName . " \n";
                         $subject = new Subject();
                         $subject->setHeadOfSubject($headOfSubject);
                         $subject->setName($subjectName);
@@ -165,9 +166,9 @@ class ReadController extends AbstractController
                         $bookprice = new BookPrice();
                         $bookprice->setBook($book);
                         $bookprice->setYear(date('Y'));
-                        $bookprice->setPriceEbook(intval($bookpricEbookPlus)*100);
-                        $bookprice->setPriceBase(intval($bookpriceNormal)*100);
-                        $bookprice->setTotalPrice(intval($totalPrice)*100);
+                        $bookprice->setPriceEbook(intval($bookpricEbookPlus) * 100);
+                        $bookprice->setPriceBase(intval($bookpriceNormal) * 100);
+                        $bookprice->setTotalPrice(intval($totalPrice) * 100);
                         $bookprice->setPriceInclusiveEbook(0);
                         $repoBookPrice->save($bookprice, true);
                     }
@@ -179,6 +180,6 @@ class ReadController extends AbstractController
             die("File not found");
         }
 
-       return new Response(null, Response::HTTP_OK);
+        return new Response(null, Response::HTTP_OK);
     }
 }
