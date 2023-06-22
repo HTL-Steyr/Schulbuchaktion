@@ -236,6 +236,32 @@ Authorization Header: Bearer Token
 
 Response Code: HTTP_OK: 200
 
+# /moneyoverview
+
+## Methods
+GET
+
+## Request
+
+Authorization Header: Bearer Token
+
+## Response
+
+```json
+{
+    "Integer": {
+        "SumOfUsedMoney": Integer,
+        "SchoolclassId": Integer,
+        "DepartmentId": Integer,
+        "Available": Integer,
+        "Year": Integer,
+        "Percentage": Integer
+    },
+    {
+    }
+}
+```
+
 # /moneylist/write
 
 ## Methods
