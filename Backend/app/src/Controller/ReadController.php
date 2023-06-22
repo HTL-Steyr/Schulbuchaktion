@@ -114,9 +114,9 @@ class ReadController extends AbstractController
                 if ($subjectName != null) {
                     $result = $importService->getUser($subjectName);
                     $headOfSubject = $repoUser->findOneBy(["shortName" => $result["user"]]);
-                    echo $headOfSubject . "\n";
+                    echo $headOfSubject->getShortName() . "\n";
                     $isEntityExisting = $repoSubject->findOneBy(["shortName" => $result["shortname"]]);
-                    echo $isEntityExisting . " \n";
+                    echo $isEntityExisting->getName() . " \n";
 
                     if (!isset($isEntityExisting) && isset($haedOfSubject)) {
                         echo "inserting subject \n";
