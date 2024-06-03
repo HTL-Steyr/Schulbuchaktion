@@ -163,9 +163,9 @@ class OrderListController extends AbstractController {
             return new Response(null, Response::HTTP_UNAUTHORIZED);
         }
         
-        if ($user->getRole()->getName() == "Admin" ||
-            $user->getRole()->getName() == "Abteilungsvorstand" ||
-            $user->getRole()->getName() == "Fachverantwortlicher"
+        if ($user->getRole()->getID() == 1 ||
+            $user->getRole()->getID() == 2 ||
+            $user->getRole()->getID() == 3
         ) {
             $bookOrder = $bookOrderRepository->find($id);
 
